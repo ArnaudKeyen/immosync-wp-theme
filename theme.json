@@ -1,0 +1,46 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/theme.json",
+	"version": 3,
+	"settings": {
+		"appearanceTools": true,
+		"layout": {
+			"contentSize": "768px",
+			"wideSize": "1280px"
+		},
+		"color": {
+			"defaultPalette": false,
+			"palette": [
+				{ "slug": "ink", "name": "Ink", "color": "#16140f" },
+				{ "slug": "charcoal", "name": "Charcoal", "color": "#2a2722" },
+				{ "slug": "stone", "name": "Stone", "color": "#6f665b" },
+				{ "slug": "sand", "name": "Sand", "color": "#f1ebe0" },
+				{ "slug": "cream", "name": "Cream", "color": "#fbf9f4" },
+				{ "slug": "brand", "name": "Brand", "color": "#a07d4f" }
+			]
+		},
+		"typography": {
+			"fluid": true,
+			"fontFamilies": [
+				{
+					"slug": "display",
+					"name": "Display",
+					"fontFamily": "\"Cormorant Garamond\", Georgia, serif"
+				},
+				{
+					"slug": "body",
+					"name": "Body",
+					"fontFamily": "\"Inter\", system-ui, sans-serif"
+				}
+			]
+		}
+	},
+	"styles": {
+		"color": {
+			"background": "#fbf9f4",
+			"text": "#2a2722"
+		},
+		"typography": {
+			"fontFamily": "var(--wp--preset--font-family--body)"
+		}
+	}
+}

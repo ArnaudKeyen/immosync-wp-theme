@@ -1,0 +1,24 @@
+# === Dépendances (jamais versionnées, restaurées via `npm install`) ===
+/node_modules/
+
+# === OS / éditeurs ===
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+.vscode/
+*.code-workspace
+
+# === Logs & fichiers temporaires ===
+*.log
+*.tmp
+.cache/
+
+# === Source maps du build CSS ===
+/assets/css/*.map
+
+# NOTE : le CSS compilé `assets/css/main.css` EST volontairement versionné
+# afin que le thème soit fonctionnel par simple copie du dossier (déploiement
+# sans étape de build). Voir CONTRIBUTING.md.
+#
+# Le fichier de lock `package-lock.json` EST versionné (builds reproductibles).

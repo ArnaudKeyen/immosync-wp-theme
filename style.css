@@ -1,0 +1,19 @@
+/*
+Theme Name: Hello ImmoSync
+Theme URI: https://immosync.com/
+Author: La Maison Claire — Hello Moon
+Author URI: https://hellomoon.lu/
+Description: Thème parent générique pour agences immobilières propulsées par le plugin ImmoSync (WPIS). Fournit le listing des biens, la fiche bien immersive, la recherche server-side et des composants premium en TailwindCSS. Conçu pour être étendu par un thème enfant (direction artistique).
+Version: 0.1.0
+Requires at least: 6.5
+Tested up to: 7.0
+Requires PHP: 8.1
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: hello-immosync
+Tags: real-estate, immobilier, tailwind, custom-colors, custom-menu, featured-images, translation-ready
+*/
+
+/* Les styles de ce thème sont compilés par TailwindCSS dans assets/css/main.css
+   (voir package.json -> npm run build). Ce fichier ne contient que l'en-tête de thème
+   requis par WordPress. */

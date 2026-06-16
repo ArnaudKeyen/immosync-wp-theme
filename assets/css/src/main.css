@@ -1,0 +1,236 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------------------
+ * Sources scannées pour le tree-shaking des classes (chemins relatifs à ce fichier).
+ * Inclut les templates PHP du thème parent ET du thème enfant lamaisonclaire.
+ * ------------------------------------------------------------------------- */
+@source "../../../**/*.php";
+@source "../../js/**/*.js";
+@source "../../../../lamaisonclaire/**/*.php";
+
+/* ---------------------------------------------------------------------------
+ * Design tokens — valeurs premium neutres par défaut.
+ * Le thème enfant (lamaisonclaire) surcharge ces variables via :root dans sa
+ * propre feuille de style, sans nécessiter de rebuild Tailwind.
+ * ------------------------------------------------------------------------- */
+@theme {
+	--color-ink: #16140f;        /* Noir chaud (titres, header). */
+	--color-charcoal: #2a2722;   /* Texte courant. */
+	--color-stone: #6f665b;      /* Texte secondaire. */
+	--color-mist: #9a9388;       /* Texte tertiaire / méta. */
+	--color-line: #e6dfd3;       /* Bordures fines. */
+	--color-sand: #f1ebe0;       /* Fond alterné. */
+	--color-cream: #fbf9f4;      /* Fond principal. */
+	--color-brand: #a07d4f;      /* Accent laiton/or. */
+	--color-brand-dark: #7f6238; /* Accent foncé (hover). */
+
+	--font-display: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+	--font-body: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+
+	--radius-card: 3px;
+	--radius-pill: 9999px;
+
+	--spacing-section: 6rem;
+}
+
+/* ---------------------------------------------------------------------------
+ * Base
+ * ------------------------------------------------------------------------- */
+@layer base {
+	body {
+		@apply flex min-h-screen flex-col bg-cream text-charcoal font-body antialiased;
+		font-feature-settings: "kern", "liga";
+	}
+
+	.wpis-main {
+		@apply flex-1;
+	}
+
+	h1, h2, h3, h4 {
+		@apply font-display text-ink;
+		font-weight: 500;
+		letter-spacing: -0.01em;
+	}
+
+	a {
+		@apply transition-colors duration-200;
+	}
+
+	img {
+		@apply max-w-full h-auto;
+	}
+}
+
+/* ---------------------------------------------------------------------------
+ * Composants réutilisables (préfixe wpis-)
+ * ------------------------------------------------------------------------- */
+@layer components {
+
+	.wpis-container {
+		@apply mx-auto w-full max-w-[1280px] px-5 sm:px-8 lg:px-12;
+	}
+
+	.wpis-container-wide {
+		@apply mx-auto w-full max-w-[1600px] px-5 sm:px-8 lg:px-12;
+	}
+
+	.wpis-section {
+		@apply py-16 md:py-24;
+	}
+
+	/* Suréclats typographiques */
+	.wpis-eyebrow {
+		@apply font-body text-xs font-medium uppercase tracking-[0.22em] text-brand;
+	}
+
+	.wpis-title {
+		@apply font-display text-4xl md:text-5xl leading-[1.05] text-ink;
+	}
+
+	/* Boutons */
+	.wpis-btn {
+		@apply inline-flex items-center justify-center gap-2 rounded-[var(--radius-card)] bg-ink px-7 py-3.5 font-body text-sm font-medium uppercase tracking-[0.12em] text-cream transition-all duration-300 hover:bg-brand-dark;
+	}
+
+	.wpis-btn-outline {
+		@apply inline-flex items-center justify-center gap-2 rounded-[var(--radius-card)] border border-ink/25 px-7 py-3.5 font-body text-sm font-medium uppercase tracking-[0.12em] text-ink transition-all duration-300 hover:border-ink hover:bg-ink hover:text-cream;
+	}
+
+	.wpis-btn-ghost {
+		@apply inline-flex items-center gap-2 font-body text-sm font-medium uppercase tracking-[0.12em] text-ink transition-colors hover:text-brand;
+	}
+
+	/* Badges / puces de statut */
+	.wpis-badge {
+		@apply inline-flex items-center rounded-[var(--radius-pill)] bg-cream/90 px-3 py-1 font-body text-[11px] font-semibold uppercase tracking-[0.14em] text-ink backdrop-blur;
+	}
+
+	.wpis-badge-brand {
+		@apply bg-brand text-cream;
+	}
+
+	.wpis-badge-sold {
+		@apply bg-ink text-cream;
+	}
+
+	/* Carte de bien */
+	.wpis-card {
+		@apply relative flex flex-col overflow-hidden rounded-[var(--radius-card)] bg-white transition-all duration-500;
+	}
+
+	.wpis-card-media {
+		@apply relative aspect-[4/3] overflow-hidden bg-sand;
+	}
+
+	.wpis-card-img {
+		@apply h-full w-full object-cover transition-transform duration-[1.2s] ease-out group-hover:scale-[1.05];
+	}
+
+	/* Champs de formulaire / recherche */
+	.wpis-field {
+		@apply w-full rounded-[var(--radius-card)] border border-line bg-white px-4 py-3 font-body text-sm text-charcoal placeholder:text-mist focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand;
+	}
+
+	.wpis-field-label {
+		@apply mb-1.5 block font-body text-[11px] font-medium uppercase tracking-[0.16em] text-stone;
+	}
+
+	/* Liste de caractéristiques (fiche bien) */
+	.wpis-spec {
+		@apply flex items-baseline justify-between gap-4 border-b border-line py-3;
+	}
+
+	.wpis-spec-label {
+		@apply font-body text-sm text-stone;
+	}
+
+	.wpis-spec-value {
+		@apply font-body text-sm font-medium text-ink;
+	}
+
+	/* Contenu éditorial */
+	.wpis-prose {
+		@apply font-body text-base leading-relaxed text-charcoal;
+	}
+
+	.wpis-prose p {
+		@apply mb-5;
+	}
+
+	/* -----------------------------------------------------------------------
+	 * Formulaires ImmoSync (shortcodes [wpis-form-*] avec style="off").
+	 * On stylise les classes générées par le plugin : .wpis-form, .form-group,
+	 * .form-label, .form-input, .form-mandatory, .form-errors, .wpis-form-success.
+	 * --------------------------------------------------------------------- */
+	.wpis-form {
+		@apply flex flex-col gap-4;
+	}
+
+	.wpis-form .form-group {
+		@apply flex flex-col gap-1.5;
+	}
+
+	.wpis-form .form-label {
+		@apply font-body text-[11px] font-medium uppercase tracking-[0.16em] text-stone;
+	}
+
+	.wpis-form .form-mandatory {
+		@apply ml-1 not-italic text-brand;
+	}
+
+	/* Champs texte / select / textarea */
+	.wpis-form input[type="text"],
+	.wpis-form input[type="email"],
+	.wpis-form input[type="tel"],
+	.wpis-form select,
+	.wpis-form textarea {
+		@apply w-full rounded-[var(--radius-card)] border border-line bg-white px-4 py-3 font-body text-sm text-charcoal transition-colors;
+	}
+
+	.wpis-form input[type="text"]:focus,
+	.wpis-form input[type="email"]:focus,
+	.wpis-form input[type="tel"]:focus,
+	.wpis-form select:focus,
+	.wpis-form textarea:focus {
+		@apply border-brand outline-none ring-1 ring-brand;
+	}
+
+	.wpis-form textarea {
+		@apply min-h-[120px] resize-y;
+	}
+
+	/* Consentement RGPD : case à cocher + texte en ligne */
+	.wpis-form .form-group__policyConcent > .form-label {
+		@apply mb-1;
+	}
+
+	.wpis-form .form-group__policyConcent .form-group {
+		@apply flex-row items-start gap-3;
+	}
+
+	.wpis-form input[type="checkbox"] {
+		@apply mt-0.5 h-4 w-4 shrink-0 cursor-pointer accent-[var(--color-brand)];
+	}
+
+	.wpis-form .form-group__policyConcent .form-group label {
+		@apply cursor-pointer text-sm font-normal normal-case leading-relaxed tracking-normal text-stone;
+	}
+
+	/* Bouton d'envoi */
+	.wpis-form button[type="submit"] {
+		@apply mt-2 inline-flex w-full cursor-pointer items-center justify-center rounded-[var(--radius-card)] bg-ink px-7 py-3.5 font-body text-sm font-medium uppercase tracking-[0.12em] text-cream transition-colors hover:bg-brand-dark;
+	}
+
+	/* Messages d'erreur / succès */
+	.wpis-form .form-errors {
+		@apply block text-sm text-[#c0392b];
+	}
+
+	.wpis-form .form-errors:empty {
+		@apply hidden;
+	}
+
+	.wpis-form .wpis-form-success {
+		@apply block py-4 text-center font-body text-base text-[#3f9f54];
+	}
+}
