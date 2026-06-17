@@ -485,3 +485,23 @@
 	justify-content: center;
 }
 
+/* =========================================================================
+ * LIGHTBOX D'EMBED (vidéo / visite 360°) — cadre responsive 16/9.
+ * L'embed (oEmbed YouTube/Vimeo ou iframe directe Matterport) remplit le cadre.
+ * ===================================================================== */
+.wpis-embed-frame {
+	position: relative;
+	width: min(92vw, 1280px);
+	aspect-ratio: 16 / 9;
+	max-height: 88vh;
+}
+
+.wpis-embed-frame iframe {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	border: 0;
+	border-radius: var(--radius-card);
+}
+

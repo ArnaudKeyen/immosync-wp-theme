@@ -100,6 +100,65 @@
 	};
 
 	/**
+	 * Lightbox d'embed (vidéo / visite 360°) de la fiche bien.
+	 * Les déclencheurs [data-wpis-embed-open="ID"] clonent le gabarit
+	 * <template data-wpis-embed-tpl="ID"> dans la scène de la modal partagée
+	 * [data-wpis-embed-modal]. L'iframe n'est chargée qu'à l'ouverture (template
+	 * inerte) et déchargée à la fermeture (arrêt de la lecture).
+	 */
+	WPIS.embed = function () {
+		var modal = document.querySelector('[data-wpis-embed-modal]');
+		var openers = document.querySelectorAll('[data-wpis-embed-open]');
+		if (!modal || !openers.length) {
+			return;
+		}
+		var stage = modal.querySelector('[data-wpis-embed-stage]');
+		if (!stage) {
+			return;
+		}
+
+		function open(id) {
+			var tpl = document.querySelector('[data-wpis-embed-tpl="' + id + '"]');
+			if (!tpl || !tpl.content) {
+				return;
+			}
+			stage.innerHTML = '';
+			stage.appendChild(tpl.content.cloneNode(true));
+			modal.classList.remove('hidden');
+			document.body.style.overflow = 'hidden';
+		}
+
+		function close() {
+			modal.classList.add('hidden');
+			stage.innerHTML = ''; // Décharge l'iframe → stoppe la lecture.
+			document.body.style.overflow = '';
+		}
+
+		Array.prototype.forEach.call(openers, function (el) {
+			el.addEventListener('click', function (e) {
+				e.preventDefault();
+				open(el.getAttribute('data-wpis-embed-open'));
+			});
+		});
+
+		var closeBtn = modal.querySelector('[data-wpis-embed-close]');
+		if (closeBtn) {
+			closeBtn.addEventListener('click', close);
+		}
+		modal.addEventListener('click', function (e) {
+			// Clic sur le fond sombre / la scène (hors iframe) = fermeture.
+			if (e.target === modal || e.target.hasAttribute('data-wpis-embed-stage')) {
+				close();
+			}
+		});
+		document.addEventListener('keydown', function (e) {
+			if (!modal.classList.contains('hidden') && e.key === 'Escape') {
+				close();
+			}
+		});
+	};
+
+	/**
 	 * Titres de section dans les formulaires ImmoSync.
 	 * Insère un titre (.wpis-form-section-title) avant certains groupes de champs.
 	 * La configuration (cibles + libellés traduits) est fournie par PHP via
@@ -135,6 +194,7 @@
 	document.addEventListener('DOMContentLoaded', function () {
 		WPIS.mobileMenu();
 		WPIS.gallery();
+		WPIS.embed();
 		WPIS.formSections();
 	});
 })();
