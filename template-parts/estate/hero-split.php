@@ -41,11 +41,11 @@ $wpis_count_label = sprintf(
 );
 ?>
 <section data-wpis-gallery>
-	<div class="relative aspect-[4/3] w-full overflow-hidden bg-sand sm:aspect-[16/9] xl:aspect-[2/1]">
+	<div class="relative aspect-[4/3] w-full bg-sand sm:aspect-[16/9] xl:aspect-[2/1]">
 
-		<?php // Image de fond plein cadre, cliquable → modal galerie. ?>
+		<?php // Image de fond plein cadre, cliquable → modal galerie. overflow-hidden ici (pas sur le cadre) pour clipper le zoom au survol sans rogner les vignettes débordantes. ?>
 		<button type="button"
-			class="group absolute inset-0 block h-full w-full"
+			class="group absolute inset-0 block h-full w-full overflow-hidden"
 			data-wpis-gallery-open
 			data-index="0"
 			aria-label="<?php esc_attr_e( 'Voir toutes les photos', 'hello-immosync' ); ?>">
@@ -103,13 +103,17 @@ $wpis_count_label = sprintf(
 					</div>
 				</div>
 
-				<?php // Vignettes médias superposées, en bas à droite (masquées sous sm). ?>
+				<?php // Vignettes médias superposées, en bas à droite, débordant sous le hero
+						// (bottom négatif + z-10 → passent au-dessus du contenu). Masquées sous sm ;
+						// la 3e n'apparaît qu'en xl (élargissement du bandeau). ?>
 				<?php if ( $wpis_has_tiles ) : ?>
-					<div class="pointer-events-auto absolute bottom-5 right-5 hidden w-[52%] max-w-[480px] gap-2 sm:flex sm:bottom-8 sm:right-8 lg:bottom-10 lg:right-12 lg:gap-3">
+					<div class="pointer-events-auto absolute -bottom-8 right-5 z-10 hidden w-[52%] max-w-[480px] gap-2 sm:flex sm:-bottom-10 sm:right-8 lg:-bottom-14 lg:right-12 lg:gap-3 xl:max-w-[600px]">
 						<?php
 						foreach ( $wpis_slots as $wpis_i => $wpis_slot ) :
 							$wpis_is_media = in_array( $wpis_slot['type'], array( 'video', 'tour' ), true );
 							$wpis_embed_id = 'wpis-embed-' . $wpis_pid . '-' . $wpis_i;
+							// La 3e vignette (index 2) n'apparaît qu'à partir de xl.
+							$wpis_thumb_disp = ( $wpis_i >= 2 ) ? 'hidden xl:block' : 'block';
 
 							if ( 'video' === $wpis_slot['type'] ) {
 								$wpis_icon_name = 'play';
@@ -124,7 +128,7 @@ $wpis_count_label = sprintf(
 							}
 							?>
 							<button type="button"
-								class="group relative block aspect-[4/3] min-w-0 flex-1 overflow-hidden rounded-[var(--radius-card)] bg-sand shadow-xl ring-1 ring-cream/25 transition-transform duration-300 hover:-translate-y-0.5"
+								class="group relative <?php echo esc_attr( $wpis_thumb_disp ); ?> aspect-[4/3] min-w-0 flex-1 overflow-hidden rounded-[var(--radius-card)] bg-sand shadow-xl ring-1 ring-cream/25 transition-transform duration-300 hover:-translate-y-0.5"
 								<?php if ( $wpis_is_media ) : ?>
 									data-wpis-embed-open="<?php echo esc_attr( $wpis_embed_id ); ?>"
 								<?php else : ?>

@@ -138,6 +138,17 @@ function wpis_get_hero_media_slots( $post_id = null ) {
 		);
 	}
 
+	// Slot 3 → 4e photo (index 3) si dispo. Affichée seulement sur grand écran
+	// (le template masque la 3e vignette sous le breakpoint xl).
+	if ( isset( $gallery[3] ) ) {
+		$slots[] = array(
+			'type'          => 'photo',
+			'image_id'      => (int) $gallery[3],
+			'url'           => '',
+			'gallery_index' => 3,
+		);
+	}
+
 	return apply_filters( 'wpis_hero_media_slots', $slots, $post_id );
 }
 
