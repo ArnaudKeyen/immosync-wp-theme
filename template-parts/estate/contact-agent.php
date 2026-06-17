@@ -77,7 +77,7 @@ $wpis_phone  = $wpis_agent['phone'] ? $wpis_agent['phone'] : $wpis_agency['phone
 	<div class="rounded-[var(--radius-card)] border border-line bg-sand p-7">
 		<p class="wpis-eyebrow mb-2"><?php esc_html_e( 'Intéressé(e) ?', 'hello-immosync' ); ?></p>
 		<h3 class="font-display text-2xl text-ink"><?php esc_html_e( 'Demander une visite', 'hello-immosync' ); ?></h3>
-		<div class="mt-5">
+		<div class="wpis-form-shell mt-5">
 			<?php
 			if ( shortcode_exists( 'wpis-form-estate' ) ) {
 				echo do_shortcode( '[wpis-form-estate style="off"]' );

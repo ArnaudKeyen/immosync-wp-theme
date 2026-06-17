@@ -6,8 +6,8 @@ bibliothèque de composants premium en **TailwindCSS**. Il est conçu pour être
 **thème enfant** qui porte la direction artistique (couleurs, typographie) sans dupliquer la
 logique métier.
 
-> Exemple de thème enfant : **La Maison Claire** (`lamaisonclaire`), versionné dans un dépôt
-> séparé.
+> Chaque projet client est porté par son propre thème enfant (ex. `mon-agence`), versionné
+> dans un dépôt séparé. Le parent ne référence jamais un client en particulier.
 
 - **Dépôt** : https://github.com/ArnaudKeyen/immosync-wp-theme
 - **Version** : 0.1.0

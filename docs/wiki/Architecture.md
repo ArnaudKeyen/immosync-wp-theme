@@ -6,7 +6,7 @@
 hello-immosync (parent)        → logique métier, templates, composants, build Tailwind
         ▲ Template:
         │
-lamaisonclaire (enfant)        → direction artistique uniquement (tokens, polices)
+mon-agence (enfant)            → direction artistique uniquement (tokens, polices)
 ```
 
 Le **parent** ne contient aucune spécificité client. Toute personnalisation visuelle se fait

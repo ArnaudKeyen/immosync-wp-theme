@@ -20,12 +20,9 @@ while ( have_posts() ) :
 		<div class="wpis-container-wide">
 			<div class="grid gap-12 lg:grid-cols-[1fr_380px] lg:gap-16">
 
-				<!-- Colonne principale -->
+				<!-- Colonne principale : sections modulables (ordre réglable en admin) -->
 				<div>
-					<?php get_template_part( 'template-parts/estate/details' ); ?>
-					<?php get_template_part( 'template-parts/estate/energy' ); ?>
-					<?php get_template_part( 'template-parts/estate/gallery' ); ?>
-					<?php get_template_part( 'template-parts/estate/local-lifestyle' ); ?>
+					<?php wpis_render_estate_sections(); ?>
 				</div>
 
 				<!-- Colonne latérale (sticky) -->

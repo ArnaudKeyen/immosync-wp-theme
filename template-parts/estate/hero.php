@@ -1,58 +1,39 @@
 <?php
 /**
- * Hero de la fiche bien : image plein écran + titre, localisation, prix.
+ * En-tête de la fiche bien : titre, localisation, prix, puis galerie mosaïque.
  *
  * @package HelloImmoSync
  */
 
 defined( 'ABSPATH' ) || exit;
 
-$wpis_pid     = get_the_ID();
-$wpis_gallery = wpis_get_gallery( $wpis_pid );
-$wpis_hero_id = $wpis_gallery ? $wpis_gallery[0] : 0;
-$wpis_links   = wpis_get_links( $wpis_pid );
+$wpis_pid   = get_the_ID();
+$wpis_links = wpis_get_links( $wpis_pid );
+$wpis_loc   = wpis_get_location( $wpis_pid );
+$wpis_price = wpis_get_price( $wpis_pid );
 ?>
-<section class="relative">
-	<div class="relative h-[62vh] min-h-[460px] w-full overflow-hidden bg-ink">
-		<?php if ( $wpis_hero_id ) : ?>
-			<?php
-			echo wp_get_attachment_image(
-				$wpis_hero_id,
-				'wpis-hero',
-				false,
-				array(
-					'class'    => 'absolute inset-0 h-full w-full object-cover',
-					'fetchpriority' => 'high',
-				)
-			);
-			?>
-		<?php endif; ?>
-		<div class="absolute inset-0 bg-gradient-to-t from-ink/80 via-ink/20 to-transparent"></div>
-
-		<div class="absolute inset-x-0 bottom-0">
-			<div class="wpis-container-wide pb-10 md:pb-14">
-				<div class="flex flex-wrap gap-2">
-					<?php echo wpis_estate_badges( $wpis_pid ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-				</div>
-				<h1 class="mt-4 max-w-4xl font-display text-4xl leading-[1.05] text-cream md:text-6xl">
-					<?php echo esc_html( wpis_get_title( $wpis_pid ) ); ?>
-				</h1>
-				<div class="mt-4 flex flex-wrap items-center gap-x-6 gap-y-2 text-cream/85">
-					<?php $wpis_loc = wpis_get_location( $wpis_pid ); ?>
-					<?php if ( '' !== $wpis_loc ) : ?>
-						<span class="flex items-center gap-2 font-body text-sm">
-							<?php echo wpis_icon( 'location', 'w-4 h-4' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-							<?php echo esc_html( $wpis_loc ); ?>
-						</span>
-					<?php endif; ?>
-					<span class="font-display text-2xl text-cream md:text-3xl"><?php echo esc_html( wpis_get_price( $wpis_pid ) ); ?></span>
-				</div>
+<section>
+	<div class="wpis-container-wide pt-8 md:pt-12">
+		<div class="flex flex-wrap items-end justify-between gap-x-8 gap-y-4">
+			<div class="max-w-3xl">
+				<h1 class="wpis-title"><?php echo esc_html( wpis_get_title( $wpis_pid ) ); ?></h1>
+				<?php if ( '' !== $wpis_loc ) : ?>
+					<p class="mt-3 flex items-center gap-2 font-body text-stone">
+						<?php echo wpis_icon( 'location', 'w-4 h-4' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped — SVG inline du thème. ?>
+						<?php echo esc_html( $wpis_loc ); ?>
+					</p>
+				<?php endif; ?>
 			</div>
+			<?php if ( '' !== $wpis_price ) : ?>
+				<span class="font-display text-3xl text-ink md:text-4xl"><?php echo esc_html( $wpis_price ); ?></span>
+			<?php endif; ?>
 		</div>
 	</div>
 
+	<?php get_template_part( 'template-parts/estate/gallery' ); ?>
+
 	<?php if ( $wpis_links ) : ?>
-		<div class="border-b border-line bg-cream">
+		<div class="mt-8 border-y border-line bg-cream">
 			<div class="wpis-container-wide flex flex-wrap gap-3 py-4">
 				<?php if ( ! empty( $wpis_links['virtualVisit'] ) ) : ?>
 					<a href="<?php echo esc_url( $wpis_links['virtualVisit'] ); ?>" target="_blank" rel="noopener" class="wpis-btn-outline text-xs">

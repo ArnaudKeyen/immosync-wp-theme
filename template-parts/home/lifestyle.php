@@ -29,12 +29,26 @@ $wpis_items = array(
 		'icon'    => 'energy',
 	),
 );
+
+// Surcharge éditable : si le répéteur ACF contient des cartes, il remplace les valeurs par défaut.
+$wpis_rows = function_exists( 'get_field' ) ? get_field( 'home_lifestyle_cards', (int) get_option( 'page_on_front' ) ) : false;
+if ( is_array( $wpis_rows ) && $wpis_rows ) {
+	$wpis_items = array();
+	foreach ( $wpis_rows as $wpis_row ) {
+		$wpis_items[] = array(
+			'eyebrow' => isset( $wpis_row['eyebrow'] ) ? $wpis_row['eyebrow'] : '',
+			'title'   => isset( $wpis_row['title'] ) ? $wpis_row['title'] : '',
+			'text'    => isset( $wpis_row['text'] ) ? $wpis_row['text'] : '',
+			'icon'    => ! empty( $wpis_row['icon'] ) ? $wpis_row['icon'] : 'location',
+		);
+	}
+}
 ?>
 <section class="wpis-section">
 	<div class="wpis-container-wide">
 		<div class="mb-12 max-w-2xl">
-			<p class="wpis-eyebrow mb-3"><?php esc_html_e( 'Art de vivre', 'hello-immosync' ); ?></p>
-			<h2 class="wpis-title"><?php esc_html_e( 'Bien plus qu’un bien : un mode de vie', 'hello-immosync' ); ?></h2>
+			<p class="wpis-eyebrow mb-3"><?php echo esc_html( wpis_home_field( 'home_lifestyle_eyebrow', __( 'Art de vivre', 'hello-immosync' ) ) ); ?></p>
+			<h2 class="wpis-title"><?php echo esc_html( wpis_home_field( 'home_lifestyle_titre', __( 'Bien plus qu’un bien : un mode de vie', 'hello-immosync' ) ) ); ?></h2>
 		</div>
 
 		<div class="grid gap-px overflow-hidden rounded-[var(--radius-card)] border border-line bg-line md:grid-cols-3">

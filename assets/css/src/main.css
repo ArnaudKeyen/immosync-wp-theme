@@ -2,15 +2,15 @@
 
 /* ---------------------------------------------------------------------------
  * Sources scannées pour le tree-shaking des classes (chemins relatifs à ce fichier).
- * Inclut les templates PHP du thème parent ET du thème enfant lamaisonclaire.
+ * Inclut les templates PHP du thème parent ET de tout thème enfant frère.
  * ------------------------------------------------------------------------- */
 @source "../../../**/*.php";
 @source "../../js/**/*.js";
-@source "../../../../lamaisonclaire/**/*.php";
+@source "../../../../*/**/*.php";
 
 /* ---------------------------------------------------------------------------
  * Design tokens — valeurs premium neutres par défaut.
- * Le thème enfant (lamaisonclaire) surcharge ces variables via :root dans sa
+ * Le thème enfant surcharge ces variables via :root dans sa
  * propre feuille de style, sans nécessiter de rebuild Tailwind.
  * ------------------------------------------------------------------------- */
 @theme {
@@ -157,80 +157,331 @@
 		@apply mb-5;
 	}
 
-	/* -----------------------------------------------------------------------
-	 * Formulaires ImmoSync (shortcodes [wpis-form-*] avec style="off").
-	 * On stylise les classes générées par le plugin : .wpis-form, .form-group,
-	 * .form-label, .form-input, .form-mandatory, .form-errors, .wpis-form-success.
-	 * --------------------------------------------------------------------- */
+}
+
+/* =========================================================================
+ * FORMULAIRES IMMOSYNC — shortcodes [wpis-form-*] avec style="off".
+ * CSS pur (hors @layer) pour piloter les classes générées par le plugin.
+ * Skin via variables --wpis-form-* mappées sur les tokens du thème : le thème
+ * enfant re-skinne automatiquement en surchargeant --color-* dans :root.
+ * Mise en page en grille 12 colonnes pilotée par CONTAINER QUERIES (sur
+ * .wpis-form-shell) : 1 colonne dans une colonne étroite (sidebar fiche bien),
+ * multi-colonnes dès que le conteneur est large (formulaire d'estimation).
+ * ===================================================================== */
+
+.wpis-form-shell {
+	container-type: inline-size;
+}
+
+.wpis-form {
+	/* Skin (surchargé par le thème enfant via les tokens --color-*). */
+	--wpis-form-text: var(--color-charcoal);
+	--wpis-form-muted: var(--color-stone);
+	--wpis-form-field-bg: #ffffff;
+	--wpis-form-field-border: var(--color-line);
+	--wpis-form-field-border-hover: var(--color-mist);
+	--wpis-form-accent: var(--color-brand);
+	--wpis-form-button-bg: var(--color-ink);
+	--wpis-form-button-bg-hover: var(--color-brand-dark);
+	--wpis-form-button-text: var(--color-cream);
+	--wpis-form-radius: var(--radius-card);
+
+	--wpis-form-gap: 18px;
+	--wpis-form-label-gap: 6px;
+	--wpis-form-input-min-h: 48px;
+	--wpis-form-textarea-h: 150px;
+
+	--wpis-form-label-size: 0.6875rem;
+	--wpis-form-input-size: 0.95rem;
+	--wpis-form-policy-size: 0.9rem;
+	--wpis-form-error-size: 0.9rem;
+	--wpis-form-button-size: 0.78rem;
+
+	--wpis-form-focus-ring: 0 0 0 3px color-mix(in srgb, var(--wpis-form-accent) 22%, transparent);
+
+	display: grid;
+	grid-template-columns: 1fr; /* Défaut étroit : une colonne. */
+	gap: var(--wpis-form-gap);
+	font-family: var(--font-body);
+	color: var(--wpis-form-text);
+}
+
+.wpis-form,
+.wpis-form *,
+.wpis-form *::before,
+.wpis-form *::after {
+	box-sizing: border-box;
+}
+
+/* Groupes & libellés */
+.wpis-form .form-group {
+	display: flex;
+	flex-direction: column;
+	gap: var(--wpis-form-label-gap);
+	min-width: 0;
+	margin: 0;
+	padding: 0;
+}
+
+.wpis-form .form-label {
+	display: block;
+	font-size: var(--wpis-form-label-size);
+	font-weight: 600;
+	line-height: 1.2;
+	text-transform: uppercase;
+	letter-spacing: 0.16em;
+	color: var(--wpis-form-muted);
+}
+
+.wpis-form .form-mandatory {
+	margin-left: 3px;
+	color: var(--wpis-form-accent);
+}
+
+/* Champs texte / select / textarea (on exclut case à cocher et bouton) */
+.wpis-form .form-input:not([type="checkbox"]):not([type="submit"]),
+.wpis-form select,
+.wpis-form textarea {
+	display: block;
+	width: 100%;
+	min-width: 0;
+	min-height: var(--wpis-form-input-min-h);
+	padding: 12px 14px;
+	font-family: inherit;
+	font-size: var(--wpis-form-input-size);
+	line-height: 1.5;
+	color: var(--wpis-form-text);
+	background-color: var(--wpis-form-field-bg);
+	border: 1px solid var(--wpis-form-field-border);
+	border-radius: var(--wpis-form-radius);
+	appearance: none;
+	-webkit-appearance: none;
+	transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.wpis-form .form-input::placeholder,
+.wpis-form textarea::placeholder {
+	color: var(--color-mist);
+}
+
+.wpis-form .form-input:not([type="checkbox"]):not([type="submit"]):hover,
+.wpis-form select:hover,
+.wpis-form textarea:hover {
+	border-color: var(--wpis-form-field-border-hover);
+}
+
+.wpis-form .form-input:not([type="checkbox"]):not([type="submit"]):focus,
+.wpis-form select:focus,
+.wpis-form textarea:focus {
+	outline: none;
+	border-color: var(--wpis-form-accent);
+	box-shadow: var(--wpis-form-focus-ring);
+}
+
+.wpis-form textarea {
+	min-height: var(--wpis-form-textarea-h);
+	resize: vertical;
+}
+
+/* Select : flèche custom */
+.wpis-form select {
+	cursor: pointer;
+	padding-right: 40px;
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%232a2722' d='M1.41 0L6 4.58 10.59 0 12 1.41 6 7.41 0 1.41z'/%3E%3C/svg%3E");
+	background-repeat: no-repeat;
+	background-position: right 14px center;
+	background-size: 11px;
+}
+
+/* Consentement RGPD */
+.wpis-form .form-group__policyConcent {
+	gap: 8px;
+}
+
+.wpis-form .form-group__policyConcent > .form-group {
+	flex-direction: row;
+	align-items: flex-start;
+	gap: 12px;
+}
+
+.wpis-form .form-group__policyConcent input[type="checkbox"] {
+	width: 18px;
+	min-width: 18px;
+	height: 18px;
+	min-height: 18px;
+	margin: 2px 0 0;
+	padding: 0;
+	border-radius: 4px;
+	accent-color: var(--wpis-form-accent);
+	appearance: auto;
+	-webkit-appearance: auto;
+	flex-shrink: 0;
+	cursor: pointer;
+}
+
+.wpis-form .form-group__policyConcent .form-group label {
+	margin: 0;
+	font-size: var(--wpis-form-policy-size);
+	font-weight: 400;
+	line-height: 1.6;
+	text-transform: none;
+	letter-spacing: normal;
+	color: var(--wpis-form-muted);
+	cursor: pointer;
+}
+
+/* Bouton d'envoi */
+.wpis-form button,
+.wpis-form input[type="submit"] {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	min-height: var(--wpis-form-input-min-h);
+	padding: 14px 28px;
+	font-family: inherit;
+	font-size: var(--wpis-form-button-size);
+	font-weight: 600;
+	line-height: 1;
+	text-transform: uppercase;
+	letter-spacing: 0.12em;
+	color: var(--wpis-form-button-text);
+	background-color: var(--wpis-form-button-bg);
+	border: 1px solid var(--wpis-form-button-bg);
+	border-radius: var(--wpis-form-radius);
+	cursor: pointer;
+	transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+}
+
+.wpis-form button:hover,
+.wpis-form input[type="submit"]:hover {
+	background-color: var(--wpis-form-button-bg-hover);
+	border-color: var(--wpis-form-button-bg-hover);
+}
+
+.wpis-form button:focus-visible,
+.wpis-form input[type="submit"]:focus-visible {
+	outline: none;
+	box-shadow: var(--wpis-form-focus-ring);
+}
+
+.wpis-form button:active,
+.wpis-form input[type="submit"]:active {
+	transform: translateY(1px);
+}
+
+/* Messages */
+.wpis-form .form-errors {
+	display: block;
+	width: 100%;
+	font-size: var(--wpis-form-error-size);
+	line-height: 1.5;
+	color: #c0392b;
+}
+
+.wpis-form .form-errors:empty {
+	display: none;
+}
+
+.wpis-form .wpis-form-success {
+	display: block;
+	width: 100%;
+	padding: 16px 0;
+	text-align: center;
+	font-size: 1rem;
+	color: #3f9f54;
+}
+
+/* Titres de section injectés par le JS (WPIS.formSections) */
+.wpis-form .wpis-form-section-title {
+	font-family: var(--font-display);
+	font-size: 1.25rem;
+	font-weight: 500;
+	line-height: 1.2;
+	letter-spacing: -0.01em;
+	color: var(--color-ink);
+	margin: 0;
+	padding-bottom: 10px;
+	border-bottom: 1px solid var(--color-line);
+}
+
+.wpis-form .wpis-form-section-title:not(:first-child) {
+	margin-top: 12px;
+}
+
+/* -------------------------------------------------------------------------
+ * Mise en grille multi-colonnes — activée quand le CONTENEUR est assez large.
+ * ----------------------------------------------------------------------- */
+@container (min-width: 560px) {
 	.wpis-form {
-		@apply flex flex-col gap-4;
+		grid-template-columns: repeat(12, minmax(0, 1fr));
 	}
 
-	.wpis-form .form-group {
-		@apply flex flex-col gap-1.5;
+	/* Par défaut chaque élément occupe toute la largeur… */
+	.wpis-form > * {
+		grid-column: 1 / -1;
 	}
 
-	.wpis-form .form-label {
-		@apply font-body text-[11px] font-medium uppercase tracking-[0.16em] text-stone;
+	/* …puis on répartit certains champs sur la grille. */
+	.wpis-form .form-group__gender,
+	.wpis-form .form-group__firstname,
+	.wpis-form .form-group__lastname {
+		grid-column: span 4;
 	}
 
-	.wpis-form .form-mandatory {
-		@apply ml-1 not-italic text-brand;
+	.wpis-form .form-group__email,
+	.wpis-form .form-group__phone {
+		grid-column: span 6;
 	}
 
-	/* Champs texte / select / textarea */
-	.wpis-form input[type="text"],
-	.wpis-form input[type="email"],
-	.wpis-form input[type="tel"],
-	.wpis-form select,
-	.wpis-form textarea {
-		@apply w-full rounded-[var(--radius-card)] border border-line bg-white px-4 py-3 font-body text-sm text-charcoal transition-colors;
+	.wpis-form .form-group__addressStreet {
+		grid-column: span 6;
 	}
 
-	.wpis-form input[type="text"]:focus,
-	.wpis-form input[type="email"]:focus,
-	.wpis-form input[type="tel"]:focus,
-	.wpis-form select:focus,
-	.wpis-form textarea:focus {
-		@apply border-brand outline-none ring-1 ring-brand;
+	.wpis-form .form-group__addressNumber,
+	.wpis-form .form-group__addressBox {
+		grid-column: span 3;
 	}
 
-	.wpis-form textarea {
-		@apply min-h-[120px] resize-y;
+	.wpis-form .form-group__addressZip {
+		grid-column: span 4;
 	}
 
-	/* Consentement RGPD : case à cocher + texte en ligne */
-	.wpis-form .form-group__policyConcent > .form-label {
-		@apply mb-1;
+	.wpis-form .form-group__addressCity {
+		grid-column: span 8;
 	}
 
-	.wpis-form .form-group__policyConcent .form-group {
-		@apply flex-row items-start gap-3;
-	}
-
-	.wpis-form input[type="checkbox"] {
-		@apply mt-0.5 h-4 w-4 shrink-0 cursor-pointer accent-[var(--color-brand)];
-	}
-
-	.wpis-form .form-group__policyConcent .form-group label {
-		@apply cursor-pointer text-sm font-normal normal-case leading-relaxed tracking-normal text-stone;
-	}
-
-	/* Bouton d'envoi */
-	.wpis-form button[type="submit"] {
-		@apply mt-2 inline-flex w-full cursor-pointer items-center justify-center rounded-[var(--radius-card)] bg-ink px-7 py-3.5 font-body text-sm font-medium uppercase tracking-[0.12em] text-cream transition-colors hover:bg-brand-dark;
-	}
-
-	/* Messages d'erreur / succès */
-	.wpis-form .form-errors {
-		@apply block text-sm text-[#c0392b];
-	}
-
-	.wpis-form .form-errors:empty {
-		@apply hidden;
-	}
-
-	.wpis-form .wpis-form-success {
-		@apply block py-4 text-center font-body text-base text-[#3f9f54];
+	/* Bouton : ne pas étirer sur toute la largeur. */
+	.wpis-form button,
+	.wpis-form input[type="submit"] {
+		width: auto;
+		max-width: 320px;
 	}
 }
+
+/* =========================================================================
+ * GALERIE FICHE BIEN — habillage de la modal Swiper sur fond sombre.
+ * Variables Swiper surchargées pour des contrôles couleur crème.
+ * ===================================================================== */
+.wpis-gallery-modal {
+	--swiper-theme-color: var(--color-cream);
+	--swiper-navigation-color: var(--color-cream);
+	--swiper-pagination-color: var(--color-cream);
+	--swiper-navigation-size: 30px;
+}
+
+.wpis-gallery-modal .swiper-pagination {
+	color: var(--color-cream);
+	font-family: var(--font-body);
+	font-size: 0.9rem;
+	letter-spacing: 0.05em;
+}
+
+/* Centrage de l'image dans chaque slide. Sélecteur à 2 classes pour primer sur
+ * `.swiper-slide{display:block}` du bundle Swiper (chargé après main.css). */
+.wpis-gallery-modal .swiper-slide {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+

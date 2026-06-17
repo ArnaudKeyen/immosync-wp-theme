@@ -50,15 +50,59 @@ function wpis_enqueue_assets() {
 	// Polices.
 	wp_enqueue_style( 'hello-immosync-fonts', wpis_fonts_url(), array(), null );
 
+	// Swiper (galerie mosaïque + modal de la fiche bien) — chargé uniquement là où utile.
+	$wpis_main_deps = array();
+	if ( is_singular( 'wpis_estates' ) ) {
+		wp_enqueue_style(
+			'swiper',
+			HELLO_IMMOSYNC_URI . '/assets/vendor/swiper/swiper-bundle.min.css',
+			array(),
+			'11.2.10'
+		);
+		wp_enqueue_script(
+			'swiper',
+			HELLO_IMMOSYNC_URI . '/assets/vendor/swiper/swiper-bundle.min.js',
+			array(),
+			'11.2.10',
+			true
+		);
+		$wpis_main_deps[] = 'swiper';
+	}
+
 	// JS du thème (menu mobile, galerie, UI de recherche).
 	$js_path = HELLO_IMMOSYNC_DIR . '/assets/js/main.js';
 	$js_ver  = file_exists( $js_path ) ? (string) filemtime( $js_path ) : HELLO_IMMOSYNC_VERSION;
 	wp_enqueue_script(
 		'hello-immosync',
 		HELLO_IMMOSYNC_URI . '/assets/js/main.js',
-		array(),
+		$wpis_main_deps,
 		$js_ver,
 		true
+	);
+
+	// Titres de section injectés dans les formulaires ImmoSync (traduisibles).
+	$wpis_form_sections = apply_filters(
+		'wpis_form_sections',
+		array(
+			array(
+				'target' => '.form-group__gender',
+				'title'  => __( 'Vos coordonnées', 'hello-immosync' ),
+			),
+			array(
+				'target' => '.form-group__addressStreet',
+				'title'  => __( 'Votre bien', 'hello-immosync' ),
+			),
+			array(
+				'target' => '.form-group__message',
+				'title'  => __( 'Votre message', 'hello-immosync' ),
+			),
+		)
+	);
+
+	wp_localize_script(
+		'hello-immosync',
+		'WPISFormData',
+		array( 'sections' => $wpis_form_sections )
 	);
 }
 add_action( 'wp_enqueue_scripts', 'wpis_enqueue_assets' );

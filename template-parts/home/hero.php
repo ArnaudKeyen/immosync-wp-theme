@@ -26,10 +26,10 @@ if ( $wpis_hero_post->have_posts() ) {
 	wp_reset_postdata();
 }
 ?>
-<section class="relative flex min-h-[88vh] items-center overflow-hidden bg-ink">
+<section class="relative flex min-h-[70vh] items-center overflow-hidden bg-ink">
 	<?php if ( $wpis_hero_bg ) : ?>
 		<img src="<?php echo esc_url( $wpis_hero_bg ); ?>" alt="" class="absolute inset-0 h-full w-full object-cover" fetchpriority="high">
-		<div class="absolute inset-0 bg-gradient-to-b from-ink/55 via-ink/30 to-ink/75"></div>
+		<div class="absolute inset-0 bg-gradient-to-b from-ink/55 via-ink/30 to-ink/65"></div>
 	<?php else : ?>
 		<div class="absolute inset-0 bg-gradient-to-br from-ink via-charcoal to-brand-dark"></div>
 	<?php endif; ?>

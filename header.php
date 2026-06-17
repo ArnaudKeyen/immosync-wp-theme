@@ -66,11 +66,12 @@ defined( 'ABSPATH' ) || exit;
 
 			<div class="flex items-center gap-4">
 				<?php
-				$wpis_estates_link = get_post_type_archive_link( 'wpis_estates' );
-				if ( $wpis_estates_link ) :
+				$wpis_estimation = get_page_by_path( 'services/estimation' );
+				$wpis_estimation_link = $wpis_estimation ? get_permalink( $wpis_estimation ) : '';
+				if ( $wpis_estimation_link ) :
 					?>
-					<a href="<?php echo esc_url( $wpis_estates_link ); ?>" class="wpis-btn-ghost hidden sm:inline-flex">
-						<?php esc_html_e( 'Rechercher', 'hello-immosync' ); ?>
+					<a href="<?php echo esc_url( $wpis_estimation_link ); ?>" class="wpis-btn hidden sm:inline-flex">
+						<?php esc_html_e( 'Estimation', 'hello-immosync' ); ?>
 					</a>
 				<?php endif; ?>
 

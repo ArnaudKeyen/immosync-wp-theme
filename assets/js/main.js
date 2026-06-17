@@ -24,78 +24,117 @@
 	};
 
 	/**
-	 * Galerie / lightbox de la fiche bien.
-	 * S'appuie sur les éléments [data-wpis-gallery-item] (data-full = URL pleine taille).
+	 * Galerie de la fiche bien : mosaïque + modal plein écran (Swiper).
+	 * Chaque bloc [data-wpis-gallery] contient ses déclencheurs
+	 * [data-wpis-gallery-open] (data-index) et sa modal [data-wpis-gallery-modal].
+	 * Swiper est initialisé à la première ouverture (lazy) pour un mesurage correct.
 	 */
 	WPIS.gallery = function () {
-		var items = document.querySelectorAll('[data-wpis-gallery-item]');
-		if (!items.length) {
+		if (typeof window.Swiper === 'undefined') {
 			return;
 		}
 
-		var overlay = document.createElement('div');
-		overlay.className =
-			'fixed inset-0 z-[200] hidden items-center justify-center bg-ink/95 p-4';
-		overlay.setAttribute('data-wpis-lightbox', '');
-		overlay.innerHTML =
-			'<button type="button" class="absolute right-6 top-6 text-cream/70 hover:text-cream" data-wpis-lightbox-close aria-label="Fermer">&#10005;</button>' +
-			'<button type="button" class="absolute left-4 top-1/2 -translate-y-1/2 px-4 text-3xl text-cream/70 hover:text-cream" data-wpis-lightbox-prev aria-label="Précédent">&#8249;</button>' +
-			'<img alt="" class="max-h-[88vh] max-w-[92vw] object-contain" data-wpis-lightbox-img>' +
-			'<button type="button" class="absolute right-4 top-1/2 -translate-y-1/2 px-4 text-3xl text-cream/70 hover:text-cream" data-wpis-lightbox-next aria-label="Suivant">&#8250;</button>';
-		document.body.appendChild(overlay);
-
-		var img = overlay.querySelector('[data-wpis-lightbox-img]');
-		var sources = Array.prototype.map.call(items, function (el) {
-			return el.getAttribute('data-full') || el.querySelector('img').src;
-		});
-		var current = 0;
-
-		function show(index) {
-			current = (index + sources.length) % sources.length;
-			img.src = sources[current];
-		}
-		function open(index) {
-			show(index);
-			overlay.classList.remove('hidden');
-			overlay.classList.add('flex');
-			document.body.style.overflow = 'hidden';
-		}
-		function close() {
-			overlay.classList.add('hidden');
-			overlay.classList.remove('flex');
-			document.body.style.overflow = '';
-		}
-
-		items.forEach(function (el, i) {
-			el.addEventListener('click', function (e) {
-				e.preventDefault();
-				open(i);
-			});
-		});
-		overlay.querySelector('[data-wpis-lightbox-close]').addEventListener('click', close);
-		overlay.querySelector('[data-wpis-lightbox-next]').addEventListener('click', function () {
-			show(current + 1);
-		});
-		overlay.querySelector('[data-wpis-lightbox-prev]').addEventListener('click', function () {
-			show(current - 1);
-		});
-		overlay.addEventListener('click', function (e) {
-			if (e.target === overlay) {
-				close();
-			}
-		});
-		document.addEventListener('keydown', function (e) {
-			if (overlay.classList.contains('hidden')) {
+		var roots = document.querySelectorAll('[data-wpis-gallery]');
+		Array.prototype.forEach.call(roots, function (root) {
+			var modal = root.querySelector('[data-wpis-gallery-modal]');
+			var swiperEl = root.querySelector('[data-wpis-swiper]');
+			var triggers = root.querySelectorAll('[data-wpis-gallery-open]');
+			if (!modal || !swiperEl || !triggers.length) {
 				return;
 			}
-			if (e.key === 'Escape') close();
-			if (e.key === 'ArrowRight') show(current + 1);
-			if (e.key === 'ArrowLeft') show(current - 1);
+
+			var swiper = null;
+
+			function open(index) {
+				modal.classList.remove('hidden');
+				document.body.style.overflow = 'hidden';
+
+				if (!swiper) {
+					swiper = new window.Swiper(swiperEl, {
+						loop: true,
+						slidesPerView: 1,
+						spaceBetween: 24,
+						keyboard: { enabled: true },
+						navigation: {
+							nextEl: swiperEl.querySelector('.swiper-button-next'),
+							prevEl: swiperEl.querySelector('.swiper-button-prev')
+						},
+						pagination: {
+							el: swiperEl.querySelector('.swiper-pagination'),
+							type: 'fraction'
+						}
+					});
+				}
+				swiper.update();
+				swiper.slideToLoop(index, 0);
+			}
+
+			function close() {
+				modal.classList.add('hidden');
+				document.body.style.overflow = '';
+			}
+
+			Array.prototype.forEach.call(triggers, function (el) {
+				el.addEventListener('click', function (e) {
+					e.preventDefault();
+					open(parseInt(el.getAttribute('data-index'), 10) || 0);
+				});
+			});
+
+			var closeBtn = modal.querySelector('[data-wpis-gallery-close]');
+			if (closeBtn) {
+				closeBtn.addEventListener('click', close);
+			}
+			modal.addEventListener('click', function (e) {
+				// Clic en dehors de l'image (zone sombre / slide) = fermeture.
+				if (e.target === modal || e.target.classList.contains('swiper-slide')) {
+					close();
+				}
+			});
+			document.addEventListener('keydown', function (e) {
+				if (!modal.classList.contains('hidden') && e.key === 'Escape') {
+					close();
+				}
+			});
+		});
+	};
+
+	/**
+	 * Titres de section dans les formulaires ImmoSync.
+	 * Insère un titre (.wpis-form-section-title) avant certains groupes de champs.
+	 * La configuration (cibles + libellés traduits) est fournie par PHP via
+	 * window.WPISFormData.sections (wp_localize_script) — multilingue.
+	 */
+	WPIS.formSections = function () {
+		var data = window.WPISFormData;
+		if (!data || !Array.isArray(data.sections) || !data.sections.length) {
+			return;
+		}
+		var forms = document.querySelectorAll('.wpis-form');
+		Array.prototype.forEach.call(forms, function (form) {
+			data.sections.forEach(function (section) {
+				if (!section.target || !section.title) {
+					return;
+				}
+				var target = form.querySelector(section.target);
+				if (!target) {
+					return;
+				}
+				var prev = target.previousElementSibling;
+				if (prev && prev.classList.contains('wpis-form-section-title')) {
+					return; // Déjà inséré.
+				}
+				var title = document.createElement('div');
+				title.className = 'wpis-form-section-title';
+				title.textContent = section.title;
+				target.parentNode.insertBefore(title, target);
+			});
 		});
 	};
 
 	document.addEventListener('DOMContentLoaded', function () {
 		WPIS.mobileMenu();
 		WPIS.gallery();
+		WPIS.formSections();
 	});
 })();

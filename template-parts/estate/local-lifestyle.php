@@ -19,18 +19,8 @@ if ( ! $wpis_coords && '' === $wpis_city ) {
 	return;
 }
 
-// Proximités renseignées par ImmoSync (affichées si présentes).
-$wpis_proximities = array_filter(
-	array(
-		__( 'Transports', 'hello-immosync' ) => wpis_get_field( 'wpis_proximity_transports', $wpis_pid, '' ),
-		__( 'Commerces', 'hello-immosync' )  => wpis_get_field( 'wpis_proximity_stores', $wpis_pid, '' ),
-		__( 'Écoles', 'hello-immosync' )     => wpis_get_field( 'wpis_proximity_school', $wpis_pid, '' ),
-		__( 'Gare', 'hello-immosync' )       => wpis_get_field( 'wpis_proximity_station', $wpis_pid, '' ),
-	),
-	static function ( $value ) {
-		return '' !== $value;
-	}
-);
+// Proximités renseignées par ImmoSync (distances formatées, affichées si présentes).
+$wpis_proximities = wpis_get_proximities( $wpis_pid );
 ?>
 <section class="wpis-section border-b border-line" aria-labelledby="wpis-lifestyle-title">
 	<p class="wpis-eyebrow mb-2"><?php esc_html_e( 'L’art de vivre', 'hello-immosync' ); ?></p>
@@ -51,11 +41,12 @@ $wpis_proximities = array_filter(
 			</p>
 
 			<?php if ( $wpis_proximities ) : ?>
-				<dl class="mt-6">
-					<?php foreach ( $wpis_proximities as $wpis_label => $wpis_value ) : ?>
+				<p class="wpis-eyebrow mb-3 mt-8"><?php esc_html_e( 'À proximité', 'hello-immosync' ); ?></p>
+				<dl class="grid grid-cols-1 gap-x-12 sm:grid-cols-2">
+					<?php foreach ( $wpis_proximities as $wpis_prox ) : ?>
 						<div class="wpis-spec">
-							<dt class="wpis-spec-label"><?php echo esc_html( $wpis_label ); ?></dt>
-							<dd class="wpis-spec-value"><?php echo esc_html( $wpis_value ); ?></dd>
+							<dt class="wpis-spec-label"><?php echo esc_html( $wpis_prox['label'] ); ?></dt>
+							<dd class="wpis-spec-value"><?php echo esc_html( $wpis_prox['value'] ); ?></dd>
 						</div>
 					<?php endforeach; ?>
 				</dl>

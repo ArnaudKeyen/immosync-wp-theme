@@ -23,9 +23,12 @@ $wpis_includes = array(
 	'/inc/enqueue.php',         // CSS (Tailwind compilé), polices, JS.
 	'/inc/helpers.php',         // Helpers de formatage génériques.
 	'/inc/immosync-fields.php', // Accesseurs de champs WPIS.
+	'/inc/epc.php',             // PEB/EPC : visuels officiels par région (Wallonie par défaut).
 	'/inc/template-tags.php',   // Helpers de rendu (cartes, badges, formulaire de recherche).
 	'/inc/search.php',          // Recherche/filtres server-side (WP_Query).
 	'/inc/structured-data.php', // Données structurées JSON-LD (SEO).
+	'/inc/acf-content.php',     // Contenu éditable : helpers ACF, page d'options, champs.
+	'/inc/estate-sections.php', // Fiche bien modulable : registre + ordre des sections.
 );
 
 foreach ( $wpis_includes as $wpis_file ) {

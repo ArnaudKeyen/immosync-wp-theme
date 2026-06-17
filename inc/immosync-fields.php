@@ -369,3 +369,178 @@ function wpis_get_agency( $post_id = null ) {
 		'address' => wpis_get_field( 'wpis_agency_addressFormatted', $post_id, '' ),
 	);
 }
+
+/**
+ * Liste plate des équipements / commodités (generic + custom fusionnés).
+ *
+ * Les champs wpis_amenities_* sont des tableaux sérialisés. Les entrées custom
+ * peuvent être des chaînes ou des tableaux {label,value} : on extrait le libellé.
+ *
+ * @param int|null $post_id ID du bien.
+ * @return string[] Libellés uniques, non vides.
+ */
+function wpis_get_amenities( $post_id = null ) {
+	$post_id = $post_id ? (int) $post_id : get_the_ID();
+	if ( ! $post_id ) {
+		return array();
+	}
+
+	$list = array();
+	foreach ( array( 'wpis_amenities_generic', 'wpis_amenities_custom' ) as $key ) {
+		$set = get_post_meta( $post_id, $key, true );
+		if ( ! is_array( $set ) ) {
+			continue;
+		}
+		foreach ( $set as $item ) {
+			if ( is_array( $item ) ) {
+				$item = isset( $item['label'] ) ? $item['label'] : reset( $item );
+			}
+			$item = trim( (string) $item );
+			if ( '' !== $item ) {
+				$list[] = $item;
+			}
+		}
+	}
+	return array_values( array_unique( $list ) );
+}
+
+/**
+ * Détail des surfaces par espace (toutes les wpis_areas_* renseignées).
+ *
+ * @param int|null $post_id ID du bien.
+ * @return array<int,array{label:string,value:string}>
+ */
+function wpis_get_area_breakdown( $post_id = null ) {
+	$post_id = $post_id ? (int) $post_id : get_the_ID();
+
+	$defs = array(
+		'wpis_areas_total'         => __( 'Surface totale', 'hello-immosync' ),
+		'wpis_areas_living'        => __( 'Surface habitable', 'hello-immosync' ),
+		'wpis_areas_ground'        => __( 'Terrain', 'hello-immosync' ),
+		'wpis_areas_garden'        => __( 'Jardin', 'hello-immosync' ),
+		'wpis_areas_terrace'       => __( 'Terrasse', 'hello-immosync' ),
+		'wpis_areas_kitchen'       => __( 'Cuisine', 'hello-immosync' ),
+		'wpis_areas_diningroom'    => __( 'Salle à manger', 'hello-immosync' ),
+		'wpis_areas_bathroom'      => __( 'Salle de bain', 'hello-immosync' ),
+		'wpis_areas_office'        => __( 'Bureau', 'hello-immosync' ),
+		'wpis_areas_dressing'      => __( 'Dressing', 'hello-immosync' ),
+		'wpis_areas_washroom'      => __( 'Buanderie', 'hello-immosync' ),
+		'wpis_areas_cellar'        => __( 'Cave', 'hello-immosync' ),
+		'wpis_areas_storage'       => __( 'Rangement', 'hello-immosync' ),
+		'wpis_areas_bedroom1'      => __( 'Chambre 1', 'hello-immosync' ),
+		'wpis_areas_bedroom2'      => __( 'Chambre 2', 'hello-immosync' ),
+		'wpis_areas_bedroom3'      => __( 'Chambre 3', 'hello-immosync' ),
+		'wpis_areas_bedroom4'      => __( 'Chambre 4', 'hello-immosync' ),
+		'wpis_areas_bedroom5'      => __( 'Chambre 5', 'hello-immosync' ),
+		'wpis_areas_showroom'      => __( 'Showroom', 'hello-immosync' ),
+		'wpis_areas_displayWindow' => __( 'Vitrine', 'hello-immosync' ),
+		'wpis_areas_manufacturing' => __( 'Atelier / production', 'hello-immosync' ),
+	);
+
+	$out = array();
+	foreach ( $defs as $key => $label ) {
+		$value = wpis_format_area( wpis_get_field( $key, $post_id, '' ) );
+		if ( '' !== $value ) {
+			$out[] = array(
+				'label' => $label,
+				'value' => $value,
+			);
+		}
+	}
+	return $out;
+}
+
+/**
+ * Conditions financières secondaires (hors prix principal).
+ *
+ * @param int|null $post_id ID du bien.
+ * @return array<int,array{label:string,value:string}>
+ */
+function wpis_get_finance_details( $post_id = null ) {
+	$post_id  = $post_id ? (int) $post_id : get_the_ID();
+	$currency = wpis_get_currency( $post_id );
+
+	$out = array();
+
+	// Disponibilité (texte libre).
+	$availability = wpis_get_field( 'wpis_finance_availability', $post_id, '' );
+	if ( '' !== $availability ) {
+		$out[] = array(
+			'label' => __( 'Disponibilité', 'hello-immosync' ),
+			'value' => $availability,
+		);
+	}
+
+	// Montants (formatés avec la devise).
+	$money = array(
+		'wpis_finance_chargeRenter'            => __( 'Charges locataire', 'hello-immosync' ),
+		'wpis_finance_chargeOwner'             => __( 'Charges propriétaire', 'hello-immosync' ),
+		'wpis_finance_annuityMonthly'          => __( 'Rente mensuelle', 'hello-immosync' ),
+		'wpis_finance_cadastre'                => __( 'Revenu cadastral', 'hello-immosync' ),
+		'wpis_finance_propertyTax'             => __( 'Précompte immobilier', 'hello-immosync' ),
+		'wpis_finance_fieldValue'              => __( 'Valeur du terrain', 'hello-immosync' ),
+		'wpis_finance_constructionValue'       => __( 'Valeur de construction', 'hello-immosync' ),
+		'wpis_finance_notarialDeedValue'       => __( 'Valeur acte notarié', 'hello-immosync' ),
+		'wpis_finance_garageUnitPrice'         => __( 'Prix unitaire garage', 'hello-immosync' ),
+		'wpis_finance_parkingInteriorUnitPrice' => __( 'Parking intérieur', 'hello-immosync' ),
+		'wpis_finance_parkingExteriorUnitPrice' => __( 'Parking extérieur', 'hello-immosync' ),
+	);
+	foreach ( $money as $key => $label ) {
+		$value = wpis_format_price_value( wpis_get_field( $key, $post_id, '' ), $currency );
+		if ( '' !== $value ) {
+			$out[] = array(
+				'label' => $label,
+				'value' => $value,
+			);
+		}
+	}
+	return $out;
+}
+
+/**
+ * Distances de proximité renseignées (toutes les wpis_proximity_*).
+ *
+ * @param int|null $post_id ID du bien.
+ * @return array<int,array{label:string,value:string}>
+ */
+function wpis_get_proximities( $post_id = null ) {
+	$post_id = $post_id ? (int) $post_id : get_the_ID();
+
+	$defs = array(
+		'wpis_proximity_transports' => __( 'Transports en commun', 'hello-immosync' ),
+		'wpis_proximity_bus'        => __( 'Bus', 'hello-immosync' ),
+		'wpis_proximity_tram'       => __( 'Tram', 'hello-immosync' ),
+		'wpis_proximity_metro'      => __( 'Métro', 'hello-immosync' ),
+		'wpis_proximity_station'    => __( 'Gare', 'hello-immosync' ),
+		'wpis_proximity_highway'    => __( 'Autoroute', 'hello-immosync' ),
+		'wpis_proximity_stores'     => __( 'Commerces', 'hello-immosync' ),
+		'wpis_proximity_school'     => __( 'Écoles', 'hello-immosync' ),
+		'wpis_proximity_sportCenter' => __( 'Centre sportif', 'hello-immosync' ),
+		'wpis_proximity_airport'    => __( 'Aéroport', 'hello-immosync' ),
+		'wpis_proximity_beach'      => __( 'Plage', 'hello-immosync' ),
+	);
+
+	$out = array();
+	foreach ( $defs as $key => $label ) {
+		$value = wpis_format_distance( wpis_get_field( $key, $post_id, '' ) );
+		if ( '' !== $value ) {
+			$out[] = array(
+				'label' => $label,
+				'value' => $value,
+			);
+		}
+	}
+	return $out;
+}
+
+/**
+ * Indique si une valeur WPIS booléenne est vraie ("1", 1, true…).
+ *
+ * @param string   $key     Clé meta.
+ * @param int|null $post_id ID du bien.
+ * @return bool
+ */
+function wpis_is_true( $key, $post_id = null ) {
+	$val = wpis_get_field( $key, $post_id, '' );
+	return in_array( $val, array( '1', 1, true, 'true', 'yes', 'oui' ), true );
+}

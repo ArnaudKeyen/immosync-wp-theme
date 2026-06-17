@@ -17,6 +17,14 @@ function wpis_output_estate_jsonld() {
 		return;
 	}
 
+	// Réglage thème : désactivable si un plugin SEO gère déjà le schéma des biens.
+	if ( function_exists( 'get_field' ) ) {
+		$wpis_schema_on = get_field( 'option_schema_estates', 'option' );
+		if ( null !== $wpis_schema_on && ! $wpis_schema_on ) {
+			return;
+		}
+	}
+
 	$post_id = get_the_ID();
 
 	$data = array(

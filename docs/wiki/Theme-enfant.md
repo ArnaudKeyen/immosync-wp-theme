@@ -49,8 +49,8 @@ add_filter( 'wpis_fonts_url', function () {
 Copiez un fichier de `template-parts/` du parent vers le même chemin relatif dans l'enfant ;
 WordPress charge prioritairement la version de l'enfant.
 
-## Exemple de référence
+## Implémentation de référence
 
-Le thème **La Maison Claire** (`lamaisonclaire`) est l'implémentation de référence : il ne
-contient que des tokens CSS et le filtre des polices. Il est versionné dans un dépôt distinct
-du parent.
+Un thème enfant de référence ne contient que des tokens CSS et le filtre des polices, et reste
+versionné dans un dépôt distinct du parent. Le parent, lui, ne nomme jamais un client en
+particulier.
