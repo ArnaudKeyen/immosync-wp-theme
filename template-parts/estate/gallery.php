@@ -106,39 +106,6 @@ $wpis_count_label = sprintf(
 		<?php endforeach; ?>
 	</div>
 
-	<?php // Modal plein écran (Swiper) — toutes les photos. ?>
-	<div class="wpis-gallery-modal fixed inset-0 z-[200] hidden bg-ink/95"
-		data-wpis-gallery-modal
-		role="dialog"
-		aria-modal="true"
-		aria-label="<?php esc_attr_e( 'Galerie photos', 'hello-immosync' ); ?>">
-
-		<button type="button"
-			class="absolute right-4 top-4 z-10 flex h-11 w-11 items-center justify-center text-2xl text-cream/70 transition-colors hover:text-cream"
-			data-wpis-gallery-close
-			aria-label="<?php esc_attr_e( 'Fermer', 'hello-immosync' ); ?>">&#10005;</button>
-
-		<div class="swiper h-full w-full" data-wpis-swiper>
-			<div class="swiper-wrapper">
-				<?php foreach ( $wpis_gallery as $wpis_image_id ) : ?>
-					<div class="swiper-slide flex items-center justify-center">
-						<?php
-						echo wp_get_attachment_image(
-							$wpis_image_id,
-							'large',
-							false,
-							array(
-								'class'   => 'max-h-[88vh] max-w-[92vw] object-contain',
-								'loading' => 'lazy',
-							)
-						);
-						?>
-					</div>
-				<?php endforeach; ?>
-			</div>
-			<div class="swiper-button-prev"></div>
-			<div class="swiper-button-next"></div>
-			<div class="swiper-pagination"></div>
-		</div>
-	</div>
+	<?php // Modal plein écran (Swiper) — toutes les photos. Partagée entre variantes de hero. ?>
+	<?php get_template_part( 'template-parts/estate/gallery-modal', null, array( 'gallery' => $wpis_gallery ) ); ?>
 </section>

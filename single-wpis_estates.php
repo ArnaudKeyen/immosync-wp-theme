@@ -15,7 +15,7 @@ while ( have_posts() ) :
 
 	<article <?php post_class( 'wpis-estate' ); ?>>
 
-		<?php get_template_part( 'template-parts/estate/hero' ); ?>
+		<?php wpis_render_estate_hero(); ?>
 
 		<div class="wpis-container-wide">
 			<div class="grid gap-12 lg:grid-cols-[1fr_380px] lg:gap-16">

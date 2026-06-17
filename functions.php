@@ -29,6 +29,7 @@ $wpis_includes = array(
 	'/inc/structured-data.php', // Données structurées JSON-LD (SEO).
 	'/inc/acf-content.php',     // Contenu éditable : helpers ACF, page d'options, champs.
 	'/inc/estate-sections.php', // Fiche bien modulable : registre + ordre des sections.
+	'/inc/estate-hero.php',     // En-tête de la fiche : variantes de mise en page.
 );
 
 foreach ( $wpis_includes as $wpis_file ) {
