@@ -1,10 +1,10 @@
 <?php
 /**
- * Bloc lifestyle local : carte de géolocalisation + storytelling de quartier.
+ * Bloc « quartier & environs » : carte de géolocalisation + proximités.
  *
- * Le texte éditorial est volontairement générique (placeholder premium) :
- * il met en valeur l'art de vivre autour du bien et doit être personnalisé
- * par l'agence (commerces, restaurants, ambiance, transports).
+ * Le texte éditorial par défaut est volontairement neutre (factuel) :
+ * il décrit l'environnement du bien et peut être personnalisé par l'agence
+ * via une surcharge de ce template-part dans le thème enfant.
  *
  * @package HelloImmoSync
  */
@@ -23,21 +23,25 @@ if ( ! $wpis_coords && '' === $wpis_city ) {
 $wpis_proximities = wpis_get_proximities( $wpis_pid );
 ?>
 <section class="wpis-section border-b border-line" aria-labelledby="wpis-lifestyle-title">
-	<p class="wpis-eyebrow mb-2"><?php esc_html_e( 'L’art de vivre', 'hello-immosync' ); ?></p>
+	<p class="wpis-eyebrow mb-2"><?php esc_html_e( 'Le quartier', 'hello-immosync' ); ?></p>
 	<h2 id="wpis-lifestyle-title" class="font-display text-3xl text-ink">
 		<?php
-		printf(
-			/* translators: %s: city name. */
-			esc_html__( 'Vivre à %s', 'hello-immosync' ),
-			esc_html( $wpis_city ? $wpis_city : __( 'proximité', 'hello-immosync' ) )
-		);
+		if ( $wpis_city ) {
+			printf(
+				/* translators: %s: city name. */
+				esc_html__( '%s et ses environs', 'hello-immosync' ),
+				esc_html( $wpis_city )
+			);
+		} else {
+			esc_html_e( 'Aux alentours', 'hello-immosync' );
+		}
 		?>
 	</h2>
 
 	<div class="mt-8 grid gap-10 lg:grid-cols-2">
 		<div>
 			<p class="wpis-prose">
-				<?php esc_html_e( 'Au-delà des murs, c’est un cadre de vie qui se dessine : des rues à arpenter, des adresses où s’attabler, une atmosphère de quartier. Ce bien s’inscrit dans un environnement pensé pour le quotidien — commerces de bouche, terrasses, espaces verts et accès facilités.', 'hello-immosync' ); ?>
+				<?php esc_html_e( 'Découvrez l’environnement du bien : commerces, restaurants, écoles, transports et espaces verts à proximité.', 'hello-immosync' ); ?>
 			</p>
 
 			<?php if ( $wpis_proximities ) : ?>

@@ -1,8 +1,9 @@
 <?php
 /**
- * Accueil — section lifestyle locale (art de vivre, quartiers, adresses).
+ * Accueil — section « cadre de vie » : trois atouts du quartier (cartes).
  *
- * Contenu éditorial placeholder premium, à personnaliser par l'agence.
+ * Contenu par défaut volontairement neutre, surchargeable par l'agence via le
+ * répéteur ACF « home_lifestyle_cards » ou une surcharge dans le thème enfant.
  *
  * @package HelloImmoSync
  */
@@ -12,20 +13,20 @@ defined( 'ABSPATH' ) || exit;
 $wpis_items = array(
 	array(
 		'eyebrow' => __( 'Quartiers', 'hello-immosync' ),
-		'title'   => __( 'Des adresses qui ont une âme', 'hello-immosync' ),
-		'text'    => __( 'Ruelles pavées, places animées, perspectives ouvertes : nous connaissons l’atmosphère de chaque quartier.', 'hello-immosync' ),
+		'title'   => __( 'Des quartiers à découvrir', 'hello-immosync' ),
+		'text'    => __( 'Chaque quartier a son atmosphère : nous vous aidons à trouver celui qui correspond à votre projet.', 'hello-immosync' ),
 		'icon'    => 'location',
 	),
 	array(
-		'eyebrow' => __( 'Tables & commerces', 'hello-immosync' ),
-		'title'   => __( 'Le goût du voisinage', 'hello-immosync' ),
-		'text'    => __( 'Cafés de quartier, tables de chef, marchés et boutiques : l’art de vivre au quotidien, à deux pas.', 'hello-immosync' ),
+		'eyebrow' => __( 'Commerces & services', 'hello-immosync' ),
+		'title'   => __( 'Tout à proximité', 'hello-immosync' ),
+		'text'    => __( 'Commerces, restaurants, marchés et boutiques : les services du quotidien à deux pas.', 'hello-immosync' ),
 		'icon'    => 'compass',
 	),
 	array(
 		'eyebrow' => __( 'Mobilité', 'hello-immosync' ),
-		'title'   => __( 'Tout est à portée', 'hello-immosync' ),
-		'text'    => __( 'Transports, écoles, espaces verts : un environnement pensé pour fluidifier la vie de famille.', 'hello-immosync' ),
+		'title'   => __( 'Bien connecté', 'hello-immosync' ),
+		'text'    => __( 'Transports, écoles et espaces verts : un environnement pratique au quotidien.', 'hello-immosync' ),
 		'icon'    => 'energy',
 	),
 );
@@ -47,8 +48,8 @@ if ( is_array( $wpis_rows ) && $wpis_rows ) {
 <section class="wpis-section">
 	<div class="wpis-container-wide">
 		<div class="mb-12 max-w-2xl">
-			<p class="wpis-eyebrow mb-3"><?php echo esc_html( wpis_home_field( 'home_lifestyle_eyebrow', __( 'Art de vivre', 'hello-immosync' ) ) ); ?></p>
-			<h2 class="wpis-title"><?php echo esc_html( wpis_home_field( 'home_lifestyle_titre', __( 'Bien plus qu’un bien : un mode de vie', 'hello-immosync' ) ) ); ?></h2>
+			<p class="wpis-eyebrow mb-3"><?php echo esc_html( wpis_home_field( 'home_lifestyle_eyebrow', __( 'Cadre de vie', 'hello-immosync' ) ) ); ?></p>
+			<h2 class="wpis-title"><?php echo esc_html( wpis_home_field( 'home_lifestyle_titre', __( 'Vivre dans le quartier', 'hello-immosync' ) ) ); ?></h2>
 		</div>
 
 		<div class="grid gap-px overflow-hidden rounded-[var(--radius-card)] border border-line bg-line md:grid-cols-3">

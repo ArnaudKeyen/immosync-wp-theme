@@ -184,10 +184,10 @@ function wpis_register_field_groups() {
 			'key'      => 'group_wpis_home_sections',
 			'title'    => __( 'Page d’accueil — sections', 'hello-immosync' ),
 			'fields'   => array(
-				// Onglet : Find your place.
+				// Onglet : entrée par localité.
 				array(
 					'key'   => 'field_wpis_home_tab_fyp',
-					'label' => __( 'Find your place', 'hello-immosync' ),
+					'label' => __( 'Localités', 'hello-immosync' ),
 					'type'  => 'tab',
 				),
 				array(
@@ -241,10 +241,10 @@ function wpis_register_field_groups() {
 						),
 					),
 				),
-				// Onglet : Art de vivre.
+				// Onglet : cadre de vie / quartier.
 				array(
 					'key'   => 'field_wpis_home_tab_life',
-					'label' => __( 'Art de vivre', 'hello-immosync' ),
+					'label' => __( 'Cadre de vie', 'hello-immosync' ),
 					'type'  => 'tab',
 				),
 				array(

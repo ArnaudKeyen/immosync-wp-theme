@@ -54,7 +54,7 @@ function wpis_get_estate_section_registry() {
 			'part'  => 'template-parts/estate/finance',
 		),
 		'lifestyle' => array(
-			'label' => __( 'Art de vivre & quartier', 'hello-immosync' ),
+			'label' => __( 'Quartier & environs', 'hello-immosync' ),
 			'part'  => 'template-parts/estate/local-lifestyle',
 		),
 	);

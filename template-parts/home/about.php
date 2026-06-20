@@ -12,13 +12,13 @@ $wpis_name = get_bloginfo( 'name' );
 // Titre par défaut (nom de l'agence injecté) si le champ ACF est vide.
 $wpis_about_title_default = sprintf(
 	/* translators: %s: agency name. */
-	__( 'L’immobilier, à hauteur d’émotion — %s', 'hello-immosync' ),
+	__( 'À propos de %s', 'hello-immosync' ),
 	$wpis_name
 );
 
 // Texte par défaut (HTML maîtrisé) si le champ WYSIWYG est vide.
-$wpis_about_text_default = '<p>' . __( 'Nous accompagnons celles et ceux qui cherchent davantage qu’un bien : un cadre, une ambiance, un art de vivre. Chaque projet est unique, chaque accompagnement sur mesure.', 'hello-immosync' ) . '</p>'
-	. '<p>' . __( 'De l’estimation à la signature, notre approche allie exigence, discrétion et sens du détail.', 'hello-immosync' ) . '</p>';
+$wpis_about_text_default = '<p>' . __( 'Nous accompagnons chaque projet immobilier avec rigueur et disponibilité, de la première visite à la signature.', 'hello-immosync' ) . '</p>'
+	. '<p>' . __( 'Notre équipe met sa connaissance du marché local au service de vos projets d’achat et de vente.', 'hello-immosync' ) . '</p>';
 
 $wpis_about_image = (int) wpis_home_field( 'home_about_image', 0 );
 ?>

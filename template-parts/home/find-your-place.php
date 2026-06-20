@@ -1,6 +1,6 @@
 <?php
 /**
- * Accueil — « Trouvez votre lieu de vie » : entrée par quartier / ville.
+ * Accueil — entrée par localité : grille de villes vers l'archive des biens.
  *
  * @package HelloImmoSync
  */
@@ -23,10 +23,10 @@ if ( 'manual' === wpis_home_field( 'home_fyp_cities_mode', 'auto' ) && is_array(
 	<div class="wpis-container-wide">
 		<div class="grid items-center gap-12 lg:grid-cols-2">
 			<div>
-				<p class="wpis-eyebrow mb-3"><?php echo esc_html( wpis_home_field( 'home_fyp_eyebrow', __( 'Find your place', 'hello-immosync' ) ) ); ?></p>
-				<h2 class="wpis-title"><?php echo esc_html( wpis_home_field( 'home_fyp_titre', __( 'Trouvez votre lieu de vie', 'hello-immosync' ) ) ); ?></h2>
+				<p class="wpis-eyebrow mb-3"><?php echo esc_html( wpis_home_field( 'home_fyp_eyebrow', __( 'Localités', 'hello-immosync' ) ) ); ?></p>
+				<h2 class="wpis-title"><?php echo esc_html( wpis_home_field( 'home_fyp_titre', __( 'Explorez par localité', 'hello-immosync' ) ) ); ?></h2>
 				<p class="wpis-prose mt-6 max-w-lg">
-					<?php echo esc_html( wpis_home_field( 'home_fyp_texte', __( 'Chaque quartier raconte une histoire. Choisissez d’abord l’endroit où vous vous voyez vivre — nous nous occupons de trouver le bien qui lui ressemble.', 'hello-immosync' ) ) ); ?>
+					<?php echo esc_html( wpis_home_field( 'home_fyp_texte', __( 'Parcourez notre sélection de biens par ville et accédez directement à ceux qui correspondent à votre recherche.', 'hello-immosync' ) ) ); ?>
 				</p>
 			</div>
 
