@@ -4,6 +4,9 @@
 
 - WordPress **6.5+** (testé jusqu'à 7.0), PHP **8.1+**
 - Plugin **ImmoSync / WPIS** activé (fournit le CPT `wpis_estates`)
+- **Advanced Custom Fields** (ACF Pro recommandé) — pour éditer le contenu et accéder au menu
+  *Réglages du thème*. Optionnel : sans ACF, le thème dégrade gracieusement vers ses valeurs
+  par défaut.
 - Node.js **18+** (uniquement pour modifier les styles)
 
 ## Installer

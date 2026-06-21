@@ -10,7 +10,7 @@ logique métier.
 > dans un dépôt séparé. Le parent ne référence jamais un client en particulier.
 
 - **Dépôt** : https://github.com/ArnaudKeyen/immosync-wp-theme
-- **Version** : 0.1.0
+- **Version** : 0.2.0 — voir [CHANGELOG.md](CHANGELOG.md)
 - **Licence** : GPL-2.0-or-later
 
 ## Prérequis
@@ -65,13 +65,17 @@ hello-immosync/
 │   ├── enqueue.php            # CSS Tailwind compilé, polices, JS
 │   ├── helpers.php            # Helpers de formatage génériques
 │   ├── immosync-fields.php    # Accesseurs de champs WPIS
+│   ├── epc.php                # PEB/EPC : normalisation + visuels par région
 │   ├── template-tags.php      # Helpers de rendu (cartes, badges, recherche)
 │   ├── search.php             # Recherche / filtres server-side (WP_Query)
-│   └── structured-data.php    # JSON-LD (SEO)
+│   ├── structured-data.php    # JSON-LD Residence (SEO)
+│   ├── acf-content.php        # Helpers ACF + page d'options "Réglages du thème"
+│   ├── estate-sections.php    # Registre + ordre des sections de la fiche bien
+│   └── estate-hero.php        # Variantes d'en-tête de la fiche bien
 ├── template-parts/
 │   ├── estate/                # Composants fiche bien (hero, galerie, énergie…)
 │   ├── home/                  # Sections de la page d'accueil
-│   └── global/                # Composants transverses (barre de recherche)
+│   └── global/                # Composants transverses (page-hero, barre de recherche)
 ├── assets/
 │   ├── css/src/main.css       # Source Tailwind (édité)
 │   ├── css/main.css           # CSS compilé (versionné)

@@ -49,6 +49,19 @@ add_filter( 'wpis_fonts_url', function () {
 Copiez un fichier de `template-parts/` du parent vers le même chemin relatif dans l'enfant ;
 WordPress charge prioritairement la version de l'enfant.
 
+## Étendre la fiche bien par filtres (préféré)
+
+Plutôt que de recopier un template, utilisez les filtres exposés par le parent pour réordonner
+les sections, ajouter une variante d'en-tête ou changer la région PEB :
+
+```php
+add_filter( 'wpis_estate_section_registry', /* ajouter/retirer une section */ );
+add_filter( 'wpis_estate_hero_registry',    /* ajouter une variante d'en-tête */ );
+add_filter( 'wpis_epc_region', fn() => 'brussels' );
+```
+
+Détail complet : **[[Fiche-bien]]**.
+
 ## Implémentation de référence
 
 Un thème enfant de référence ne contient que des tokens CSS et le filtre des polices, et reste
