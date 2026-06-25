@@ -57,6 +57,14 @@ système de contenu ACF et données structurées.
 - `template-parts/estate/card.php` : badges (opération / vendu), caractéristiques compactes.
 - Documentation : wiki (`docs/wiki/`) actualisé — nouvelle page **Fiche bien**, sommaire et
   architecture mis à jour ; README synchronisé.
+- **Copie éditoriale neutralisée** dans les `template-parts/` par défaut (accueil :
+  find-your-place, art de vivre, à propos ; fiche bien : quartier & environs) : le parent
+  fournit des libellés neutres et factuels, la copie propre à une agence vivant dans le thème
+  enfant (surcharge de template-parts) ou dans les champs ACF.
+
+### Supprimé
+
+- `template-parts/home/hero.php` (code mort) : la page d'accueil utilise `global/page-hero.php`.
 
 ### Corrigé
 
