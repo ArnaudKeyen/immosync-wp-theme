@@ -40,7 +40,19 @@ logique (nombre de biens, sélection manuelle…).
 - **Services** : **hiérarchie de pages** (pas de CPT). La page « Nos services » utilise le
   *Template : Services* (`template-services.php`) → hero + grille des **pages enfants**. Chaque
   service est une page enfant standard.
+- **Estimation** : *Template : Estimation* (`template-estimation.php`) → en-tête + formulaire
+  WPIS (`[wpis-form-evaluation]`, repli mailto si le plugin est absent) + arguments + étapes.
 - Blog : `home.php` (hero basé sur la page « Blog » + liste d'articles).
+
+## Fiches de biens (réglages, sans code)
+
+Menu **Réglages du thème → Fiches de biens** (page d'options `wpis-theme-estate`) :
+
+- **Variante d'en-tête** (`stacked` / `split`) appliquée à toutes les fiches.
+- **Ordre des sections** : répéteur triable par glisser-déposer + interrupteur par section
+  (présentation, équipements, surfaces, énergie, finances, art de vivre).
+
+Détail technique et extension par filtres : voir **[[Fiche-bien]]**.
 
 ## Réglages du thème (parent + enfant)
 
