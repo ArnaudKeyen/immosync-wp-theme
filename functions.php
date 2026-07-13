@@ -9,7 +9,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'HELLO_IMMOSYNC_VERSION', '0.2.0' );
+define( 'HELLO_IMMOSYNC_VERSION', '0.3.0' );
 define( 'HELLO_IMMOSYNC_DIR', get_template_directory() );
 define( 'HELLO_IMMOSYNC_URI', get_template_directory_uri() );
 
@@ -30,6 +30,7 @@ $wpis_includes = array(
 	'/inc/acf-content.php',     // Contenu éditable : helpers ACF, page d'options, champs.
 	'/inc/estate-sections.php', // Fiche bien modulable : registre + ordre des sections.
 	'/inc/estate-hero.php',     // En-tête de la fiche : variantes de mise en page.
+	'/inc/coming-soon.php',     // Écran « Bientôt en ligne » (pré-lancement), opt-in.
 );
 
 foreach ( $wpis_includes as $wpis_file ) {

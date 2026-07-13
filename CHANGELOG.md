@@ -13,6 +13,19 @@ le [versionnage sémantique](https://semver.org/lang/fr/) :
 
 ## [Non publié]
 
+## [0.3.0] — 2026-07-13
+
+### Ajouté
+
+- **Écran « Bientôt en ligne » (coming soon)** (`inc/coming-soon.php`) : mode pré-lancement qui
+  remplace tout le front par une page d'attente plein écran (image de fond, logo, surtitre, texte,
+  contact, bouton CTA) tant que le visiteur n'est pas connecté (`edit_posts`). L'équipe continue de
+  voir le vrai site ; les visiteurs reçoivent un `HTTP 503` + `noindex`. **Désactivé par défaut**
+  (opt-in) via **Réglages du thème → Bientôt en ligne** (sous-page d'options `wpis-coming-soon`,
+  champs ACF `wpis_cs_*`). Filtres exposés : `wpis_coming_soon_active`,
+  `wpis_coming_soon_default_background_url`, `wpis_coming_soon_default_logo_url` — un thème enfant
+  fournit ses visuels par défaut sans coder de contenu dans le parent.
+
 ## [0.2.0] — 2026-06-21
 
 Premier gros palier fonctionnel après l'amorçage : page d'accueil, fiche bien modulable,
