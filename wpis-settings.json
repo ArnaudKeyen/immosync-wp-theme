@@ -1,0 +1,9 @@
+{
+    "postTypeEstateSlug": "biens",
+    "postTypeProjectSlug": "projets",
+    "postTypeAgentSlug": "agents",
+    "taxonomyEstateCitySlug": "ville",
+    "taxonomyEstateCategorySlug": "type-de-bien",
+    "taxonomyEstatePurposeSlug": "transaction",
+    "taxonomyEstateAmenetySlug": "equipement"
+}
