@@ -15,6 +15,14 @@ le [versionnage sémantique](https://semver.org/lang/fr/) :
 
 ## [0.4.0] — 2026-07-30
 
+### Ajouté
+
+- **Typographie éditoriale de `.wpis-prose`** : titres, listes, liens, citations, filets et tableaux
+  sont désormais stylés. Le preflight Tailwind remet `h1`–`h6` à `font-size: inherit` et retire les
+  puces : sans ces règles, toute page rédigée dans l'éditeur (mentions légales, article, page libre)
+  sortait en bloc de texte indifférencié. Les styles s'appuient sur les tokens, donc un thème enfant
+  les re-skinne sans y toucher.
+
 ### Modifié — RUPTURE pour les thèmes enfants
 
 - **Les tokens de couleur sont renommés par fonction, plus par couleur.** Un token doit dire à quoi
