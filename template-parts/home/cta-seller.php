@@ -7,7 +7,7 @@
 
 defined( 'ABSPATH' ) || exit;
 ?>
-<section class="wpis-section bg-sand">
+<section class="wpis-section bg-surface-alt">
 	<div class="wpis-container">
 		<div class="mx-auto max-w-2xl text-center">
 			<p class="wpis-eyebrow mb-3"><?php echo esc_html( wpis_home_field( 'home_cta_eyebrow', __( 'Vous vendez ?', 'hello-immosync' ) ) ); ?></p>
@@ -20,7 +20,7 @@ defined( 'ABSPATH' ) || exit;
 		<div class="mx-auto mt-10 max-w-3xl">
 			<?php
 			if ( shortcode_exists( 'wpis-form-evaluation' ) ) {
-				echo '<div class="wpis-form-shell rounded-[var(--radius-card)] border border-line bg-cream p-8 sm:p-10">' . do_shortcode( '[wpis-form-evaluation style="off"]' ) . '</div>';
+				echo '<div class="wpis-form-shell rounded-[var(--radius-card)] border border-border bg-surface p-8 sm:p-10">' . do_shortcode( '[wpis-form-evaluation style="off"]' ) . '</div>';
 			} else {
 				printf(
 					'<div class="text-center"><a class="wpis-btn" href="mailto:%1$s?subject=%2$s">%3$s</a></div>',

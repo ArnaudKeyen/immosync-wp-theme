@@ -41,7 +41,7 @@ $wpis_count_label = sprintf(
 );
 ?>
 <section data-wpis-gallery>
-	<div class="relative aspect-[4/3] w-full bg-sand sm:aspect-[16/9] xl:aspect-[2/1]">
+	<div class="relative aspect-[4/3] w-full bg-surface-alt sm:aspect-[16/9] xl:aspect-[2/1]">
 
 		<?php // Image de fond plein cadre, cliquable → modal galerie. overflow-hidden ici (pas sur le cadre) pour clipper le zoom au survol sans rogner les vignettes débordantes. ?>
 		<button type="button"
@@ -64,13 +64,13 @@ $wpis_count_label = sprintf(
 		</button>
 
 		<?php // Voile dégradé bas pour la lisibilité du texte incrusté. ?>
-		<span class="pointer-events-none absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-ink/80 via-ink/20 to-transparent"></span>
+		<span class="pointer-events-none absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-text-strong/80 via-text-strong/20 to-transparent"></span>
 
 		<?php // Calque d'incrustations, aligné sur le conteneur du site. ?>
 		<div class="pointer-events-none absolute inset-0">
 			<div class="wpis-container-wide relative h-full">
 
-				<span class="absolute left-5 top-5 rounded-[var(--radius-card)] bg-ink/55 px-3 py-1.5 font-body text-xs font-medium text-cream backdrop-blur sm:left-8 lg:left-12">
+				<span class="absolute left-5 top-5 rounded-[var(--radius-card)] bg-text-strong/55 px-3 py-1.5 font-body text-xs font-medium text-surface backdrop-blur sm:left-8 lg:left-12">
 					<?php echo $wpis_count_label; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped — entier formaté via _n(). ?>
 				</span>
 
@@ -88,8 +88,8 @@ $wpis_count_label = sprintf(
 								<?php echo $wpis_badges; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped — markup de badges échappé en amont. ?>
 							</span>
 						<?php endif; ?>
-						<h1 class="font-display text-3xl leading-[1.05] text-cream md:text-5xl"><?php echo esc_html( wpis_get_title( $wpis_pid ) ); ?></h1>
-						<div class="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-cream/90">
+						<h1 class="font-display text-3xl leading-[1.05] text-surface md:text-5xl"><?php echo esc_html( wpis_get_title( $wpis_pid ) ); ?></h1>
+						<div class="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-surface/90">
 							<?php if ( '' !== $wpis_loc ) : ?>
 								<span class="flex items-center gap-1.5 font-body text-sm">
 									<?php echo wpis_icon( 'location', 'w-4 h-4' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped — SVG inline du thème. ?>
@@ -128,7 +128,7 @@ $wpis_count_label = sprintf(
 							}
 							?>
 							<button type="button"
-								class="group relative <?php echo esc_attr( $wpis_thumb_disp ); ?> aspect-[4/3] min-w-0 flex-1 overflow-hidden rounded-[var(--radius-card)] bg-sand shadow-xl ring-1 ring-cream/25 transition-transform duration-300 hover:-translate-y-0.5"
+								class="group relative <?php echo esc_attr( $wpis_thumb_disp ); ?> aspect-[4/3] min-w-0 flex-1 overflow-hidden rounded-[var(--radius-card)] bg-surface-alt shadow-xl ring-1 ring-surface/25 transition-transform duration-300 hover:-translate-y-0.5"
 								<?php if ( $wpis_is_media ) : ?>
 									data-wpis-embed-open="<?php echo esc_attr( $wpis_embed_id ); ?>"
 								<?php else : ?>
@@ -149,8 +149,8 @@ $wpis_count_label = sprintf(
 								?>
 
 								<?php if ( $wpis_is_media ) : ?>
-									<span class="absolute inset-0 flex items-center justify-center bg-ink/30 transition-colors group-hover:bg-ink/45">
-										<span class="flex h-11 w-11 items-center justify-center rounded-full bg-cream/90 text-ink shadow-lg backdrop-blur transition-transform duration-300 group-hover:scale-110">
+									<span class="absolute inset-0 flex items-center justify-center bg-text-strong/30 transition-colors group-hover:bg-text-strong/45">
+										<span class="flex h-11 w-11 items-center justify-center rounded-full bg-surface/90 text-text-strong shadow-lg backdrop-blur transition-transform duration-300 group-hover:scale-110">
 											<?php echo wpis_icon( $wpis_icon_name, 'w-5 h-5' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped — SVG inline du thème. ?>
 										</span>
 									</span>
@@ -190,13 +190,13 @@ $wpis_count_label = sprintf(
 			<template data-wpis-embed-tpl="<?php echo esc_attr( $wpis_embed_id ); ?>"><?php echo $wpis_markup; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped — iframe d'embed construite et échappée dans wpis_media_embed_html(). ?></template>
 		<?php endforeach; ?>
 
-		<div class="fixed inset-0 z-[200] hidden bg-ink/95"
+		<div class="fixed inset-0 z-[200] hidden bg-text-strong/95"
 			data-wpis-embed-modal
 			role="dialog"
 			aria-modal="true"
 			aria-label="<?php esc_attr_e( 'Média du bien', 'hello-immosync' ); ?>">
 			<button type="button"
-				class="absolute right-4 top-4 z-10 flex h-11 w-11 items-center justify-center text-2xl text-cream/70 transition-colors hover:text-cream"
+				class="absolute right-4 top-4 z-10 flex h-11 w-11 items-center justify-center text-2xl text-surface/70 transition-colors hover:text-surface"
 				data-wpis-embed-close
 				aria-label="<?php esc_attr_e( 'Fermer', 'hello-immosync' ); ?>">&#10005;</button>
 			<div class="flex h-full w-full items-center justify-center p-4" data-wpis-embed-stage></div>

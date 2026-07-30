@@ -61,7 +61,7 @@ $wpis_light = ( ! $wpis_is_home && ! $wpis_bg );
 
 <?php if ( $wpis_light ) : ?>
 
-	<section class="wpis-section bg-sand">
+	<section class="wpis-section bg-surface-alt">
 		<div class="wpis-container-wide">
 			<?php if ( $wpis_eyebrow ) : ?>
 				<p class="wpis-eyebrow mb-3"><?php echo esc_html( $wpis_eyebrow ); ?></p>
@@ -75,24 +75,24 @@ $wpis_light = ( ! $wpis_is_home && ! $wpis_bg );
 
 <?php else : ?>
 
-	<section class="relative flex <?php echo $wpis_is_home ? 'min-h-[70vh]' : 'min-h-[52vh] overflow-hidden'; ?> items-center bg-ink">
+	<section class="relative flex <?php echo $wpis_is_home ? 'min-h-[70vh]' : 'min-h-[52vh] overflow-hidden'; ?> items-center bg-text-strong">
 		<?php if ( $wpis_bg ) : ?>
 			<img src="<?php echo esc_url( $wpis_bg ); ?>" alt="" class="absolute inset-0 h-full w-full object-cover" fetchpriority="high">
-			<div class="absolute inset-0 bg-gradient-to-b from-ink/55 via-ink/30 to-ink/65"></div>
+			<div class="absolute inset-0 bg-gradient-to-b from-text-strong/55 via-text-strong/30 to-text-strong/65"></div>
 		<?php else : ?>
-			<div class="absolute inset-0 bg-gradient-to-br from-ink via-charcoal to-brand-dark"></div>
+			<div class="absolute inset-0 bg-gradient-to-br from-text-strong via-text to-brand-strong"></div>
 		<?php endif; ?>
 
 		<div class="relative w-full <?php echo $wpis_is_home ? 'pb-44 pt-24' : 'py-24'; ?>">
 			<div class="wpis-container-wide">
 				<?php if ( $wpis_eyebrow ) : ?>
-					<p class="wpis-eyebrow text-cream/80"><?php echo esc_html( $wpis_eyebrow ); ?></p>
+					<p class="wpis-eyebrow text-surface/80"><?php echo esc_html( $wpis_eyebrow ); ?></p>
 				<?php endif; ?>
-				<h1 class="mt-5 max-w-4xl font-display <?php echo $wpis_is_home ? 'text-5xl leading-[1.02] md:text-7xl' : 'text-4xl leading-tight md:text-6xl'; ?> text-cream">
+				<h1 class="mt-5 max-w-4xl font-display <?php echo $wpis_is_home ? 'text-5xl leading-[1.02] md:text-7xl' : 'text-4xl leading-tight md:text-6xl'; ?> text-surface">
 					<?php echo esc_html( $wpis_title ); ?>
 				</h1>
 				<?php if ( $wpis_subtitle ) : ?>
-					<p class="mt-6 max-w-xl font-body text-lg text-cream/80"><?php echo esc_html( $wpis_subtitle ); ?></p>
+					<p class="mt-6 max-w-xl font-body text-lg text-surface/80"><?php echo esc_html( $wpis_subtitle ); ?></p>
 				<?php endif; ?>
 			</div>
 		</div>

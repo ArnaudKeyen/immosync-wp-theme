@@ -21,7 +21,7 @@ $wpis_sorts     = array(
 );
 ?>
 
-<section class="border-b border-line bg-sand">
+<section class="border-b border-border bg-surface-alt">
 	<div class="wpis-container-wide py-14 md:py-16">
 		<p class="wpis-eyebrow mb-3"><?php esc_html_e( 'Nos biens', 'hello-immosync' ); ?></p>
 		<h1 class="wpis-title max-w-3xl">
@@ -41,25 +41,25 @@ $wpis_sorts     = array(
 
 	<!-- Barre de résultats + tri -->
 	<div class="mb-10 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-		<p class="font-body text-sm text-stone">
+		<p class="font-body text-sm text-text-secondary">
 			<?php
 			printf(
 				/* translators: %s: number of properties. */
 				esc_html( _n( '%s bien disponible', '%s biens disponibles', $wpis_total, 'hello-immosync' ) ),
-				'<span class="font-medium text-ink">' . esc_html( number_format_i18n( $wpis_total ) ) . '</span>' // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+				'<span class="font-medium text-text-strong">' . esc_html( number_format_i18n( $wpis_total ) ) . '</span>' // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			);
 			?>
 		</p>
 
 		<div class="flex flex-wrap items-center gap-1 text-sm">
-			<span class="mr-2 text-mist"><?php esc_html_e( 'Trier :', 'hello-immosync' ); ?></span>
+			<span class="mr-2 text-text-muted"><?php esc_html_e( 'Trier :', 'hello-immosync' ); ?></span>
 			<?php foreach ( $wpis_sorts as $wpis_key => $wpis_label ) : ?>
 				<?php
 				$wpis_url    = '' === $wpis_key ? $wpis_sort_base : add_query_arg( 'wpis_sort', $wpis_key, $wpis_sort_base );
 				$wpis_active = ( $wpis_filters['sort'] === $wpis_key );
 				?>
 				<a href="<?php echo esc_url( $wpis_url ); ?>"
-					class="rounded-[var(--radius-pill)] px-3 py-1 transition-colors <?php echo $wpis_active ? 'bg-ink text-cream' : 'text-stone hover:text-ink'; ?>">
+					class="rounded-[var(--radius-pill)] px-3 py-1 transition-colors <?php echo $wpis_active ? 'bg-text-strong text-surface' : 'text-text-secondary hover:text-text-strong'; ?>">
 					<?php echo esc_html( $wpis_label ); ?>
 				</a>
 			<?php endforeach; ?>
@@ -90,9 +90,9 @@ $wpis_sorts     = array(
 		</div>
 
 	<?php else : ?>
-		<div class="rounded-[var(--radius-card)] border border-line bg-white px-8 py-20 text-center">
-			<p class="font-display text-2xl text-ink"><?php esc_html_e( 'Aucun bien ne correspond à votre recherche.', 'hello-immosync' ); ?></p>
-			<p class="mt-3 text-sm text-stone"><?php esc_html_e( 'Essayez d’élargir vos critères.', 'hello-immosync' ); ?></p>
+		<div class="rounded-[var(--radius-card)] border border-border bg-white px-8 py-20 text-center">
+			<p class="font-display text-2xl text-text-strong"><?php esc_html_e( 'Aucun bien ne correspond à votre recherche.', 'hello-immosync' ); ?></p>
+			<p class="mt-3 text-sm text-text-secondary"><?php esc_html_e( 'Essayez d’élargir vos critères.', 'hello-immosync' ); ?></p>
 			<a href="<?php echo esc_url( get_post_type_archive_link( 'wpis_estates' ) ); ?>" class="wpis-btn mt-8"><?php esc_html_e( 'Réinitialiser la recherche', 'hello-immosync' ); ?></a>
 		</div>
 	<?php endif; ?>

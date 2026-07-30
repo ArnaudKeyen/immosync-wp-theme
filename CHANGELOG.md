@@ -13,6 +13,37 @@ le [versionnage sémantique](https://semver.org/lang/fr/) :
 
 ## [Non publié]
 
+## [0.4.0] — 2026-07-30
+
+### Modifié — RUPTURE pour les thèmes enfants
+
+- **Les tokens de couleur sont renommés par fonction, plus par couleur.** Un token doit dire à quoi
+  il sert (`--color-text-strong`), pas de quelle teinte il est (`--color-ink`) : la palette d'un
+  thème enfant peut alors changer complètement sans que le nom des tokens devienne mensonger.
+  Les utilitaires Tailwind correspondants (`bg-*`, `text-*`, `border-*`) suivent le même
+  renommage. Table de correspondance :
+
+  | Avant | Après | Rôle |
+  |---|---|---|
+  | `ink` | `text-strong` | Titres, header, aplats sombres, boutons pleins |
+  | `charcoal` | `text` | Texte courant / body |
+  | `stone` | `text-secondary` | Texte secondaire |
+  | `mist` | `text-muted` | Tertiaire, méta, placeholders |
+  | `line` | `border` | Bordures fines |
+  | `sand` | `surface-alt` | Fond alterné |
+  | `cream` | `surface` | Fond principal (et texte sur fond sombre) |
+  | `brand-dark` | `brand-strong` | État survol / actif de la marque |
+  | `brand` | `brand` | *(inchangé)* |
+
+  **Migration d'un thème enfant** : renommer les utilitaires dans les surcharges de templates
+  (`bg-cream` → `bg-surface`, `text-ink` → `text-text-strong`, `border-line` → `border-border`…),
+  les variables CSS (`var(--color-cream)` → `var(--color-surface)`) et les slugs de palette de
+  `theme.json`. Aucun changement de valeur hexadécimale : le rendu est identique une fois le
+  renommage appliqué.
+
+- **Barre de recherche** (`template-parts/global/search-bar.php`) : structure revue pour être
+  surchargeable par un thème enfant (variantes `hero` / `inline`, classes de champ isolées).
+
 ## [0.3.0] — 2026-07-13
 
 ### Ajouté

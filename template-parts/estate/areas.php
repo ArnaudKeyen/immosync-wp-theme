@@ -17,9 +17,9 @@ if ( ! $wpis_areas ) {
 	return;
 }
 ?>
-<section class="wpis-section border-b border-line" aria-labelledby="wpis-areas-title">
+<section class="wpis-section border-b border-border" aria-labelledby="wpis-areas-title">
 	<p class="wpis-eyebrow mb-2"><?php esc_html_e( 'Métré', 'hello-immosync' ); ?></p>
-	<h2 id="wpis-areas-title" class="font-display text-3xl text-ink"><?php esc_html_e( 'Surfaces & pièces', 'hello-immosync' ); ?></h2>
+	<h2 id="wpis-areas-title" class="font-display text-3xl text-text-strong"><?php esc_html_e( 'Surfaces & pièces', 'hello-immosync' ); ?></h2>
 
 	<dl class="mt-8 grid grid-cols-1 gap-x-12 sm:grid-cols-2">
 		<?php foreach ( $wpis_areas as $wpis_area ) : ?>

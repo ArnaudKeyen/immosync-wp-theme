@@ -49,17 +49,17 @@ $wpis_specs = array_filter(
 	}
 );
 ?>
-<section class="wpis-section border-b border-line" aria-labelledby="wpis-overview-title">
+<section class="wpis-section border-b border-border" aria-labelledby="wpis-overview-title">
 	<p class="wpis-eyebrow mb-2"><?php esc_html_e( 'Le bien', 'hello-immosync' ); ?></p>
-	<h2 id="wpis-overview-title" class="font-display text-3xl text-ink"><?php esc_html_e( 'Présentation', 'hello-immosync' ); ?></h2>
+	<h2 id="wpis-overview-title" class="font-display text-3xl text-text-strong"><?php esc_html_e( 'Présentation', 'hello-immosync' ); ?></h2>
 
 	<?php if ( $wpis_features ) : ?>
-		<ul class="mt-8 grid grid-cols-2 gap-px overflow-hidden rounded-[var(--radius-card)] border border-line bg-line sm:grid-cols-3 lg:grid-cols-4">
+		<ul class="mt-8 grid grid-cols-2 gap-px overflow-hidden rounded-[var(--radius-card)] border border-border bg-border sm:grid-cols-3 lg:grid-cols-4">
 			<?php foreach ( $wpis_features as $wpis_feature ) : ?>
-				<li class="flex flex-col gap-1 bg-cream px-5 py-6">
+				<li class="flex flex-col gap-1 bg-surface px-5 py-6">
 					<span class="text-brand"><?php echo wpis_icon( $wpis_feature['icon'], 'w-5 h-5' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
-					<span class="mt-2 font-display text-2xl text-ink"><?php echo esc_html( $wpis_feature['value'] ); ?></span>
-					<span class="text-xs uppercase tracking-[0.14em] text-stone"><?php echo esc_html( $wpis_feature['label'] ); ?></span>
+					<span class="mt-2 font-display text-2xl text-text-strong"><?php echo esc_html( $wpis_feature['value'] ); ?></span>
+					<span class="text-xs uppercase tracking-[0.14em] text-text-secondary"><?php echo esc_html( $wpis_feature['label'] ); ?></span>
 				</li>
 			<?php endforeach; ?>
 		</ul>
@@ -73,7 +73,7 @@ $wpis_specs = array_filter(
 
 	<?php if ( $wpis_specs ) : ?>
 		<div class="mt-12">
-			<h3 class="mb-4 font-display text-2xl text-ink"><?php esc_html_e( 'Informations techniques', 'hello-immosync' ); ?></h3>
+			<h3 class="mb-4 font-display text-2xl text-text-strong"><?php esc_html_e( 'Informations techniques', 'hello-immosync' ); ?></h3>
 			<dl class="grid grid-cols-1 gap-x-12 sm:grid-cols-2">
 				<?php foreach ( $wpis_specs as $wpis_label => $wpis_value ) : ?>
 					<div class="wpis-spec">

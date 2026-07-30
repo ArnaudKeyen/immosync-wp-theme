@@ -19,7 +19,7 @@ if ( 'manual' === wpis_home_field( 'home_fyp_cities_mode', 'auto' ) && is_array(
 	$wpis_cities = array_slice( $wpis_options['cities'], 0, 6 );
 }
 ?>
-<section class="wpis-section bg-sand">
+<section class="wpis-section bg-surface-alt">
 	<div class="wpis-container-wide">
 		<div class="grid items-center gap-12 lg:grid-cols-2">
 			<div>
@@ -34,8 +34,8 @@ if ( 'manual' === wpis_home_field( 'home_fyp_cities_mode', 'auto' ) && is_array(
 				<div class="grid grid-cols-2 gap-3 sm:grid-cols-3">
 					<?php foreach ( $wpis_cities as $wpis_city ) : ?>
 						<a href="<?php echo esc_url( add_query_arg( 'wpis_city', rawurlencode( $wpis_city ), $wpis_archive ) ); ?>"
-							class="group flex items-center justify-between rounded-[var(--radius-card)] border border-line bg-cream px-5 py-4 transition-colors hover:border-ink">
-							<span class="font-display text-lg text-ink"><?php echo esc_html( $wpis_city ); ?></span>
+							class="group flex items-center justify-between rounded-[var(--radius-card)] border border-border bg-surface px-5 py-4 transition-colors hover:border-text-strong">
+							<span class="font-display text-lg text-text-strong"><?php echo esc_html( $wpis_city ); ?></span>
 							<span class="text-brand transition-transform group-hover:translate-x-1"><?php echo wpis_icon( 'arrow', 'w-4 h-4' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
 						</a>
 					<?php endforeach; ?>

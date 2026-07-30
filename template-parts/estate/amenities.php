@@ -25,13 +25,13 @@ if ( ! $wpis_items ) {
 	return;
 }
 ?>
-<section class="wpis-section border-b border-line" aria-labelledby="wpis-amenities-title">
+<section class="wpis-section border-b border-border" aria-labelledby="wpis-amenities-title">
 	<p class="wpis-eyebrow mb-2"><?php esc_html_e( 'Confort', 'hello-immosync' ); ?></p>
-	<h2 id="wpis-amenities-title" class="font-display text-3xl text-ink"><?php esc_html_e( 'Équipements & commodités', 'hello-immosync' ); ?></h2>
+	<h2 id="wpis-amenities-title" class="font-display text-3xl text-text-strong"><?php esc_html_e( 'Équipements & commodités', 'hello-immosync' ); ?></h2>
 
 	<ul class="mt-8 grid grid-cols-1 gap-x-8 gap-y-3 sm:grid-cols-2 lg:grid-cols-3">
 		<?php foreach ( $wpis_items as $wpis_item ) : ?>
-			<li class="flex items-center gap-3 font-body text-sm text-charcoal">
+			<li class="flex items-center gap-3 font-body text-sm text-text">
 				<span class="shrink-0 text-brand"><?php echo wpis_icon( 'check', 'w-4 h-4' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped — SVG inline du thème. ?></span>
 				<?php echo esc_html( $wpis_item ); ?>
 			</li>

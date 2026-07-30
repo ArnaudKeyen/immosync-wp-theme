@@ -33,7 +33,7 @@ Menu **Réglages du thème → Bientôt en ligne** (sous-page d'options `wpis-co
 
 L'écran est **autonome** (HTML + CSS inline, polices via le filtre `wpis_fonts_url`) : il ne dépend
 pas du CSS Tailwind compilé et s'affiche même très tôt dans le cycle WordPress
-(`template_redirect`). Il reprend les tokens de couleur/typo (`--color-ink`, `--color-brand`,
+(`template_redirect`). Il reprend les tokens de couleur/typo (`--color-text-strong`, `--color-brand`,
 `--font-display`…) s'ils existent, donc il hérite de la direction artistique du thème enfant.
 
 ## Étendre depuis un thème enfant

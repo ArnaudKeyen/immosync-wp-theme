@@ -9,15 +9,15 @@ defined( 'ABSPATH' ) || exit;
 ?>
 </main><!-- #wpis-content -->
 
-<footer class="wpis-footer mt-auto bg-ink text-cream/80">
+<footer class="wpis-footer mt-auto bg-text-strong text-surface/80">
 	<div class="wpis-container-wide py-16 md:py-20">
 		<div class="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
 
 			<div class="lg:col-span-2">
-				<p class="font-display text-3xl text-cream"><?php bloginfo( 'name' ); ?></p>
+				<p class="font-display text-3xl text-surface"><?php bloginfo( 'name' ); ?></p>
 				<?php $wpis_desc = get_bloginfo( 'description' ); ?>
 				<?php if ( $wpis_desc ) : ?>
-					<p class="mt-4 max-w-md text-sm leading-relaxed text-cream/60"><?php echo esc_html( $wpis_desc ); ?></p>
+					<p class="mt-4 max-w-md text-sm leading-relaxed text-surface/60"><?php echo esc_html( $wpis_desc ); ?></p>
 				<?php endif; ?>
 			</div>
 
@@ -29,7 +29,7 @@ defined( 'ABSPATH' ) || exit;
 						array(
 							'theme_location' => 'footer',
 							'container'      => false,
-							'menu_class'     => 'flex flex-col gap-3 text-sm text-cream/70',
+							'menu_class'     => 'flex flex-col gap-3 text-sm text-surface/70',
 							'depth'          => 1,
 							'fallback_cb'    => false,
 						)
@@ -38,7 +38,7 @@ defined( 'ABSPATH' ) || exit;
 					$wpis_estates_link = get_post_type_archive_link( 'wpis_estates' );
 					if ( $wpis_estates_link ) {
 						printf(
-							'<a class="text-sm text-cream/70 transition-colors hover:text-cream" href="%s">%s</a>',
+							'<a class="text-sm text-surface/70 transition-colors hover:text-surface" href="%s">%s</a>',
 							esc_url( $wpis_estates_link ),
 							esc_html__( 'Nos biens', 'hello-immosync' )
 						);
@@ -54,20 +54,20 @@ defined( 'ABSPATH' ) || exit;
 				$wpis_phone   = wpis_theme_option( 'option_agency_phone', '' );
 				$wpis_socials = function_exists( 'get_field' ) ? get_field( 'option_socials', 'option' ) : array();
 				?>
-				<p class="text-sm leading-relaxed text-cream/70">
+				<p class="text-sm leading-relaxed text-surface/70">
 					<?php if ( $wpis_phone ) : ?>
-						<a href="tel:<?php echo esc_attr( preg_replace( '/\s+/', '', $wpis_phone ) ); ?>" class="block transition-colors hover:text-cream"><?php echo esc_html( $wpis_phone ); ?></a>
+						<a href="tel:<?php echo esc_attr( preg_replace( '/\s+/', '', $wpis_phone ) ); ?>" class="block transition-colors hover:text-surface"><?php echo esc_html( $wpis_phone ); ?></a>
 					<?php endif; ?>
 					<?php if ( $wpis_email ) : ?>
-						<a href="mailto:<?php echo esc_attr( $wpis_email ); ?>" class="block transition-colors hover:text-cream"><?php echo esc_html( $wpis_email ); ?></a>
+						<a href="mailto:<?php echo esc_attr( $wpis_email ); ?>" class="block transition-colors hover:text-surface"><?php echo esc_html( $wpis_email ); ?></a>
 					<?php endif; ?>
 				</p>
 				<?php if ( is_array( $wpis_socials ) && $wpis_socials ) : ?>
-					<ul class="mt-4 flex flex-wrap gap-x-4 gap-y-1 text-sm text-cream/70">
+					<ul class="mt-4 flex flex-wrap gap-x-4 gap-y-1 text-sm text-surface/70">
 						<?php foreach ( $wpis_socials as $wpis_social ) : ?>
 							<?php if ( ! empty( $wpis_social['url'] ) ) : ?>
 								<li>
-									<a href="<?php echo esc_url( $wpis_social['url'] ); ?>" class="transition-colors hover:text-cream" target="_blank" rel="noopener noreferrer">
+									<a href="<?php echo esc_url( $wpis_social['url'] ); ?>" class="transition-colors hover:text-surface" target="_blank" rel="noopener noreferrer">
 										<?php echo esc_html( ! empty( $wpis_social['label'] ) ? $wpis_social['label'] : $wpis_social['url'] ); ?>
 									</a>
 								</li>
@@ -79,7 +79,7 @@ defined( 'ABSPATH' ) || exit;
 
 		</div>
 
-		<div class="mt-14 flex flex-col items-start justify-between gap-4 border-t border-cream/10 pt-8 text-xs text-cream/50 sm:flex-row sm:items-center">
+		<div class="mt-14 flex flex-col items-start justify-between gap-4 border-t border-surface/10 pt-8 text-xs text-surface/50 sm:flex-row sm:items-center">
 			<p>&copy; <?php echo esc_html( gmdate( 'Y' ) ); ?> <?php bloginfo( 'name' ); ?>. <?php esc_html_e( 'Tous droits réservés.', 'hello-immosync' ); ?></p>
 			<p><?php echo esc_html( wpis_theme_option( 'option_footer_note', __( 'Biens immobiliers synchronisés via ImmoSync.', 'hello-immosync' ) ) ); ?></p>
 		</div>
@@ -97,11 +97,11 @@ defined( 'ABSPATH' ) || exit;
 		$wpis_rgpd_role = wpis_theme_option( 'option_rgpd_manager_role', 'gérant' );
 		$wpis_logo_id   = (int) wpis_theme_option( 'option_ipi_logo', 0 );
 		?>
-		<div class="wpis-subfooter border-t border-cream/10 bg-charcoal">
+		<div class="wpis-subfooter border-t border-surface/10 bg-text">
 			<div class="wpis-container-wide py-10">
 				<div class="flex flex-col gap-6 sm:flex-row sm:items-start">
 
-					<div class="shrink-0 self-start rounded-[var(--radius-card)] bg-cream p-3">
+					<div class="shrink-0 self-start rounded-[var(--radius-card)] bg-surface p-3">
 						<?php
 						if ( $wpis_logo_id ) {
 							echo wp_get_attachment_image(
@@ -123,8 +123,8 @@ defined( 'ABSPATH' ) || exit;
 						?>
 					</div>
 
-					<div class="text-xs leading-relaxed text-cream/45">
-						<p class="wpis-eyebrow mb-3 text-cream/60"><?php esc_html_e( 'Autorité de surveillance', 'hello-immosync' ); ?></p>
+					<div class="text-xs leading-relaxed text-surface/45">
+						<p class="wpis-eyebrow mb-3 text-surface/60"><?php esc_html_e( 'Autorité de surveillance', 'hello-immosync' ); ?></p>
 						<p>
 							<?php
 							printf(
@@ -142,7 +142,7 @@ defined( 'ABSPATH' ) || exit;
 							printf(
 								/* translators: %s: lien vers le site de l'IPI. */
 								esc_html__( 'Autorité de surveillance : IPI, rue de Luxembourg 16B, 1000 Bruxelles – Soumis au code déontologique de l’IPI : %s', 'hello-immosync' ),
-								'<a class="underline transition-colors hover:text-cream" href="https://www.ipi.be" target="_blank" rel="noopener noreferrer">www.ipi.be</a>'
+								'<a class="underline transition-colors hover:text-surface" href="https://www.ipi.be" target="_blank" rel="noopener noreferrer">www.ipi.be</a>'
 							);
 							?>
 						</p>

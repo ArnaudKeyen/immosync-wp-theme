@@ -22,9 +22,9 @@ if ( ! $wpis_coords && '' === $wpis_city ) {
 // Proximités renseignées par ImmoSync (distances formatées, affichées si présentes).
 $wpis_proximities = wpis_get_proximities( $wpis_pid );
 ?>
-<section class="wpis-section border-b border-line" aria-labelledby="wpis-lifestyle-title">
+<section class="wpis-section border-b border-border" aria-labelledby="wpis-lifestyle-title">
 	<p class="wpis-eyebrow mb-2"><?php esc_html_e( 'Le quartier', 'hello-immosync' ); ?></p>
-	<h2 id="wpis-lifestyle-title" class="font-display text-3xl text-ink">
+	<h2 id="wpis-lifestyle-title" class="font-display text-3xl text-text-strong">
 		<?php
 		if ( $wpis_city ) {
 			printf(
@@ -76,7 +76,7 @@ $wpis_proximities = wpis_get_proximities( $wpis_pid );
 				'https://www.openstreetmap.org/export/embed.html'
 			);
 			?>
-			<div class="overflow-hidden rounded-[var(--radius-card)] border border-line">
+			<div class="overflow-hidden rounded-[var(--radius-card)] border border-border">
 				<iframe
 					title="<?php esc_attr_e( 'Localisation du bien', 'hello-immosync' ); ?>"
 					src="<?php echo esc_url( $wpis_map_src ); ?>"

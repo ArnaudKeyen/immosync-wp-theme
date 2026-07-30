@@ -18,9 +18,9 @@ if ( ! $wpis_finance ) {
 	return;
 }
 ?>
-<section class="wpis-section border-b border-line" aria-labelledby="wpis-finance-title">
+<section class="wpis-section border-b border-border" aria-labelledby="wpis-finance-title">
 	<p class="wpis-eyebrow mb-2"><?php esc_html_e( 'Aspects financiers', 'hello-immosync' ); ?></p>
-	<h2 id="wpis-finance-title" class="font-display text-3xl text-ink"><?php esc_html_e( 'Conditions financières', 'hello-immosync' ); ?></h2>
+	<h2 id="wpis-finance-title" class="font-display text-3xl text-text-strong"><?php esc_html_e( 'Conditions financières', 'hello-immosync' ); ?></h2>
 
 	<dl class="mt-8 grid grid-cols-1 gap-x-12 sm:grid-cols-2">
 		<?php foreach ( $wpis_finance as $wpis_row ) : ?>
@@ -31,7 +31,7 @@ if ( ! $wpis_finance ) {
 		<?php endforeach; ?>
 	</dl>
 
-	<p class="mt-6 max-w-2xl font-body text-xs text-stone">
+	<p class="mt-6 max-w-2xl font-body text-xs text-text-secondary">
 		<?php esc_html_e( 'Informations financières communiquées à titre indicatif et sans valeur contractuelle. Renseignez-vous auprès de l’agence pour les conditions exactes.', 'hello-immosync' ); ?>
 	</p>
 </section>

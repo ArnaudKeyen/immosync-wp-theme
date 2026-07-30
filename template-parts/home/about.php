@@ -27,11 +27,11 @@ $wpis_about_image = (int) wpis_home_field( 'home_about_image', 0 );
 		<div class="grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
 			<div class="order-2 lg:order-1">
 				<?php if ( $wpis_about_image ) : ?>
-					<div class="aspect-[4/5] overflow-hidden rounded-[var(--radius-card)] bg-sand">
+					<div class="aspect-[4/5] overflow-hidden rounded-[var(--radius-card)] bg-surface-alt">
 						<?php echo wp_get_attachment_image( $wpis_about_image, 'wpis-card-2x', false, array( 'class' => 'h-full w-full object-cover' ) ); ?>
 					</div>
 				<?php else : ?>
-					<div class="aspect-[4/5] overflow-hidden rounded-[var(--radius-card)] bg-gradient-to-br from-sand to-line"></div>
+					<div class="aspect-[4/5] overflow-hidden rounded-[var(--radius-card)] bg-gradient-to-br from-surface-alt to-border"></div>
 				<?php endif; ?>
 			</div>
 			<div class="order-1 lg:order-2">

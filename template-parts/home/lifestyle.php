@@ -52,13 +52,13 @@ if ( is_array( $wpis_rows ) && $wpis_rows ) {
 			<h2 class="wpis-title"><?php echo esc_html( wpis_home_field( 'home_lifestyle_titre', __( 'Vivre dans le quartier', 'hello-immosync' ) ) ); ?></h2>
 		</div>
 
-		<div class="grid gap-px overflow-hidden rounded-[var(--radius-card)] border border-line bg-line md:grid-cols-3">
+		<div class="grid gap-px overflow-hidden rounded-[var(--radius-card)] border border-border bg-border md:grid-cols-3">
 			<?php foreach ( $wpis_items as $wpis_item ) : ?>
-				<article class="flex flex-col gap-4 bg-cream p-8 md:p-10">
+				<article class="flex flex-col gap-4 bg-surface p-8 md:p-10">
 					<span class="text-brand"><?php echo wpis_icon( $wpis_item['icon'], 'w-7 h-7' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
 					<p class="wpis-eyebrow"><?php echo esc_html( $wpis_item['eyebrow'] ); ?></p>
-					<h3 class="font-display text-2xl text-ink"><?php echo esc_html( $wpis_item['title'] ); ?></h3>
-					<p class="text-sm leading-relaxed text-stone"><?php echo esc_html( $wpis_item['text'] ); ?></p>
+					<h3 class="font-display text-2xl text-text-strong"><?php echo esc_html( $wpis_item['title'] ); ?></h3>
+					<p class="text-sm leading-relaxed text-text-secondary"><?php echo esc_html( $wpis_item['text'] ); ?></p>
 				</article>
 			<?php endforeach; ?>
 		</div>

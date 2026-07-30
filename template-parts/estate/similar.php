@@ -50,11 +50,11 @@ if ( ! $wpis_similar->have_posts() ) {
 	return;
 }
 ?>
-<section class="wpis-section bg-sand" aria-labelledby="wpis-similar-title">
+<section class="wpis-section bg-surface-alt" aria-labelledby="wpis-similar-title">
 	<div class="wpis-container-wide">
 		<div class="mb-10">
 			<p class="wpis-eyebrow mb-2"><?php esc_html_e( 'À découvrir également', 'hello-immosync' ); ?></p>
-			<h2 id="wpis-similar-title" class="font-display text-3xl text-ink"><?php esc_html_e( 'Biens similaires', 'hello-immosync' ); ?></h2>
+			<h2 id="wpis-similar-title" class="font-display text-3xl text-text-strong"><?php esc_html_e( 'Biens similaires', 'hello-immosync' ); ?></h2>
 		</div>
 
 		<div class="grid grid-cols-1 gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">

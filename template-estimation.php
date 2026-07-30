@@ -73,8 +73,8 @@ while ( have_posts() ) :
 	?>
 
 	<!-- En-tête + formulaire (le formulaire wpis est placé dès le début de la page) -->
-	<section class="relative overflow-hidden bg-ink text-cream">
-		<div class="absolute inset-0 bg-gradient-to-br from-ink via-charcoal to-brand-dark opacity-90"></div>
+	<section class="relative overflow-hidden bg-text-strong text-surface">
+		<div class="absolute inset-0 bg-gradient-to-br from-text-strong via-text to-brand-strong opacity-90"></div>
 		<div class="relative wpis-section">
 			<div class="wpis-container-wide">
 				<div class="grid items-start gap-12 lg:grid-cols-[1.05fr_1fr] lg:gap-16">
@@ -84,13 +84,13 @@ while ( have_posts() ) :
 						<?php if ( $wpis_eyebrow ) : ?>
 							<p class="wpis-eyebrow text-brand"><?php echo esc_html( $wpis_eyebrow ); ?></p>
 						<?php endif; ?>
-						<h1 class="mt-5 max-w-2xl font-display text-4xl leading-[1.05] text-cream md:text-6xl">
+						<h1 class="mt-5 max-w-2xl font-display text-4xl leading-[1.05] text-surface md:text-6xl">
 							<?php echo esc_html( $wpis_title ); ?>
 						</h1>
 						<?php if ( $wpis_subtitle ) : ?>
-							<p class="mt-6 max-w-xl font-body text-lg text-cream/80"><?php echo esc_html( $wpis_subtitle ); ?></p>
+							<p class="mt-6 max-w-xl font-body text-lg text-surface/80"><?php echo esc_html( $wpis_subtitle ); ?></p>
 						<?php elseif ( '' !== trim( get_the_content() ) ) : ?>
-							<div class="wpis-prose mt-6 max-w-xl text-lg text-cream/80 [&_p]:text-cream/80">
+							<div class="wpis-prose mt-6 max-w-xl text-lg text-surface/80 [&_p]:text-surface/80">
 								<?php the_content(); ?>
 							</div>
 						<?php endif; ?>
@@ -105,7 +105,7 @@ while ( have_posts() ) :
 							);
 							foreach ( $wpis_quick as $wpis_point ) :
 								?>
-								<li class="flex items-center gap-3 font-body text-sm text-cream/90">
+								<li class="flex items-center gap-3 font-body text-sm text-surface/90">
 									<span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-brand/20 text-brand">
 										<?php echo wpis_icon( 'check', 'w-4 h-4' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 									</span>
@@ -116,10 +116,10 @@ while ( have_posts() ) :
 					</div>
 
 					<!-- Colonne droite : formulaire wpis -->
-					<div id="estimation" class="wpis-form-shell rounded-[var(--radius-card)] bg-cream p-7 text-charcoal shadow-2xl sm:p-9 lg:sticky lg:top-28">
+					<div id="estimation" class="wpis-form-shell rounded-[var(--radius-card)] bg-surface p-7 text-text shadow-2xl sm:p-9 lg:sticky lg:top-28">
 						<p class="wpis-eyebrow mb-2"><?php esc_html_e( 'Votre estimation', 'hello-immosync' ); ?></p>
-						<h2 class="font-display text-2xl text-ink"><?php esc_html_e( 'Décrivez votre bien', 'hello-immosync' ); ?></h2>
-						<p class="mt-2 font-body text-sm text-stone"><?php esc_html_e( 'Réponse personnalisée, sans aucun engagement de votre part.', 'hello-immosync' ); ?></p>
+						<h2 class="font-display text-2xl text-text-strong"><?php esc_html_e( 'Décrivez votre bien', 'hello-immosync' ); ?></h2>
+						<p class="mt-2 font-body text-sm text-text-secondary"><?php esc_html_e( 'Réponse personnalisée, sans aucun engagement de votre part.', 'hello-immosync' ); ?></p>
 						<div class="mt-6">
 							<?php
 							if ( shortcode_exists( 'wpis-form-evaluation' ) ) {
@@ -162,11 +162,11 @@ while ( have_posts() ) :
 
 			<div class="mt-14 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
 				<?php foreach ( $wpis_arguments as $wpis_arg ) : ?>
-					<div class="flex flex-col rounded-[var(--radius-card)] border border-line bg-cream p-8">
-						<span class="flex h-12 w-12 items-center justify-center rounded-full bg-sand text-brand">
+					<div class="flex flex-col rounded-[var(--radius-card)] border border-border bg-surface p-8">
+						<span class="flex h-12 w-12 items-center justify-center rounded-full bg-surface-alt text-brand">
 							<?php echo wpis_icon( $wpis_arg['icon'], 'w-6 h-6' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 						</span>
-						<h3 class="mt-6 font-display text-xl text-ink"><?php echo esc_html( $wpis_arg['title'] ); ?></h3>
+						<h3 class="mt-6 font-display text-xl text-text-strong"><?php echo esc_html( $wpis_arg['title'] ); ?></h3>
 						<p class="wpis-prose mt-3 text-sm"><?php echo esc_html( $wpis_arg['text'] ); ?></p>
 					</div>
 				<?php endforeach; ?>
@@ -175,7 +175,7 @@ while ( have_posts() ) :
 	</section>
 
 	<!-- Déroulé : comment ça marche -->
-	<section class="wpis-section bg-sand">
+	<section class="wpis-section bg-surface-alt">
 		<div class="wpis-container">
 			<div class="mx-auto max-w-2xl text-center">
 				<p class="wpis-eyebrow mb-3"><?php esc_html_e( 'Simple et transparent', 'hello-immosync' ); ?></p>
@@ -184,9 +184,9 @@ while ( have_posts() ) :
 
 			<ol class="mt-14 grid gap-8 md:grid-cols-3">
 				<?php foreach ( $wpis_steps as $wpis_index => $wpis_step ) : ?>
-					<li class="relative rounded-[var(--radius-card)] bg-cream p-8">
+					<li class="relative rounded-[var(--radius-card)] bg-surface p-8">
 						<span class="font-display text-5xl text-brand/30"><?php echo esc_html( sprintf( '%02d', $wpis_index + 1 ) ); ?></span>
-						<h3 class="mt-4 font-display text-xl text-ink"><?php echo esc_html( $wpis_step['title'] ); ?></h3>
+						<h3 class="mt-4 font-display text-xl text-text-strong"><?php echo esc_html( $wpis_step['title'] ); ?></h3>
 						<p class="wpis-prose mt-3 text-sm"><?php echo esc_html( $wpis_step['text'] ); ?></p>
 					</li>
 				<?php endforeach; ?>
@@ -208,9 +208,9 @@ while ( have_posts() ) :
 		?>
 		<section class="wpis-section pt-0">
 			<div class="wpis-container">
-				<div class="flex flex-col items-center gap-6 rounded-[var(--radius-card)] border border-line bg-cream p-10 text-center md:flex-row md:justify-between md:text-left">
+				<div class="flex flex-col items-center gap-6 rounded-[var(--radius-card)] border border-border bg-surface p-10 text-center md:flex-row md:justify-between md:text-left">
 					<div class="max-w-xl">
-						<h2 class="font-display text-2xl text-ink"><?php esc_html_e( 'Une question avant de vous lancer ?', 'hello-immosync' ); ?></h2>
+						<h2 class="font-display text-2xl text-text-strong"><?php esc_html_e( 'Une question avant de vous lancer ?', 'hello-immosync' ); ?></h2>
 						<p class="wpis-prose mt-2 text-sm"><?php esc_html_e( 'Nos conseillers sont à votre écoute pour vous guider, en toute simplicité.', 'hello-immosync' ); ?></p>
 					</div>
 					<a href="<?php echo esc_url( get_permalink( $wpis_contact ) ); ?>" class="wpis-btn-outline shrink-0">

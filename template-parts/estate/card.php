@@ -27,7 +27,7 @@ $wpis_link = get_permalink($wpis_pid);
 		<?php // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
       // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
       else: ?>
-			<span class="flex h-full w-full items-center justify-center text-mist"><?php echo wpis_icon(
+			<span class="flex h-full w-full items-center justify-center text-text-muted"><?php echo wpis_icon(
        "location",
        "w-8 h-8",
    );
@@ -42,12 +42,12 @@ $wpis_link = get_permalink($wpis_pid);
 		</div>
 
 		<?php if ($wpis_sold): ?>
-			<div class="absolute inset-0 bg-ink/10"></div>
+			<div class="absolute inset-0 bg-text-strong/10"></div>
 		<?php endif; ?>
 	</a>
 
 	<div class="flex flex-1 flex-col px-5 py-5">
-		<p class="wpis-eyebrow mb-2 flex items-center gap-2 text-stone">
+		<p class="wpis-eyebrow mb-2 flex items-center gap-2 text-text-secondary">
 			<?php
    $wpis_cat = wpis_get_category($wpis_pid);
    $wpis_loc = wpis_get_location($wpis_pid);
@@ -55,7 +55,7 @@ $wpis_link = get_permalink($wpis_pid);
    ?>
 		</p>
 
-		<h3 class="font-display text-2xl leading-snug text-ink">
+		<h3 class="font-display text-2xl leading-snug text-text-strong">
 			<a href="<?php echo esc_url(
        $wpis_link,
    ); ?>" class="transition-colors hover:text-brand"><?php echo esc_html(
@@ -65,14 +65,14 @@ $wpis_link = get_permalink($wpis_pid);
 
 		<?php $wpis_excerpt = wpis_get_excerpt($wpis_pid, 18); ?>
 		<?php if ("" !== $wpis_excerpt): ?>
-			<p class="mt-2 text-sm leading-relaxed text-stone"><?php echo esc_html(
+			<p class="mt-2 text-sm leading-relaxed text-text-secondary"><?php echo esc_html(
        $wpis_excerpt,
    ); ?></p>
 		<?php endif; ?>
 
 		<?php $wpis_features = wpis_get_estate_features($wpis_pid, true); ?>
 		<?php if ($wpis_features): ?>
-			<ul class="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2 border-t border-line pt-4 text-sm text-charcoal">
+			<ul class="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2 border-t border-border pt-4 text-sm text-text">
 				<?php foreach ($wpis_features as $wpis_feature): ?>
 					<li class="flex items-center gap-1.5">
 						<span class="text-brand"><?php echo wpis_icon($wpis_feature["icon"], "w-4 h-4");
@@ -85,7 +85,7 @@ $wpis_link = get_permalink($wpis_pid);
 		<?php endif; ?>
 
 		<div class="mt-5 flex items-center justify-between">
-			<p class="font-display text-xl text-ink"><?php echo esc_html(
+			<p class="font-display text-xl text-text-strong"><?php echo esc_html(
        wpis_get_price($wpis_pid),
    ); ?></p>
 			<a href="<?php echo esc_url($wpis_link); ?>" class="wpis-btn-ghost text-xs">

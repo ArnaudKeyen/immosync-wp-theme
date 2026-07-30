@@ -16,9 +16,9 @@ $wpis_phone  = $wpis_agent['phone'] ? $wpis_agent['phone'] : $wpis_agency['phone
 <aside class="space-y-6">
 
 	<!-- Synthèse prix -->
-	<div class="rounded-[var(--radius-card)] border border-line bg-white p-7">
+	<div class="rounded-[var(--radius-card)] border border-border bg-white p-7">
 		<p class="wpis-eyebrow mb-2"><?php echo esc_html( wpis_get_purpose( $wpis_pid ) ? wpis_get_purpose( $wpis_pid ) : __( 'Prix', 'hello-immosync' ) ); ?></p>
-		<p class="font-display text-4xl text-ink"><?php echo esc_html( wpis_get_price( $wpis_pid ) ); ?></p>
+		<p class="font-display text-4xl text-text-strong"><?php echo esc_html( wpis_get_price( $wpis_pid ) ); ?></p>
 
 		<dl class="mt-6 space-y-1">
 			<?php $wpis_ref = wpis_get_reference( $wpis_pid ); ?>
@@ -40,7 +40,7 @@ $wpis_phone  = $wpis_agent['phone'] ? $wpis_agent['phone'] : $wpis_agency['phone
 
 	<!-- Agent / agence -->
 	<?php if ( '' !== $wpis_agent['name'] || '' !== $wpis_agency['name'] ) : ?>
-		<div class="rounded-[var(--radius-card)] border border-line bg-white p-7">
+		<div class="rounded-[var(--radius-card)] border border-border bg-white p-7">
 			<p class="wpis-eyebrow mb-4"><?php esc_html_e( 'Votre contact', 'hello-immosync' ); ?></p>
 			<div class="flex items-center gap-4">
 				<?php if ( '' !== $wpis_agent['picture'] ) : ?>
@@ -48,23 +48,23 @@ $wpis_phone  = $wpis_agent['phone'] ? $wpis_agent['phone'] : $wpis_agency['phone
 				<?php endif; ?>
 				<div>
 					<?php if ( '' !== $wpis_agent['name'] ) : ?>
-						<p class="font-display text-xl text-ink"><?php echo esc_html( $wpis_agent['name'] ); ?></p>
+						<p class="font-display text-xl text-text-strong"><?php echo esc_html( $wpis_agent['name'] ); ?></p>
 					<?php endif; ?>
 					<?php if ( '' !== $wpis_agency['name'] ) : ?>
-						<p class="text-sm text-stone"><?php echo esc_html( $wpis_agency['name'] ); ?></p>
+						<p class="text-sm text-text-secondary"><?php echo esc_html( $wpis_agency['name'] ); ?></p>
 					<?php endif; ?>
 				</div>
 			</div>
 
 			<div class="mt-6 space-y-3">
 				<?php if ( '' !== $wpis_phone ) : ?>
-					<a href="tel:<?php echo esc_attr( preg_replace( '/\s+/', '', $wpis_phone ) ); ?>" class="flex items-center gap-3 text-sm text-charcoal transition-colors hover:text-brand">
+					<a href="tel:<?php echo esc_attr( preg_replace( '/\s+/', '', $wpis_phone ) ); ?>" class="flex items-center gap-3 text-sm text-text transition-colors hover:text-brand">
 						<span class="text-brand"><?php echo wpis_icon( 'phone', 'w-4 h-4' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
 						<?php echo esc_html( $wpis_phone ); ?>
 					</a>
 				<?php endif; ?>
 				<?php if ( '' !== $wpis_email ) : ?>
-					<a href="mailto:<?php echo esc_attr( $wpis_email ); ?>" class="flex items-center gap-3 text-sm text-charcoal transition-colors hover:text-brand">
+					<a href="mailto:<?php echo esc_attr( $wpis_email ); ?>" class="flex items-center gap-3 text-sm text-text transition-colors hover:text-brand">
 						<span class="text-brand"><?php echo wpis_icon( 'mail', 'w-4 h-4' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
 						<?php echo esc_html( $wpis_email ); ?>
 					</a>
@@ -74,9 +74,9 @@ $wpis_phone  = $wpis_agent['phone'] ? $wpis_agent['phone'] : $wpis_agency['phone
 	<?php endif; ?>
 
 	<!-- Formulaire de contact (shortcode plugin) -->
-	<div class="rounded-[var(--radius-card)] border border-line bg-sand p-7">
+	<div class="rounded-[var(--radius-card)] border border-border bg-surface-alt p-7">
 		<p class="wpis-eyebrow mb-2"><?php esc_html_e( 'Intéressé(e) ?', 'hello-immosync' ); ?></p>
-		<h3 class="font-display text-2xl text-ink"><?php esc_html_e( 'Demander une visite', 'hello-immosync' ); ?></h3>
+		<h3 class="font-display text-2xl text-text-strong"><?php esc_html_e( 'Demander une visite', 'hello-immosync' ); ?></h3>
 		<div class="wpis-form-shell mt-5">
 			<?php
 			if ( shortcode_exists( 'wpis-form-estate' ) ) {

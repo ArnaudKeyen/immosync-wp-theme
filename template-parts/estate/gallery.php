@@ -56,7 +56,7 @@ $wpis_count_label = sprintf(
 			}
 			?>
 			<button type="button"
-				class="group relative block overflow-hidden rounded-[var(--radius-card)] bg-sand <?php echo esc_attr( $wpis_tile_class ); ?>"
+				class="group relative block overflow-hidden rounded-[var(--radius-card)] bg-surface-alt <?php echo esc_attr( $wpis_tile_class ); ?>"
 				data-wpis-gallery-open
 				data-index="<?php echo (int) $wpis_i; ?>"
 				aria-label="<?php esc_attr_e( 'Voir toutes les photos', 'hello-immosync' ); ?>">
@@ -86,13 +86,13 @@ $wpis_count_label = sprintf(
 						</span>
 					<?php endif; ?>
 
-					<span class="pointer-events-none absolute bottom-4 right-4 rounded-[var(--radius-card)] bg-ink/75 px-3 py-1.5 font-body text-xs font-medium text-cream backdrop-blur">
+					<span class="pointer-events-none absolute bottom-4 right-4 rounded-[var(--radius-card)] bg-text-strong/75 px-3 py-1.5 font-body text-xs font-medium text-surface backdrop-blur">
 						<?php echo $wpis_count_label; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped — entier formaté via _n(). ?>
 					</span>
 				<?php endif; ?>
 
 				<?php if ( $wpis_show_more ) : ?>
-					<span class="absolute inset-0 flex items-center justify-center bg-ink/55 font-display text-2xl text-cream transition-colors group-hover:bg-ink/65">
+					<span class="absolute inset-0 flex items-center justify-center bg-text-strong/55 font-display text-2xl text-surface transition-colors group-hover:bg-text-strong/65">
 						<?php
 						printf(
 							/* translators: %d: nombre de photos supplémentaires. */

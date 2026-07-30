@@ -9,20 +9,24 @@
 @source "../../../../*/**/*.php";
 
 /* ---------------------------------------------------------------------------
- * Design tokens — valeurs premium neutres par défaut.
- * Le thème enfant surcharge ces variables via :root dans sa
- * propre feuille de style, sans nécessiter de rebuild Tailwind.
+ * Design tokens — nommés par FONCTION, jamais par couleur (le parent est
+ * agnostique : chaque agence re-skinne via le thème enfant). Valeurs par
+ * défaut = palette premium neutre. Le thème enfant surcharge ces variables
+ * via :root dans sa propre feuille, sans rebuild Tailwind.
+ *
+ * Note dual-usage : `text-strong` sert aussi d'aplat sombre (bg-text-strong)
+ * et `surface` sert aussi de texte réversé sur fond sombre (text-surface).
  * ------------------------------------------------------------------------- */
 @theme {
-	--color-ink: #16140f;        /* Noir chaud (titres, header). */
-	--color-charcoal: #2a2722;   /* Texte courant. */
-	--color-stone: #6f665b;      /* Texte secondaire. */
-	--color-mist: #9a9388;       /* Texte tertiaire / méta. */
-	--color-line: #e6dfd3;       /* Bordures fines. */
-	--color-sand: #f1ebe0;       /* Fond alterné. */
-	--color-cream: #fbf9f4;      /* Fond principal. */
-	--color-brand: #a07d4f;      /* Accent laiton/or. */
-	--color-brand-dark: #7f6238; /* Accent foncé (hover). */
+	--color-text-strong: #16140f;   /* Titres, header, aplats sombres, boutons pleins. */
+	--color-text: #2a2722;          /* Texte courant / body. */
+	--color-text-secondary: #6f665b;/* Texte secondaire. */
+	--color-text-muted: #9a9388;    /* Tertiaire / méta / placeholders. */
+	--color-border: #e6dfd3;        /* Bordures fines. */
+	--color-surface-alt: #f1ebe0;   /* Fond alterné. */
+	--color-surface: #fbf9f4;       /* Fond principal (et texte sur fond sombre). */
+	--color-brand: #a07d4f;         /* Accent de marque. */
+	--color-brand-strong: #7f6238;  /* État survol / actif de la marque. */
 
 	--font-display: "Cormorant Garamond", Georgia, "Times New Roman", serif;
 	--font-body: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
@@ -38,7 +42,7 @@
  * ------------------------------------------------------------------------- */
 @layer base {
 	body {
-		@apply flex min-h-screen flex-col bg-cream text-charcoal font-body antialiased;
+		@apply flex min-h-screen flex-col bg-surface text-text font-body antialiased;
 		font-feature-settings: "kern", "liga";
 	}
 
@@ -47,7 +51,7 @@
 	}
 
 	h1, h2, h3, h4 {
-		@apply font-display text-ink;
+		@apply font-display text-text-strong;
 		font-weight: 500;
 		letter-spacing: -0.01em;
 	}
@@ -84,33 +88,33 @@
 	}
 
 	.wpis-title {
-		@apply font-display text-4xl md:text-5xl leading-[1.05] text-ink;
+		@apply font-display text-4xl md:text-5xl leading-[1.05] text-text-strong;
 	}
 
 	/* Boutons */
 	.wpis-btn {
-		@apply inline-flex items-center justify-center gap-2 rounded-[var(--radius-card)] bg-ink px-7 py-3.5 font-body text-sm font-medium uppercase tracking-[0.12em] text-cream transition-all duration-300 hover:bg-brand-dark;
+		@apply inline-flex items-center justify-center gap-2 rounded-[var(--radius-card)] bg-text-strong px-7 py-3.5 font-body text-sm font-medium uppercase tracking-[0.12em] text-surface transition-all duration-300 hover:bg-brand-strong;
 	}
 
 	.wpis-btn-outline {
-		@apply inline-flex items-center justify-center gap-2 rounded-[var(--radius-card)] border border-ink/25 px-7 py-3.5 font-body text-sm font-medium uppercase tracking-[0.12em] text-ink transition-all duration-300 hover:border-ink hover:bg-ink hover:text-cream;
+		@apply inline-flex items-center justify-center gap-2 rounded-[var(--radius-card)] border border-text-strong/25 px-7 py-3.5 font-body text-sm font-medium uppercase tracking-[0.12em] text-text-strong transition-all duration-300 hover:border-text-strong hover:bg-text-strong hover:text-surface;
 	}
 
 	.wpis-btn-ghost {
-		@apply inline-flex items-center gap-2 font-body text-sm font-medium uppercase tracking-[0.12em] text-ink transition-colors hover:text-brand;
+		@apply inline-flex items-center gap-2 font-body text-sm font-medium uppercase tracking-[0.12em] text-text-strong transition-colors hover:text-brand;
 	}
 
 	/* Badges / puces de statut */
 	.wpis-badge {
-		@apply inline-flex items-center rounded-[var(--radius-pill)] bg-cream/90 px-3 py-1 font-body text-[11px] font-semibold uppercase tracking-[0.14em] text-ink backdrop-blur;
+		@apply inline-flex items-center rounded-[var(--radius-pill)] bg-surface/90 px-3 py-1 font-body text-[11px] font-semibold uppercase tracking-[0.14em] text-text-strong backdrop-blur;
 	}
 
 	.wpis-badge-brand {
-		@apply bg-brand text-cream;
+		@apply bg-brand text-surface;
 	}
 
 	.wpis-badge-sold {
-		@apply bg-ink text-cream;
+		@apply bg-text-strong text-surface;
 	}
 
 	/* Carte de bien */
@@ -119,7 +123,7 @@
 	}
 
 	.wpis-card-media {
-		@apply relative aspect-[4/3] overflow-hidden bg-sand;
+		@apply relative aspect-[4/3] overflow-hidden bg-surface-alt;
 	}
 
 	.wpis-card-img {
@@ -128,29 +132,29 @@
 
 	/* Champs de formulaire / recherche */
 	.wpis-field {
-		@apply w-full rounded-[var(--radius-card)] border border-line bg-white px-4 py-3 font-body text-sm text-charcoal placeholder:text-mist focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand;
+		@apply w-full rounded-[var(--radius-card)] border border-border bg-white px-4 py-3 font-body text-sm text-text placeholder:text-text-muted focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand;
 	}
 
 	.wpis-field-label {
-		@apply mb-1.5 block font-body text-[11px] font-medium uppercase tracking-[0.16em] text-stone;
+		@apply mb-1.5 block font-body text-[11px] font-medium uppercase tracking-[0.16em] text-text-secondary;
 	}
 
 	/* Liste de caractéristiques (fiche bien) */
 	.wpis-spec {
-		@apply flex items-baseline justify-between gap-4 border-b border-line py-3;
+		@apply flex items-baseline justify-between gap-4 border-b border-border py-3;
 	}
 
 	.wpis-spec-label {
-		@apply font-body text-sm text-stone;
+		@apply font-body text-sm text-text-secondary;
 	}
 
 	.wpis-spec-value {
-		@apply font-body text-sm font-medium text-ink;
+		@apply font-body text-sm font-medium text-text-strong;
 	}
 
 	/* Contenu éditorial */
 	.wpis-prose {
-		@apply font-body text-base leading-relaxed text-charcoal;
+		@apply font-body text-base leading-relaxed text-text;
 	}
 
 	.wpis-prose p {
@@ -175,15 +179,15 @@
 
 .wpis-form {
 	/* Skin (surchargé par le thème enfant via les tokens --color-*). */
-	--wpis-form-text: var(--color-charcoal);
-	--wpis-form-muted: var(--color-stone);
+	--wpis-form-text: var(--color-text);
+	--wpis-form-muted: var(--color-text-secondary);
 	--wpis-form-field-bg: #ffffff;
-	--wpis-form-field-border: var(--color-line);
-	--wpis-form-field-border-hover: var(--color-mist);
+	--wpis-form-field-border: var(--color-border);
+	--wpis-form-field-border-hover: var(--color-text-muted);
 	--wpis-form-accent: var(--color-brand);
-	--wpis-form-button-bg: var(--color-ink);
-	--wpis-form-button-bg-hover: var(--color-brand-dark);
-	--wpis-form-button-text: var(--color-cream);
+	--wpis-form-button-bg: var(--color-text-strong);
+	--wpis-form-button-bg-hover: var(--color-brand-strong);
+	--wpis-form-button-text: var(--color-surface);
 	--wpis-form-radius: var(--radius-card);
 
 	--wpis-form-gap: 18px;
@@ -261,7 +265,7 @@
 
 .wpis-form .form-input::placeholder,
 .wpis-form textarea::placeholder {
-	color: var(--color-mist);
+	color: var(--color-text-muted);
 }
 
 .wpis-form .form-input:not([type="checkbox"]):not([type="submit"]):hover,
@@ -399,10 +403,10 @@
 	font-weight: 500;
 	line-height: 1.2;
 	letter-spacing: -0.01em;
-	color: var(--color-ink);
+	color: var(--color-text-strong);
 	margin: 0;
 	padding-bottom: 10px;
-	border-bottom: 1px solid var(--color-line);
+	border-bottom: 1px solid var(--color-border);
 }
 
 .wpis-form .wpis-form-section-title:not(:first-child) {
@@ -459,19 +463,69 @@
 	}
 }
 
+/* -------------------------------------------------------------------------
+ * Estimation — le formulaire vit dans une colonne droite plus étroite que le
+ * seuil global de 560px (≈552px sur un portable 1440px). On abaisse le seuil à
+ * 440px UNIQUEMENT pour ce contexte (modificateur .wpis-form-shell--estimation)
+ * afin de réactiver la grille dès ~1200px, sans toucher la sidebar fiche bien.
+ * ----------------------------------------------------------------------- */
+@container (min-width: 440px) {
+	.wpis-form-shell--estimation .wpis-form {
+		grid-template-columns: repeat(12, minmax(0, 1fr));
+	}
+
+	.wpis-form-shell--estimation .wpis-form > * {
+		grid-column: 1 / -1;
+	}
+
+	.wpis-form-shell--estimation .form-group__gender,
+	.wpis-form-shell--estimation .form-group__firstname,
+	.wpis-form-shell--estimation .form-group__lastname {
+		grid-column: span 4;
+	}
+
+	.wpis-form-shell--estimation .form-group__email,
+	.wpis-form-shell--estimation .form-group__phone {
+		grid-column: span 6;
+	}
+
+	.wpis-form-shell--estimation .form-group__addressStreet {
+		grid-column: span 6;
+	}
+
+	.wpis-form-shell--estimation .form-group__addressNumber,
+	.wpis-form-shell--estimation .form-group__addressBox {
+		grid-column: span 3;
+	}
+
+	.wpis-form-shell--estimation .form-group__addressZip {
+		grid-column: span 4;
+	}
+
+	.wpis-form-shell--estimation .form-group__addressCity {
+		grid-column: span 8;
+	}
+
+	.wpis-form-shell--estimation .wpis-form button,
+	.wpis-form-shell--estimation .wpis-form input[type="submit"] {
+		width: auto;
+		max-width: 320px;
+	}
+}
+
 /* =========================================================================
  * GALERIE FICHE BIEN — habillage de la modal Swiper sur fond sombre.
  * Variables Swiper surchargées pour des contrôles couleur crème.
  * ===================================================================== */
 .wpis-gallery-modal {
-	--swiper-theme-color: var(--color-cream);
-	--swiper-navigation-color: var(--color-cream);
-	--swiper-pagination-color: var(--color-cream);
+	--swiper-theme-color: var(--color-surface);
+	--swiper-navigation-color: var(--color-surface);
+	--swiper-pagination-color: var(--color-surface);
 	--swiper-navigation-size: 30px;
 }
 
 .wpis-gallery-modal .swiper-pagination {
-	color: var(--color-cream);
+	color: var(--color-surface);
 	font-family: var(--font-body);
 	font-size: 0.9rem;
 	letter-spacing: 0.05em;

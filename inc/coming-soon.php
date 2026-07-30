@@ -132,8 +132,8 @@ function wpis_render_coming_soon_page() {
 	<link rel="stylesheet" href="<?php echo esc_url( $fonts_url ); ?>">
 	<style>
 		:root {
-			--cs-ink: var(--color-ink, #19150f);
-			--cs-cream: var(--color-cream, #fdfbf7);
+			--cs-ink: var(--color-text-strong, #19150f);
+			--cs-cream: var(--color-surface, #fdfbf7);
 			--cs-brand: var(--color-brand, #b6925a);
 			--cs-line: rgba(253, 251, 247, 0.18);
 			--cs-font-display: var(--font-display, "Fraunces", Georgia, serif);

@@ -37,9 +37,9 @@ $wpis_colors = array(
 );
 $wpis_active = '' !== $wpis_epc_label ? $wpis_epc_label[0] : '';
 ?>
-<section class="wpis-section border-b border-line" aria-labelledby="wpis-energy-title">
+<section class="wpis-section border-b border-border" aria-labelledby="wpis-energy-title">
 	<p class="wpis-eyebrow mb-2"><?php esc_html_e( 'Performance énergétique', 'hello-immosync' ); ?></p>
-	<h2 id="wpis-energy-title" class="font-display text-3xl text-ink"><?php esc_html_e( 'Énergie & PEB', 'hello-immosync' ); ?></h2>
+	<h2 id="wpis-energy-title" class="font-display text-3xl text-text-strong"><?php esc_html_e( 'Énergie & PEB', 'hello-immosync' ); ?></h2>
 
 	<div class="mt-8 grid gap-10 lg:grid-cols-2">
 		<?php if ( '' !== $wpis_epc_badge ) : ?>
@@ -57,10 +57,10 @@ $wpis_active = '' !== $wpis_epc_label ? $wpis_epc_label[0] : '';
 								<?php echo esc_html( $wpis_letter ); ?>
 							</span>
 							<?php if ( $wpis_is_active ) : ?>
-								<span class="font-body text-sm font-medium text-ink">
+								<span class="font-body text-sm font-medium text-text-strong">
 									&#9664; <?php echo esc_html( $wpis_energy['label'] ); ?>
 									<?php if ( '' !== $wpis_energy['value'] ) : ?>
-										<span class="text-stone">(<?php echo esc_html( $wpis_energy['value'] ); ?> kWh/m²·an)</span>
+										<span class="text-text-secondary">(<?php echo esc_html( $wpis_energy['value'] ); ?> kWh/m²·an)</span>
 									<?php endif; ?>
 								</span>
 							<?php endif; ?>

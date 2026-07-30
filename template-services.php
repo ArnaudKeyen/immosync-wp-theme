@@ -44,9 +44,9 @@ while ( have_posts() ) :
 			<div class="wpis-container-wide">
 				<div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
 					<?php foreach ( $wpis_children as $wpis_child ) : ?>
-						<a href="<?php echo esc_url( get_permalink( $wpis_child ) ); ?>" class="group flex flex-col rounded-[var(--radius-card)] border border-line bg-cream p-8 transition-colors hover:border-ink">
+						<a href="<?php echo esc_url( get_permalink( $wpis_child ) ); ?>" class="group flex flex-col rounded-[var(--radius-card)] border border-border bg-surface p-8 transition-colors hover:border-text-strong">
 							<?php if ( has_post_thumbnail( $wpis_child ) ) : ?>
-								<div class="mb-6 aspect-[4/3] overflow-hidden rounded-[var(--radius-card)] bg-sand">
+								<div class="mb-6 aspect-[4/3] overflow-hidden rounded-[var(--radius-card)] bg-surface-alt">
 									<?php
 									echo get_the_post_thumbnail(
 										$wpis_child,
@@ -59,7 +59,7 @@ while ( have_posts() ) :
 									?>
 								</div>
 							<?php endif; ?>
-							<h2 class="font-display text-2xl text-ink"><?php echo esc_html( get_the_title( $wpis_child ) ); ?></h2>
+							<h2 class="font-display text-2xl text-text-strong"><?php echo esc_html( get_the_title( $wpis_child ) ); ?></h2>
 							<?php $wpis_child_ex = get_the_excerpt( $wpis_child ); ?>
 							<?php if ( $wpis_child_ex ) : ?>
 								<p class="wpis-prose mt-3 text-sm"><?php echo esc_html( wp_trim_words( $wpis_child_ex, 22 ) ); ?></p>

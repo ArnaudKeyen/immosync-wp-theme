@@ -18,14 +18,14 @@ $wpis_price = wpis_get_price( $wpis_pid );
 			<div class="max-w-3xl">
 				<h1 class="wpis-title"><?php echo esc_html( wpis_get_title( $wpis_pid ) ); ?></h1>
 				<?php if ( '' !== $wpis_loc ) : ?>
-					<p class="mt-3 flex items-center gap-2 font-body text-stone">
+					<p class="mt-3 flex items-center gap-2 font-body text-text-secondary">
 						<?php echo wpis_icon( 'location', 'w-4 h-4' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped — SVG inline du thème. ?>
 						<?php echo esc_html( $wpis_loc ); ?>
 					</p>
 				<?php endif; ?>
 			</div>
 			<?php if ( '' !== $wpis_price ) : ?>
-				<span class="font-display text-3xl text-ink md:text-4xl"><?php echo esc_html( $wpis_price ); ?></span>
+				<span class="font-display text-3xl text-text-strong md:text-4xl"><?php echo esc_html( $wpis_price ); ?></span>
 			<?php endif; ?>
 		</div>
 	</div>

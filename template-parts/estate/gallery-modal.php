@@ -19,14 +19,14 @@ if ( empty( $wpis_gallery ) ) {
 	return;
 }
 ?>
-<div class="wpis-gallery-modal fixed inset-0 z-[200] hidden bg-ink/95"
+<div class="wpis-gallery-modal fixed inset-0 z-[200] hidden bg-text-strong/95"
 	data-wpis-gallery-modal
 	role="dialog"
 	aria-modal="true"
 	aria-label="<?php esc_attr_e( 'Galerie photos', 'hello-immosync' ); ?>">
 
 	<button type="button"
-		class="absolute right-4 top-4 z-10 flex h-11 w-11 items-center justify-center text-2xl text-cream/70 transition-colors hover:text-cream"
+		class="absolute right-4 top-4 z-10 flex h-11 w-11 items-center justify-center text-2xl text-surface/70 transition-colors hover:text-surface"
 		data-wpis-gallery-close
 		aria-label="<?php esc_attr_e( 'Fermer', 'hello-immosync' ); ?>">&#10005;</button>
 

@@ -36,6 +36,39 @@ add_action( 'wp_enqueue_scripts', function () {
 }, 20 );
 ```
 
+## Surcharger la palette
+
+Les tokens de couleur sont nommés **par fonction**, pas par teinte : un enfant peut donc passer
+d'une palette chaude à une palette froide sans qu'aucun nom ne devienne mensonger. Redéfinir les
+variables dans `assets/css/style.css` suffit — les utilitaires Tailwind du parent (`bg-surface`,
+`text-text-strong`, `border-border`…) suivent automatiquement.
+
+| Token | Rôle |
+|---|---|
+| `--color-text-strong` | Titres, header, aplats sombres, boutons pleins |
+| `--color-text` | Texte courant / body |
+| `--color-text-secondary` | Texte secondaire |
+| `--color-text-muted` | Tertiaire, méta, placeholders |
+| `--color-border` | Bordures fines |
+| `--color-surface-alt` | Fond alterné |
+| `--color-surface` | Fond principal (et texte sur fond sombre) |
+| `--color-brand` | Accent de marque |
+| `--color-brand-strong` | État survol / actif de la marque |
+
+```css
+:root {
+    --color-text-strong: #0e1f40;
+    --color-surface: #edeef5;
+    --color-brand: #ecc747;
+}
+```
+
+Penser aussi aux slugs de la palette de `theme.json`, qui doivent reprendre les mêmes noms pour que
+l'éditeur de blocs reste cohérent avec le front.
+
+> Ces noms datent de la **0.4.0**. Avant, ils portaient un nom de couleur (`ink`, `cream`,
+> `charcoal`…) — voir la table de migration dans le `CHANGELOG.md`.
+
 ## Surcharger les polices
 
 ```php
