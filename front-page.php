@@ -2,6 +2,9 @@
 /**
  * Page d'accueil premium.
  *
+ * L'ordre et la visibilité des blocs sont réglables depuis « Réglages du thème →
+ * Page d'accueil » : voir inc/home-sections.php pour le registre.
+ *
  * @package HelloImmoSync
  */
 
@@ -9,12 +12,6 @@ defined( 'ABSPATH' ) || exit;
 
 get_header();
 
-get_template_part( 'template-parts/global/page-hero', null, array( 'variant' => 'home' ) );
-get_template_part( 'template-parts/home/featured' );
-get_template_part( 'template-parts/home/find-your-place' );
-get_template_part( 'template-parts/home/lifestyle' );
-get_template_part( 'template-parts/home/offmarket' );
-get_template_part( 'template-parts/home/about' );
-get_template_part( 'template-parts/home/cta-seller' );
+wpis_render_home_sections();
 
 get_footer();

@@ -29,6 +29,13 @@ La page « Accueil » (réglée dans *Réglages → Lecture*) porte deux groupes
 **Hero de page** + **Page d'accueil — sections** (onglets : Find your place, Art de vivre,
 Off-market, L'agence, CTA vendeur). La section « Biens d'exception » est automatique (plugin).
 
+**Ordre des blocs** : menu **Réglages du thème → Page d'accueil** (page d'options
+`wpis-theme-home`) — répéteur triable par glisser-déposer + interrupteur par bloc (hero, biens en
+vedette, localités, cadre de vie, off-market, agence, CTA vendeur). Même mécanique que les sections
+de fiche de bien : registre `wpis_get_home_section_registry()` (filtrable) rendu par
+`wpis_render_home_sections()` dans `front-page.php` (`inc/home-sections.php`). Un bloc ajouté par une
+mise à jour apparaît automatiquement en fin de liste, activé.
+
 **Boutons exposés** (pas de retour au code pour les demandes courantes) — ex. *Find your place* :
 mode **Auto** (villes les plus fréquentes) ou **Manuel** (le client choisit dans une liste
 **alimentée par les villes réelles des biens**). Même logique à généraliser sur les sections à
