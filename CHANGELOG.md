@@ -13,8 +13,18 @@ le [versionnage sémantique](https://semver.org/lang/fr/) :
 
 ## [Non publié]
 
+## [0.5.0] — 2026-07-31
+
 ### Ajouté
 
+- **Page d'accueil modulable** (`inc/home-sections.php`) : `front-page.php` n'enchaîne plus des
+  `get_template_part()` en dur mais parcourt un registre canonique filtrable
+  (`wpis_get_home_section_registry()`, rendu par `wpis_render_home_sections()`). L'ordre et la
+  visibilité des sept blocs (hero, biens en vedette, localités, cadre de vie, off-market, agence,
+  CTA vendeur) se règlent par glisser-déposer dans **Réglages du thème → Page d'accueil** (page
+  d'options `wpis-theme-home`). Même mécanique que les sections de fiche de bien, avec en plus une
+  clé `args` transmise au template-part (nécessaire au hero). Un bloc absent des réglages
+  enregistrés est ajouté en fin de liste, activé.
 - **Trois niveaux de disponibilité** via `wpis_get_status_level()` : `available`, `pending`
   (Option, Sous compromis, Offre en cours, Réservé, Vendu sous conditions) et `sold`. Nouveau
   filtre `wpis_pending_statuses` pour la liste intermédiaire, en pendant du `wpis_sold_statuses`
@@ -169,6 +179,7 @@ système de contenu ACF et données structurées.
   `wpis-gallery`).
 - Point d'extension polices via le filtre `wpis_fonts_url`.
 
-[Non publié]: https://github.com/ArnaudKeyen/immosync-wp-theme/compare/v0.2.0...HEAD
+[Non publié]: https://github.com/ArnaudKeyen/immosync-wp-theme/compare/v0.5.0...HEAD
+[0.5.0]: https://github.com/ArnaudKeyen/immosync-wp-theme/compare/v0.4.0...v0.5.0
 [0.2.0]: https://github.com/ArnaudKeyen/immosync-wp-theme/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/ArnaudKeyen/immosync-wp-theme/releases/tag/v0.1.0
