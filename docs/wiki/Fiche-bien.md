@@ -131,4 +131,9 @@ jamais via `get_post_meta()` brut — voir **[[Architecture]]**. Principaux :
 `wpis_get_price()`, `wpis_is_price_hidden()`, `wpis_get_location()`, `wpis_get_estate_features()`,
 `wpis_get_area_breakdown()`, `wpis_get_amenities()`, `wpis_get_proximities()`, `wpis_get_gallery()`,
 `wpis_get_links()`, `wpis_get_energy()`, `wpis_get_agent()`, `wpis_get_agency()`,
-`wpis_get_finance_details()`, `wpis_is_sold()`.
+`wpis_get_finance_details()`, `wpis_get_status_level()`, `wpis_is_sold()`.
+
+Le **niveau de disponibilité** se lit via `wpis_get_status_level()`, qui renvoie `available`,
+`pending` (Option, Sous compromis, Offre en cours…) ou `sold` à partir de `wpis_status_label`.
+`wpis_is_sold()` n'est qu'un raccourci pour le palier `sold`. Les deux listes de termes sont
+filtrables : `wpis_pending_statuses` et `wpis_sold_statuses`.

@@ -140,23 +140,90 @@ function wpis_get_status( $post_id = null ) {
 }
 
 /**
- * Le bien est-il vendu / loué (indisponible) ?
+ * Niveau de disponibilité déduit du libellé de statut.
+ *
+ * Trois paliers, du plus contraint au plus ouvert :
+ *   - 'sold'      : transaction terminée (Vendu, Loué…) ;
+ *   - 'pending'   : transaction engagée mais pas actée (Option, Sous compromis,
+ *                   Offre en cours…) — le bien reste visible et valorisé ;
+ *   - 'available' : statut renseigné et disponible (Nouveau, À vendre, Actif…).
+ *
+ * Les listes sont testées dans l'ordre pending → sold : « vendu sous conditions »
+ * doit rester un compromis, pas une vente, alors qu'il contient « vendu ».
+ *
+ * La comparaison se fait sur des mots entiers, après passage en minuscules et
+ * suppression des accents : sans cela « À louer » (disponible) matcherait le
+ * terme « loué » et basculerait à tort en vendu/loué.
+ *
+ * @param int|null $post_id ID du bien.
+ * @return string 'sold', 'pending', 'available', ou '' si aucun statut.
+ */
+function wpis_get_status_level( $post_id = null ) {
+	$status = wpis_normalize_status( wpis_get_status( $post_id ) );
+	if ( '' === $status ) {
+		return '';
+	}
+
+	$pending_statuses = apply_filters(
+		'wpis_pending_statuses',
+		array( 'option', 'sous option', 'option location', 'sous compromis', 'compromis', 'offre en cours', 'réservé', 'réservée', 'under offer', 'vendu sous conditions' )
+	);
+	if ( wpis_status_matches( $status, $pending_statuses ) ) {
+		return 'pending';
+	}
+
+	$sold_statuses = apply_filters(
+		'wpis_sold_statuses',
+		array( 'vendu', 'vendue', 'loué', 'louée', 'sold', 'rented' )
+	);
+	if ( wpis_status_matches( $status, $sold_statuses ) ) {
+		return 'sold';
+	}
+
+	return 'available';
+}
+
+/**
+ * Normalise un libellé de statut pour comparaison (minuscules, sans accents).
+ *
+ * @param string $status Libellé brut.
+ * @return string
+ */
+function wpis_normalize_status( $status ) {
+	return trim( remove_accents( mb_strtolower( (string) $status ) ) );
+}
+
+/**
+ * Le statut normalisé contient-il l'un des termes, en mots entiers ?
+ *
+ * @param string   $status  Statut déjà normalisé.
+ * @param string[] $needles Termes recherchés (normalisés à la volée).
+ * @return bool
+ */
+function wpis_status_matches( $status, $needles ) {
+	foreach ( (array) $needles as $needle ) {
+		$needle = wpis_normalize_status( $needle );
+		if ( '' === $needle ) {
+			continue;
+		}
+		if ( preg_match( '/\b' . preg_quote( $needle, '/' ) . '\b/', $status ) ) {
+			return true;
+		}
+	}
+	return false;
+}
+
+/**
+ * Le bien est-il vendu / loué (transaction actée) ?
+ *
+ * Les statuts intermédiaires (Option, Sous compromis…) renvoient false : voir
+ * wpis_get_status_level() pour les distinguer d'un bien pleinement disponible.
  *
  * @param int|null $post_id ID du bien.
  * @return bool
  */
 function wpis_is_sold( $post_id = null ) {
-	$status = mb_strtolower( wpis_get_status( $post_id ) );
-	$sold_statuses = apply_filters(
-		'wpis_sold_statuses',
-		array( 'vendu', 'vendue', 'loué', 'loue', 'louée', 'sold', 'rented', 'sous compromis', 'sous option', 'vendu sous conditions' )
-	);
-	foreach ( $sold_statuses as $needle ) {
-		if ( '' !== $status && false !== mb_strpos( $status, $needle ) ) {
-			return true;
-		}
-	}
-	return false;
+	return 'sold' === wpis_get_status_level( $post_id );
 }
 
 /**

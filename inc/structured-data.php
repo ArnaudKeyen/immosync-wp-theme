@@ -95,11 +95,17 @@ function wpis_output_estate_jsonld() {
 	if ( ! wpis_is_price_hidden( $post_id ) ) {
 		$price = wpis_get_price_raw( $post_id );
 		if ( $price > 0 ) {
+			$availability = array(
+				'sold'    => 'https://schema.org/SoldOut',
+				'pending' => 'https://schema.org/LimitedAvailability',
+			);
+			$level        = wpis_get_status_level( $post_id );
+
 			$data['offers'] = array(
 				'@type'         => 'Offer',
 				'price'         => $price,
 				'priceCurrency' => 'EUR',
-				'availability'  => wpis_is_sold( $post_id ) ? 'https://schema.org/SoldOut' : 'https://schema.org/InStock',
+				'availability'  => isset( $availability[ $level ] ) ? $availability[ $level ] : 'https://schema.org/InStock',
 			);
 		}
 	}

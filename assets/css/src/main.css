@@ -113,6 +113,11 @@
 		@apply bg-brand text-surface;
 	}
 
+	/* Transaction engagée mais pas actée (Option, Sous compromis, Offre en cours). */
+	.wpis-badge-pending {
+		@apply bg-surface text-text-strong ring-1 ring-inset ring-text-strong/15;
+	}
+
 	.wpis-badge-sold {
 		@apply bg-text-strong text-surface;
 	}

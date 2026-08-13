@@ -13,6 +13,39 @@ le [versionnage sémantique](https://semver.org/lang/fr/) :
 
 ## [Non publié]
 
+### Ajouté
+
+- **Trois niveaux de disponibilité** via `wpis_get_status_level()` : `available`, `pending`
+  (Option, Sous compromis, Offre en cours, Réservé, Vendu sous conditions) et `sold`. Nouveau
+  filtre `wpis_pending_statuses` pour la liste intermédiaire, en pendant du `wpis_sold_statuses`
+  existant. Nouvelle variante CSS `.wpis-badge-pending` (pastille claire opaque à filet), qui
+  s'intercale entre `.wpis-badge-brand` et `.wpis-badge-sold` — les deux classes existantes sont
+  inchangées, donc aucune rupture pour les thèmes enfants.
+
+### Corrigé
+
+- **Le badge de carte affiche désormais le statut, plus le type d'opération.** `wpis_estate_badges()`
+  n'affichait `wpis_status_label` que pour un bien vendu, et `wpis_purpose_label` sinon : les statuts
+  intermédiaires étaient donc invisibles, un bien « Option » ou « Sous compromis » s'affichant
+  « À vendre ». Le badge rend maintenant toujours le statut ; l'opération reste portée par le titre
+  normalisé (« Appartement à vendre à Uccle »).
+- **« À louer » n'est plus considéré comme loué.** Le terme `loue` de `wpis_sold_statuses` était
+  cherché en sous-chaîne et matchait `louer` : toute location disponible sortait avec le badge sombre
+  « Vendu/Loué », l'image atténuée et un `availability: SoldOut` en JSON-LD. La comparaison se fait
+  désormais sur des mots entiers, après passage en minuscules et suppression des accents.
+- **`wpis_get_title()` ne renvoie plus le nom interne du logiciel immo en priorité.** L'ordre est
+  maintenant `post_title` (normalisé à chaque synchro par `wpis-post-update.php`) → champ éditorial
+  `wpis_description_title` → `wpis_name` en dernier recours. Auparavant `wpis_name` gagnait toujours
+  et les cartes affichaient des libellés du type « Demo Duplex ».
+- **`availability` JSON-LD sur trois niveaux** (`inc/structured-data.php`) : `SoldOut` pour un bien
+  vendu, `LimitedAvailability` pour un bien sous compromis ou en option, `InStock` sinon.
+
+### Supprimé
+
+- **Description courte des cartes de biens** (`template-parts/estate/card.php`) : le paragraphe
+  d'extrait n'apportait rien entre le titre et la ligne de caractéristiques. `wpis_get_excerpt()`
+  reste disponible et sert toujours aux données structurées.
+
 ## [0.4.0] — 2026-07-30
 
 ### Ajouté

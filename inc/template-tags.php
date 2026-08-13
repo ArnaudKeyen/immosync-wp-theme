@@ -30,35 +30,59 @@ function wpis_search_form( $args = array() ) {
 }
 
 /**
- * Retourne le markup des badges de statut d'un bien (opération + vendu).
+ * Retourne le markup du badge de statut d'un bien.
+ *
+ * On affiche toujours le statut commercial (Nouveau, Option, Sous compromis,
+ * Vendu…) et jamais le type d'opération : celui-ci est déjà porté par le titre
+ * normalisé (« Appartement à vendre à Uccle »), alors que le statut est la
+ * seule information qui distingue deux biens du même listing.
  *
  * @param int|null $post_id ID du bien.
  * @return string
  */
 function wpis_estate_badges( $post_id = null ) {
-	$badges  = '';
-	$purpose = wpis_get_purpose( $post_id );
-	$sold    = wpis_is_sold( $post_id );
-
-	if ( $sold ) {
-		$badges .= '<span class="wpis-badge wpis-badge-sold">' . esc_html( wpis_get_status( $post_id ) ) . '</span>';
-	} elseif ( '' !== $purpose ) {
-		$badges .= '<span class="wpis-badge wpis-badge-brand">' . esc_html( $purpose ) . '</span>';
+	$status = wpis_get_status( $post_id );
+	if ( '' === $status ) {
+		// Filet de sécurité : certains flux ne renseignent que l'opération.
+		$status = wpis_get_purpose( $post_id );
+	}
+	if ( '' === $status ) {
+		return '';
 	}
 
-	return $badges;
+	$variants = array(
+		'sold'    => 'wpis-badge-sold',
+		'pending' => 'wpis-badge-pending',
+	);
+	$level    = wpis_get_status_level( $post_id );
+	$variant  = isset( $variants[ $level ] ) ? $variants[ $level ] : 'wpis-badge-brand';
+
+	return '<span class="wpis-badge ' . esc_attr( $variant ) . '">' . esc_html( $status ) . '</span>';
 }
 
 /**
- * Titre d'affichage du bien (nom WPIS, sinon titre WordPress).
+ * Titre d'affichage du bien.
+ *
+ * Le titre WordPress est prioritaire : wpis-post-update.php le normalise en
+ * « Catégorie transaction à Ville » à chaque synchro. On retombe ensuite sur le
+ * titre éditorial du flux, puis en dernier recours sur wpis_name, qui n'est
+ * qu'un nom interne au logiciel immo (« Demo Duplex »).
  *
  * @param int|null $post_id ID du bien.
  * @return string
  */
 function wpis_get_title( $post_id = null ) {
 	$post_id = $post_id ? (int) $post_id : get_the_ID();
-	$name    = wpis_get_field( 'wpis_name', $post_id, '' );
-	return '' !== $name ? $name : get_the_title( $post_id );
+
+	$title = trim( (string) get_the_title( $post_id ) );
+	if ( '' === $title ) {
+		$title = wpis_get_field( 'wpis_description_title', $post_id, '' );
+	}
+	if ( '' === $title ) {
+		$title = wpis_get_field( 'wpis_name', $post_id, '' );
+	}
+
+	return $title;
 }
 
 /**
