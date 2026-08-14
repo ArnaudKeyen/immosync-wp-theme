@@ -13,6 +13,15 @@ le [versionnage sémantique](https://semver.org/lang/fr/) :
 
 ## [Non publié]
 
+### Ajouté
+
+- **Textes de la section « derniers biens » éditables** : sur-titre, titre et libellé du lien
+  passent par `wpis_home_field()` (`home_featured_eyebrow`, `home_featured_titre`,
+  `home_featured_bouton`), dans un nouvel onglet « Les derniers biens » du groupe de champs de la
+  page d'accueil. C'était la dernière accroche de la home encore écrite en dur. Les valeurs par
+  défaut sont inchangées (« Sélection » / « Biens d'exception » / « Voir tous les biens ») et la
+  liste de biens reste automatique.
+
 ## [0.5.0] — 2026-07-31
 
 ### Ajouté

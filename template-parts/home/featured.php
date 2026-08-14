@@ -17,11 +17,11 @@ if ( ! $wpis_featured->have_posts() ) {
 	<div class="wpis-container-wide">
 		<div class="mb-12 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
 			<div>
-				<p class="wpis-eyebrow mb-2"><?php esc_html_e( 'Sélection', 'hello-immosync' ); ?></p>
-				<h2 class="wpis-title"><?php esc_html_e( 'Biens d’exception', 'hello-immosync' ); ?></h2>
+				<p class="wpis-eyebrow mb-2"><?php echo esc_html( wpis_home_field( 'home_featured_eyebrow', __( 'Sélection', 'hello-immosync' ) ) ); ?></p>
+				<h2 class="wpis-title"><?php echo esc_html( wpis_home_field( 'home_featured_titre', __( 'Biens d’exception', 'hello-immosync' ) ) ); ?></h2>
 			</div>
 			<a href="<?php echo esc_url( get_post_type_archive_link( 'wpis_estates' ) ); ?>" class="wpis-btn-ghost">
-				<?php esc_html_e( 'Voir tous les biens', 'hello-immosync' ); ?>
+				<?php echo esc_html( wpis_home_field( 'home_featured_bouton', __( 'Voir tous les biens', 'hello-immosync' ) ) ); ?>
 				<?php echo wpis_icon( 'arrow', 'w-4 h-4' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 			</a>
 		</div>

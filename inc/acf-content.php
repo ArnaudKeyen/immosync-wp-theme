@@ -184,6 +184,34 @@ function wpis_register_field_groups() {
 			'key'      => 'group_wpis_home_sections',
 			'title'    => __( 'Page d’accueil — sections', 'hello-immosync' ),
 			'fields'   => array(
+				// Onglet : les derniers biens publiés (la liste elle-même est automatique).
+				array(
+					'key'   => 'field_wpis_home_tab_featured',
+					'label' => __( 'Les derniers biens', 'hello-immosync' ),
+					'type'  => 'tab',
+				),
+				array(
+					'key'          => 'field_wpis_home_featured_eyebrow',
+					'label'        => __( 'Sur-titre', 'hello-immosync' ),
+					'name'         => 'home_featured_eyebrow',
+					'type'         => 'text',
+					'placeholder'  => __( 'Sélection', 'hello-immosync' ),
+					'instructions' => __( 'Les biens affichés restent choisis automatiquement : seuls les textes se règlent ici.', 'hello-immosync' ),
+				),
+				array(
+					'key'         => 'field_wpis_home_featured_titre',
+					'label'       => __( 'Titre', 'hello-immosync' ),
+					'name'        => 'home_featured_titre',
+					'type'        => 'text',
+					'placeholder' => __( 'Biens d’exception', 'hello-immosync' ),
+				),
+				array(
+					'key'         => 'field_wpis_home_featured_bouton',
+					'label'       => __( 'Libellé du lien', 'hello-immosync' ),
+					'name'        => 'home_featured_bouton',
+					'type'        => 'text',
+					'placeholder' => __( 'Voir tous les biens', 'hello-immosync' ),
+				),
 				// Onglet : entrée par localité.
 				array(
 					'key'   => 'field_wpis_home_tab_fyp',
