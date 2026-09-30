@@ -250,6 +250,165 @@
 		@apply border-b border-border py-2 pr-4 align-top;
 	}
 
+	/* -- Formulaire de recherche (template-parts/global/search-bar.php) -----
+	 * Onglets « Opération » (radios masqués) au-dessus d'une rangée de champs
+	 * séparés par des filets. Tout passe par les tokens : un thème enfant
+	 * re-skinne sans toucher au markup. */
+	.wpis-searchform {
+		display: flex;
+		flex-direction: column;
+		overflow: hidden;
+		border-radius: var(--radius-card);
+	}
+
+	.wpis-searchform-tabs {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 4px;
+		padding: 0.75rem 0.75rem 0;
+	}
+
+	.wpis-searchform-tab {
+		margin: 0;
+		cursor: pointer;
+	}
+
+	/* Le radio est masqué mais reste focusable. */
+	.wpis-searchform-tab input {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		padding: 0;
+		margin: -1px;
+		overflow: hidden;
+		clip: rect(0, 0, 0, 0);
+		white-space: nowrap;
+		border: 0;
+	}
+
+	/* L'onglet visible = le <span>. */
+	.wpis-searchform-tab span {
+		display: inline-block;
+		padding: 0.6rem 1.4rem;
+		border-radius: 10px 10px 0 0;
+		background-color: var(--color-surface-alt);
+		color: var(--color-text-secondary);
+		font-family: var(--font-body);
+		font-size: 0.78rem;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.08em;
+		line-height: 1;
+		transition: background-color 0.2s ease, color 0.2s ease;
+	}
+
+	.wpis-searchform-tab input:not(:checked) + span:hover {
+		background-color: color-mix(in srgb, var(--color-text-strong) 8%, var(--color-surface-alt));
+		color: var(--color-text-strong);
+	}
+
+	.wpis-searchform-tab input:checked + span {
+		background-color: var(--color-text-strong);
+		color: var(--color-surface);
+	}
+
+	.wpis-searchform-tab input:focus-visible + span {
+		outline: 2px solid var(--color-brand);
+		outline-offset: 2px;
+	}
+
+	/* Onglet / option indisponible (facettes : aucun bien pour ce choix). */
+	.wpis-searchform-tab.is-disabled {
+		cursor: not-allowed;
+	}
+
+	.wpis-searchform-tab input:disabled + span {
+		opacity: 0.4;
+		pointer-events: none;
+	}
+
+	.wpis-searchform-control option:disabled {
+		color: var(--color-text-muted);
+	}
+
+	/* Recherche en cours (rechargement ou requête AJAX). */
+	.wpis-searchform.is-loading,
+	.wpis-results.is-loading {
+		opacity: 0.6;
+		pointer-events: none;
+		transition: opacity 0.15s ease;
+	}
+
+	.wpis-searchform-fields {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 1px;
+		overflow: hidden;
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-card);
+		background-color: var(--color-border);
+	}
+
+	@media (min-width: 640px) {
+		.wpis-searchform-fields {
+			grid-template-columns: repeat(2, 1fr);
+		}
+	}
+
+	@media (min-width: 1024px) {
+		.wpis-searchform-fields {
+			/* type / ville / chambres / budget / bouton */
+			grid-template-columns: 1fr 1fr 0.8fr 0.8fr auto;
+		}
+	}
+
+	.wpis-searchform-field {
+		display: flex;
+		flex-direction: column;
+		gap: 0.35rem;
+		padding: 1rem 1.25rem;
+		background-color: var(--color-surface);
+	}
+
+	.wpis-searchform-control {
+		width: 100%;
+		border: 0;
+		background-color: transparent;
+		font-family: var(--font-body);
+		font-size: 0.875rem;
+		color: var(--color-text-strong);
+	}
+
+	.wpis-searchform-control:focus {
+		outline: none;
+	}
+
+	.wpis-searchform-control::placeholder {
+		color: var(--color-text-muted);
+	}
+
+	.wpis-searchform-submit {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.5rem;
+		padding: 1rem 1.75rem;
+		border: 0;
+		background-color: var(--color-text-strong);
+		color: var(--color-surface);
+		font-family: var(--font-body);
+		font-size: 0.8rem;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.12em;
+		cursor: pointer;
+		transition: background-color 0.2s ease, color 0.2s ease;
+	}
+
+	.wpis-searchform-submit:hover {
+		background-color: var(--color-brand-strong);
+	}
+
 }
 
 /* =========================================================================

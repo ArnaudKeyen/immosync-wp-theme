@@ -21,7 +21,8 @@ de GitHub. Éditez les fichiers `docs/wiki/*.md` via une Pull Request, puis sync
 ## En bref
 
 - Listing des biens (`archive-wpis_estates.php`) + recherche / filtres **server-side**
-  (`WP_Query`), sans dépendance JS lourde.
+  (`WP_Query`), enrichis de **facettes** (options sans résultat désactivées) et, en module,
+  d'une **recherche instantanée** (REST, sans rechargement).
 - **Fiche bien immersive** (`single-wpis_estates.php`) entièrement **modulaire** : en-tête à
   variantes (`stacked` / `split`), sections **réordonnables depuis l'admin** (présentation,
   équipements, surfaces, énergie, finances, art de vivre), galerie + lightbox.

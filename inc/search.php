@@ -1,10 +1,20 @@
 <?php
 /**
- * Recherche et filtres immobiliers — server-side (WP_Query / pre_get_posts).
+ * Recherche et filtres immobiliers.
  *
  * Les filtres sont passés en GET sur l'archive des biens :
  *   ?wpis_city=&wpis_category=&wpis_purpose=&wpis_price_min=&wpis_price_max=
  *    &wpis_bedrooms=&wpis_sort=
+ *
+ * Trois couches, du socle à l'enrichissement :
+ *  1. server-side : pre_get_posts filtre la requête principale de l'archive
+ *     (fonctionne sans JavaScript) ;
+ *  2. facettes : le formulaire désactive les options qui ne mènent à aucun bien
+ *     (dataset embarqué, calcul côté navigateur — assets/js/search.js) ;
+ *  3. module « search_ajax » : sur l'archive, les résultats sont rechargés via
+ *     la route REST wpis/v1/estates sans rechargement de page.
+ * Les couches 1 et 3 partagent wpis_build_estate_query_args() et le même
+ * template-part de résultats : le HTML servi est identique dans les deux cas.
  *
  * @package HelloImmoSync
  */
@@ -17,8 +27,18 @@ defined( 'ABSPATH' ) || exit;
  * @return array<string,string>
  */
 function wpis_current_filters() {
-	$get = function ( $key ) {
-		return isset( $_GET[ $key ] ) ? sanitize_text_field( wp_unslash( $_GET[ $key ] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+	return wpis_sanitize_filters( wp_unslash( $_GET ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+}
+
+/**
+ * Normalise un jeu de paramètres bruts (GET, requête REST) en filtres assainis.
+ *
+ * @param array $raw Paramètres bruts, clés « wpis_* » (déjà déséchappés).
+ * @return array<string,string>
+ */
+function wpis_sanitize_filters( $raw ) {
+	$get = static function ( $key ) use ( $raw ) {
+		return isset( $raw[ $key ] ) && is_scalar( $raw[ $key ] ) ? sanitize_text_field( (string) $raw[ $key ] ) : '';
 	};
 
 	return array(
@@ -30,6 +50,22 @@ function wpis_current_filters() {
 		'bedrooms'  => $get( 'wpis_bedrooms' ),
 		'sort'      => $get( 'wpis_sort' ),
 	);
+}
+
+/**
+ * Filtres non vides, sous leur nom de paramètre GET (pour reconstruire une URL).
+ *
+ * @param array<string,string> $filters Filtres assainis.
+ * @return array<string,string>
+ */
+function wpis_filters_to_query_args( $filters ) {
+	$args = array();
+	foreach ( $filters as $key => $value ) {
+		if ( '' !== $value ) {
+			$args[ 'wpis_' . $key ] = $value;
+		}
+	}
+	return $args;
 }
 
 /**
@@ -83,20 +119,17 @@ add_action( 'save_post_wpis_estates', 'wpis_flush_filter_options' );
 add_action( 'deleted_post', 'wpis_flush_filter_options' );
 
 /**
- * Applique les filtres à la requête principale de l'archive des biens.
+ * Arguments WP_Query (filtres, tri, pagination) correspondant à un jeu de filtres.
  *
- * @param WP_Query $query Requête.
- * @return void
+ * Source unique partagée par la requête principale de l'archive et la route
+ * REST de la recherche instantanée.
+ *
+ * @param array<string,string> $filters Filtres assainis (wpis_sanitize_filters()).
+ * @return array<string,mixed>
  */
-function wpis_filter_archive_query( $query ) {
-	if ( is_admin() || ! $query->is_main_query() ) {
-		return;
-	}
-	if ( ! $query->is_post_type_archive( 'wpis_estates' ) ) {
-		return;
-	}
+function wpis_build_estate_query_args( $filters ) {
+	$args = array();
 
-	$filters    = wpis_current_filters();
 	$meta_query = array();
 
 	if ( '' !== $filters['city'] ) {
@@ -149,34 +182,269 @@ function wpis_filter_archive_query( $query ) {
 		$meta_query['relation'] = 'AND';
 	}
 	if ( ! empty( $meta_query ) ) {
-		$query->set( 'meta_query', $meta_query );
+		$args['meta_query'] = $meta_query; // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 	}
 
 	// Tri.
 	switch ( $filters['sort'] ) {
 		case 'price-asc':
-			$query->set( 'meta_key', 'wpis_finance_price' );
-			$query->set( 'orderby', 'meta_value_num' );
-			$query->set( 'order', 'ASC' );
+			$args['meta_key'] = 'wpis_finance_price'; // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+			$args['orderby']  = 'meta_value_num';
+			$args['order']    = 'ASC';
 			break;
 		case 'price-desc':
-			$query->set( 'meta_key', 'wpis_finance_price' );
-			$query->set( 'orderby', 'meta_value_num' );
-			$query->set( 'order', 'DESC' );
+			$args['meta_key'] = 'wpis_finance_price'; // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+			$args['orderby']  = 'meta_value_num';
+			$args['order']    = 'DESC';
 			break;
 		case 'date-asc':
-			$query->set( 'orderby', 'date' );
-			$query->set( 'order', 'ASC' );
+			$args['orderby'] = 'date';
+			$args['order']   = 'ASC';
 			break;
 		default:
-			$query->set( 'orderby', 'date' );
-			$query->set( 'order', 'DESC' );
+			$args['orderby'] = 'date';
+			$args['order']   = 'DESC';
 			break;
 	}
 
-	$query->set( 'posts_per_page', apply_filters( 'wpis_estates_per_page', 12 ) );
+	$args['posts_per_page'] = (int) apply_filters( 'wpis_estates_per_page', 12 );
+
+	/**
+	 * Derniers ajustements des arguments de la recherche de biens.
+	 *
+	 * @param array<string,mixed>  $args    Arguments WP_Query.
+	 * @param array<string,string> $filters Filtres assainis.
+	 */
+	return apply_filters( 'wpis_estate_query_args', $args, $filters );
+}
+
+/**
+ * Applique les filtres à la requête principale de l'archive des biens.
+ *
+ * @param WP_Query $query Requête.
+ * @return void
+ */
+function wpis_filter_archive_query( $query ) {
+	if ( is_admin() || ! $query->is_main_query() ) {
+		return;
+	}
+	if ( ! $query->is_post_type_archive( 'wpis_estates' ) ) {
+		return;
+	}
+
+	foreach ( wpis_build_estate_query_args( wpis_current_filters() ) as $key => $value ) {
+		$query->set( $key, $value );
+	}
 }
 add_action( 'pre_get_posts', 'wpis_filter_archive_query' );
+
+/* -------------------------------------------------------------------------
+ * Facettes (options sans résultat désactivées dans le formulaire)
+ * ---------------------------------------------------------------------- */
+
+/**
+ * Dataset des biens pour la recherche à facettes : une entrée par bien publié,
+ * avec ses valeurs de filtre. Mis en cache via transient, invalidé à chaque
+ * enregistrement / suppression de bien (comme wpis_get_filter_options()).
+ *
+ * Les clés reflètent les critères de wpis_build_estate_query_args() :
+ *   purpose  ↔ wpis_purpose_label          (=)
+ *   category ↔ wpis_category_label         (=)
+ *   city     ↔ wpis_address_city           (=)
+ *   bedrooms ↔ wpis_configuration_bedrooms (>=)
+ *   price    ↔ wpis_finance_price          (<=)
+ *
+ * @return array<int,array{purpose:string,category:string,city:string,bedrooms:int,price:int}>
+ */
+function wpis_get_estate_facets() {
+	$cached = get_transient( 'wpis_estate_facets' );
+	if ( is_array( $cached ) ) {
+		return $cached;
+	}
+
+	$ids = get_posts(
+		array(
+			'post_type'      => 'wpis_estates',
+			'post_status'    => 'publish',
+			'posts_per_page' => -1,
+			'fields'         => 'ids',
+			'no_found_rows'  => true,
+		)
+	);
+	update_meta_cache( 'post', $ids ); // Une requête pour toutes les metas.
+
+	$facets = array();
+	foreach ( $ids as $id ) {
+		$facets[] = array(
+			'purpose'  => (string) get_post_meta( $id, 'wpis_purpose_label', true ),
+			'category' => (string) get_post_meta( $id, 'wpis_category_label', true ),
+			'city'     => (string) get_post_meta( $id, 'wpis_address_city', true ),
+			'bedrooms' => (int) get_post_meta( $id, 'wpis_configuration_bedrooms', true ),
+			'price'    => (int) get_post_meta( $id, 'wpis_finance_price', true ),
+		);
+	}
+
+	set_transient( 'wpis_estate_facets', $facets, HOUR_IN_SECONDS );
+	return $facets;
+}
+
+/**
+ * Invalide le dataset des facettes quand un bien change.
+ */
+function wpis_flush_estate_facets() {
+	delete_transient( 'wpis_estate_facets' );
+}
+add_action( 'save_post_wpis_estates', 'wpis_flush_estate_facets' );
+add_action( 'deleted_post', 'wpis_flush_estate_facets' );
+
+/**
+ * Charge le script de recherche (facettes + recherche instantanée) et lui
+ * transmet sa configuration. Appelé par le template-part search-bar : le script
+ * n'est chargé que sur les pages qui affichent réellement le formulaire.
+ *
+ * @return void
+ */
+function wpis_enqueue_search_script() {
+	if ( wp_script_is( 'wpis-search', 'enqueued' ) ) {
+		return;
+	}
+
+	$rel  = '/assets/js/search.js';
+	$path = HELLO_IMMOSYNC_DIR . $rel;
+	if ( ! file_exists( $path ) ) {
+		return;
+	}
+
+	wp_enqueue_script( 'wpis-search', HELLO_IMMOSYNC_URI . $rel, array(), (string) filemtime( $path ), true );
+
+	$is_archive = is_post_type_archive( 'wpis_estates' );
+	wp_localize_script(
+		'wpis-search',
+		'WPISSearch',
+		array(
+			'estates'  => wpis_get_estate_facets(),
+			// Sur l'archive, chaque changement relance la recherche (sans le bouton).
+			'archive'  => $is_archive,
+			// Module « Recherche instantanée » : résultats rechargés sans quitter la page.
+			'ajax'     => $is_archive && wpis_module_enabled( 'search_ajax' ),
+			'endpoint' => esc_url_raw( rest_url( 'wpis/v1/estates' ) ),
+			'i18n'     => array(
+				'error' => __( 'La recherche n’a pas pu aboutir. Veuillez réessayer.', 'hello-immosync' ),
+			),
+		)
+	);
+}
+
+/* -------------------------------------------------------------------------
+ * Résultats (archive + recherche instantanée)
+ * ---------------------------------------------------------------------- */
+
+/**
+ * URL de l'archive pour un jeu de filtres (et une page), sans paramètre vide.
+ *
+ * @param array<string,string> $filters Filtres assainis.
+ * @param int                  $paged   Page (1 = première).
+ * @return string
+ */
+function wpis_estates_url( $filters, $paged = 1 ) {
+	$base = get_post_type_archive_link( 'wpis_estates' );
+	if ( ! $base ) {
+		return '';
+	}
+
+	$args = wpis_filters_to_query_args( $filters );
+	if ( $paged > 1 ) {
+		global $wp_rewrite;
+		if ( $wp_rewrite->using_permalinks() ) {
+			$base = trailingslashit( $base ) . user_trailingslashit( $wp_rewrite->pagination_base . '/' . (int) $paged, 'paged' );
+		} else {
+			$args['paged'] = (int) $paged;
+		}
+	}
+	return add_query_arg( array_map( 'rawurlencode', $args ), $base );
+}
+
+/**
+ * Affiche le bloc de résultats (compteur, tri, grille, pagination) pour une requête.
+ *
+ * @param WP_Query             $query   Requête de biens.
+ * @param array<string,string> $filters Filtres assainis appliqués.
+ * @return void
+ */
+function wpis_render_estate_results( $query, $filters ) {
+	get_template_part(
+		'template-parts/estate/results',
+		null,
+		array(
+			'query'   => $query,
+			'filters' => $filters,
+		)
+	);
+}
+
+add_action( 'rest_api_init', 'wpis_register_search_route' );
+/**
+ * Route REST de la recherche instantanée : GET /wp-json/wpis/v1/estates?wpis_*=…
+ *
+ * Renvoie le HTML du bloc de résultats (même template-part que l'archive) et
+ * l'URL canonique correspondante, à pousser dans l'historique du navigateur.
+ *
+ * @return void
+ */
+function wpis_register_search_route() {
+	register_rest_route(
+		'wpis/v1',
+		'/estates',
+		array(
+			'methods'             => WP_REST_Server::READABLE,
+			'callback'            => 'wpis_rest_search_estates',
+			'permission_callback' => static function () {
+				return wpis_module_enabled( 'search_ajax' );
+			},
+			'args'                => array(
+				'paged' => array(
+					'type'    => 'integer',
+					'minimum' => 1,
+					'default' => 1,
+				),
+			),
+		)
+	);
+}
+
+/**
+ * Callback de la route wpis/v1/estates.
+ *
+ * @param WP_REST_Request $request Requête.
+ * @return WP_REST_Response
+ */
+function wpis_rest_search_estates( $request ) {
+	$filters = wpis_sanitize_filters( $request->get_query_params() );
+	$paged   = max( 1, (int) $request->get_param( 'paged' ) );
+
+	$query = new WP_Query(
+		array_merge(
+			array(
+				'post_type'   => 'wpis_estates',
+				'post_status' => 'publish',
+				'paged'       => $paged,
+			),
+			wpis_build_estate_query_args( $filters )
+		)
+	);
+
+	ob_start();
+	wpis_render_estate_results( $query, $filters );
+	$html = ob_get_clean();
+
+	return new WP_REST_Response(
+		array(
+			'html'  => $html,
+			'count' => (int) $query->found_posts,
+			'url'   => wpis_estates_url( $filters, $paged ),
+		)
+	);
+}
 
 /**
  * Récupère une sélection de biens (biens mis en avant / similaires).

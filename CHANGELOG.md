@@ -15,6 +15,20 @@ le [versionnage sémantique](https://semver.org/lang/fr/) :
 
 ### Ajouté
 
+- **Recherche à facettes dans le parent** (remontée du thème enfant LMC) : le formulaire
+  (`template-parts/global/search-bar.php`) passe en onglets « Opération » + champ « Chambres »
+  (seuils filtrables via `wpis_search_bedroom_choices`), classes génériques `.wpis-searchform*`.
+  `assets/js/search.js` désactive les options qui ne mènent à aucun bien, à partir du dataset
+  `wpis_get_estate_facets()` (transient invalidé à la synchro), et relance la recherche à chaque
+  changement sur l'archive. Le script n'est chargé que là où le formulaire est affiché.
+- **Recherche instantanée** (module `search_ajax`) : route REST `wpis/v1/estates` qui renvoie le
+  bloc de résultats rendu par le même template-part que l'archive
+  (`template-parts/estate/results.php`) ; grille, compteur, tri et pagination sont remplacés sans
+  rechargement, l'URL suit (`history.pushState`) et le retour arrière restaure filtres et
+  résultats. Sans JavaScript ou module coupé, le formulaire GET classique fonctionne à l'identique.
+- `wpis_build_estate_query_args()` (filtre `wpis_estate_query_args`), `wpis_sanitize_filters()`,
+  `wpis_estates_url()` : construction de la requête et des URLs de recherche partagée entre
+  l'archive et la route REST.
 - **Modules activables** (`inc/modules.php`) : registre filtrable (`wpis_module_registry`) de
   fonctionnalités optionnelles — `share` (partage des annonces) et `search_ajax` (recherche
   instantanée) — testées via `wpis_module_enabled()`. Activation sur une page *Réglages du thème →
