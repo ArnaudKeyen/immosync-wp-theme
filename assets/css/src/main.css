@@ -255,6 +255,15 @@
 		@apply border-b border-border py-2 pr-4 align-top;
 	}
 
+	/* -- Coordonnées de l'agence (template-parts/global/agency-info.php) ---- */
+	.wpis-agency-info-title {
+		@apply mb-2 flex items-center gap-2 font-body text-[11px] font-medium uppercase tracking-[0.16em] text-text-secondary;
+	}
+
+	.wpis-agency-info-title svg {
+		@apply text-brand-strong;
+	}
+
 	/* -- Partage d'un bien (template-parts/estate/share.php, module share) -- */
 	.wpis-share {
 		@apply relative flex flex-wrap items-center gap-2;

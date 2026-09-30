@@ -55,6 +55,12 @@ defined( 'ABSPATH' ) || exit;
 				$wpis_socials = function_exists( 'get_field' ) ? get_field( 'option_socials', 'option' ) : array();
 				?>
 				<p class="text-sm leading-relaxed text-surface/70">
+					<?php
+					$wpis_address = wpis_get_agency_info()['address'];
+					if ( $wpis_address ) :
+						?>
+						<span class="mb-2 block"><?php echo implode( '<br>', array_map( 'esc_html', $wpis_address ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
+					<?php endif; ?>
 					<?php if ( $wpis_phone ) : ?>
 						<a href="tel:<?php echo esc_attr( preg_replace( '/\s+/', '', $wpis_phone ) ); ?>" class="block transition-colors hover:text-surface"><?php echo esc_html( $wpis_phone ); ?></a>
 					<?php endif; ?>

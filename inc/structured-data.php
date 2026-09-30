@@ -113,3 +113,67 @@ function wpis_output_estate_jsonld() {
 	echo "\n<script type=\"application/ld+json\">" . wp_json_encode( $data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ) . "</script>\n";
 }
 add_action( 'wp_head', 'wpis_output_estate_jsonld' );
+
+/**
+ * JSON-LD RealEstateAgent de l'agence (nom, adresse, coordonnées, géolocalisation).
+ *
+ * Émis à la demande par template-parts/global/agency-info.php (argument
+ * « schema »), typiquement sur la page Contact uniquement. Désactivable via le
+ * filtre wpis_agency_jsonld (ex. si le plugin SEO décrit déjà l'agence).
+ *
+ * @param array $agency Coordonnées (wpis_get_agency_info()).
+ * @return void
+ */
+function wpis_output_agency_jsonld( $agency ) {
+	$data = array(
+		'@context' => 'https://schema.org',
+		'@type'    => 'RealEstateAgent',
+		'name'     => $agency['name'],
+		'url'      => home_url( '/' ),
+	);
+
+	if ( $agency['address'] ) {
+		$lines   = $agency['address'];
+		$street  = array_shift( $lines );
+		$address = array(
+			'@type'          => 'PostalAddress',
+			'streetAddress'  => $street,
+			'addressCountry' => 'BE',
+		);
+		// Dernière ligne « 4130 Esneux » → code postal + localité.
+		$locality = $lines ? end( $lines ) : '';
+		if ( preg_match( '/^(\d{4,5})\s+(.+)$/u', $locality, $m ) ) {
+			$address['postalCode']      = $m[1];
+			$address['addressLocality'] = $m[2];
+		} elseif ( '' !== $locality ) {
+			$address['addressLocality'] = $locality;
+		}
+		$data['address'] = $address;
+	}
+	if ( '' !== $agency['phone'] ) {
+		$data['telephone'] = $agency['phone'];
+	}
+	if ( '' !== $agency['email'] ) {
+		$data['email'] = $agency['email'];
+	}
+	if ( null !== $agency['lat'] && null !== $agency['lng'] ) {
+		$data['geo'] = array(
+			'@type'     => 'GeoCoordinates',
+			'latitude'  => $agency['lat'],
+			'longitude' => $agency['lng'],
+		);
+	}
+
+	/**
+	 * Données JSON-LD de l'agence ; renvoyer false pour ne rien émettre.
+	 *
+	 * @param array|false $data   Données.
+	 * @param array       $agency Coordonnées.
+	 */
+	$data = apply_filters( 'wpis_agency_jsonld', $data, $agency );
+	if ( ! $data ) {
+		return;
+	}
+
+	echo '<script type="application/ld+json">' . wp_json_encode( $data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES ) . '</script>' . "\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+}

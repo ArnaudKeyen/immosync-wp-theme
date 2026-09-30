@@ -15,6 +15,14 @@ le [versionnage sémantique](https://semver.org/lang/fr/) :
 
 ### Ajouté
 
+- **Coordonnées de l'agence** dans *Réglages généraux* : adresse, latitude / longitude, horaires
+  (répéteur jours / horaires), accès & stationnement. `wpis_get_agency_info()` (filtre
+  `wpis_agency_info`) les normalise ; `template-parts/global/agency-info.php` les affiche (lien
+  « Itinéraire », blocs masqués s'ils sont vides) et peut émettre le JSON-LD `RealEstateAgent`
+  (`wpis_output_agency_jsonld()`, filtre `wpis_agency_jsonld`). L'adresse apparaît aussi dans le
+  pied de page.
+- **Carte réutilisable** `template-parts/global/map.php` (iframe OpenStreetMap, sans clé ni
+  script), désormais utilisée par la section « Quartier » de la fiche.
 - **Partage des annonces** (module `share`, `template-parts/estate/share.php`) : boutons
   WhatsApp, Facebook et « Copier le lien » dans l'en-tête de fiche (les deux variantes ; ton
   `inverse` sur image), plus la feuille de partage native sur mobile (`navigator.share`). Simples

@@ -59,31 +59,16 @@ $wpis_proximities = wpis_get_proximities( $wpis_pid );
 
 		<?php if ( $wpis_coords ) : ?>
 			<?php
-			$wpis_delta = 0.008;
-			$wpis_bbox  = sprintf(
-				'%F,%F,%F,%F',
-				$wpis_coords['lng'] - $wpis_delta,
-				$wpis_coords['lat'] - $wpis_delta,
-				$wpis_coords['lng'] + $wpis_delta,
-				$wpis_coords['lat'] + $wpis_delta
-			);
-			$wpis_map_src = add_query_arg(
+			get_template_part(
+				'template-parts/global/map',
+				null,
 				array(
-					'bbox'   => $wpis_bbox,
-					'layer'  => 'mapnik',
-					'marker' => $wpis_coords['lat'] . ',' . $wpis_coords['lng'],
-				),
-				'https://www.openstreetmap.org/export/embed.html'
+					'lat'   => $wpis_coords['lat'],
+					'lng'   => $wpis_coords['lng'],
+					'title' => __( 'Localisation du bien', 'hello-immosync' ),
+				)
 			);
 			?>
-			<div class="overflow-hidden rounded-[var(--radius-card)] border border-border">
-				<iframe
-					title="<?php esc_attr_e( 'Localisation du bien', 'hello-immosync' ); ?>"
-					src="<?php echo esc_url( $wpis_map_src ); ?>"
-					class="h-[360px] w-full"
-					loading="lazy"
-					referrerpolicy="no-referrer-when-downgrade"></iframe>
-			</div>
 		<?php endif; ?>
 	</div>
 </section>

@@ -76,6 +76,50 @@ function wpis_theme_option( $name, $default = '' ) {
 	return $default;
 }
 
+/**
+ * Coordonnées de l'agence (Réglages du thème → Réglages généraux), normalisées.
+ *
+ * @return array{name:string,address:string[],phone:string,email:string,lat:float|null,lng:float|null,hours:array<int,array{days:string,hours:string}>,access:string}
+ */
+function wpis_get_agency_info() {
+	$address = preg_split( '/\r\n|\r|\n/', (string) wpis_theme_option( 'option_agency_address', '' ) );
+	$lat     = str_replace( ',', '.', (string) wpis_theme_option( 'option_agency_lat', '' ) );
+	$lng     = str_replace( ',', '.', (string) wpis_theme_option( 'option_agency_lng', '' ) );
+
+	$hours = array();
+	$rows  = wpis_theme_option( 'option_agency_hours', array() );
+	if ( is_array( $rows ) ) {
+		foreach ( $rows as $row ) {
+			$days = isset( $row['days'] ) ? trim( (string) $row['days'] ) : '';
+			$time = isset( $row['hours'] ) ? trim( (string) $row['hours'] ) : '';
+			if ( '' !== $days || '' !== $time ) {
+				$hours[] = array(
+					'days'  => $days,
+					'hours' => $time,
+				);
+			}
+		}
+	}
+
+	$info = array(
+		'name'    => get_bloginfo( 'name' ),
+		'address' => array_values( array_filter( array_map( 'trim', $address ) ) ),
+		'phone'   => (string) wpis_theme_option( 'option_agency_phone', '' ),
+		'email'   => (string) wpis_theme_option( 'option_agency_email', get_option( 'admin_email' ) ),
+		'lat'     => is_numeric( $lat ) && (float) $lat ? (float) $lat : null,
+		'lng'     => is_numeric( $lng ) && (float) $lng ? (float) $lng : null,
+		'hours'   => $hours,
+		'access'  => trim( (string) wpis_theme_option( 'option_agency_access', '' ) ),
+	);
+
+	/**
+	 * Coordonnées de l'agence utilisées par le thème (page contact, pied de page, JSON-LD).
+	 *
+	 * @param array $info Coordonnées.
+	 */
+	return apply_filters( 'wpis_agency_info', $info );
+}
+
 /* -------------------------------------------------------------------------
  * Page d'options « Réglages du thème » (parent) + accroche pour l'enfant
  * ---------------------------------------------------------------------- */
@@ -469,6 +513,64 @@ function wpis_register_field_groups() {
 					'name'  => 'option_agency_email',
 					'type'  => 'email',
 					'instructions' => __( 'Laisser vide pour utiliser l’e-mail d’administration.', 'hello-immosync' ),
+				),
+				array(
+					'key'          => 'field_wpis_opt_address',
+					'label'        => __( 'Adresse de l’agence', 'hello-immosync' ),
+					'name'         => 'option_agency_address',
+					'type'         => 'textarea',
+					'rows'         => 2,
+					'new_lines'    => '',
+					'instructions' => __( 'Une ligne par retour à la ligne. Ex. : Place de la Gare 8 ↵ 4130 Esneux', 'hello-immosync' ),
+				),
+				array(
+					'key'          => 'field_wpis_opt_lat',
+					'label'        => __( 'Latitude', 'hello-immosync' ),
+					'name'         => 'option_agency_lat',
+					'type'         => 'text',
+					'wrapper'      => array( 'width' => '50' ),
+					'instructions' => __( 'Pour la carte. Ex. : 50.5667', 'hello-immosync' ),
+				),
+				array(
+					'key'          => 'field_wpis_opt_lng',
+					'label'        => __( 'Longitude', 'hello-immosync' ),
+					'name'         => 'option_agency_lng',
+					'type'         => 'text',
+					'wrapper'      => array( 'width' => '50' ),
+					'instructions' => __( 'Ex. : 5.5667', 'hello-immosync' ),
+				),
+				array(
+					'key'          => 'field_wpis_opt_hours',
+					'label'        => __( 'Horaires d’ouverture', 'hello-immosync' ),
+					'name'         => 'option_agency_hours',
+					'type'         => 'repeater',
+					'layout'       => 'table',
+					'button_label' => __( 'Ajouter une ligne', 'hello-immosync' ),
+					'sub_fields'   => array(
+						array(
+							'key'         => 'field_wpis_opt_hours_days',
+							'label'       => __( 'Jours', 'hello-immosync' ),
+							'name'        => 'days',
+							'type'        => 'text',
+							'placeholder' => __( 'Lundi – vendredi', 'hello-immosync' ),
+						),
+						array(
+							'key'         => 'field_wpis_opt_hours_time',
+							'label'       => __( 'Horaires', 'hello-immosync' ),
+							'name'        => 'hours',
+							'type'        => 'text',
+							'placeholder' => __( '9h30 – 12h30 · 13h30 – 17h30', 'hello-immosync' ),
+						),
+					),
+				),
+				array(
+					'key'          => 'field_wpis_opt_access',
+					'label'        => __( 'Accès & stationnement', 'hello-immosync' ),
+					'name'         => 'option_agency_access',
+					'type'         => 'textarea',
+					'rows'         => 2,
+					'new_lines'    => '',
+					'instructions' => __( 'Ex. : Parking aisé disponible pour notre clientèle.', 'hello-immosync' ),
 				),
 				array(
 					'key'          => 'field_wpis_opt_socials',

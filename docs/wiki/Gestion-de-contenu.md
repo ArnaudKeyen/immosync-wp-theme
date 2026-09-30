@@ -65,7 +65,9 @@ Détail technique et extension par filtres : voir **[[Fiche-bien]]**.
 
 Menu **Réglages du thème** (icône pinceau) :
 
-- **Réglages généraux** (parent) : téléphone, e-mail, réseaux sociaux, note de footer, image de
+- **Réglages généraux** (parent) : adresse de l'agence, coordonnées GPS (carte), horaires
+  d'ouverture, accès & stationnement (`wpis_get_agency_info()`, rendus par
+  `template-parts/global/agency-info.php` + `global/map.php`), téléphone, e-mail, réseaux sociaux, note de footer, image de
   repli du hero, **toggle Schema.org** et **mentions légales IPI** (Belgique).
 - **Personnalisation** (thème enfant) : accrochée au même menu via
   `acf_add_options_sub_page(['parent_slug' => 'wpis-theme-settings'])`. Le parent ne dépend jamais
