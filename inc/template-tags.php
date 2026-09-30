@@ -30,6 +30,51 @@ function wpis_search_form( $args = array() ) {
 }
 
 /**
+ * URL de la page « Estimation ».
+ *
+ * Cherche d'abord une page publiée utilisant le gabarit « Estimation »
+ * (template-estimation.php), puis les slugs usuels (services/estimation,
+ * estimation). Résultat mis en cache pour la requête.
+ *
+ * @return string URL, ou '' si aucune page d'estimation n'existe.
+ */
+function wpis_get_estimation_url() {
+	static $url = null;
+	if ( null !== $url ) {
+		return $url;
+	}
+
+	$url   = '';
+	$pages = get_pages(
+		array(
+			'meta_key'    => '_wp_page_template', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+			'meta_value'  => 'template-estimation.php', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
+			'post_status' => 'publish',
+			'number'      => 1,
+		)
+	);
+	if ( $pages ) {
+		$url = get_permalink( $pages[0] );
+	} else {
+		foreach ( array( 'services/estimation', 'estimation' ) as $slug ) {
+			$page = get_page_by_path( $slug );
+			if ( $page && 'publish' === $page->post_status ) {
+				$url = get_permalink( $page );
+				break;
+			}
+		}
+	}
+
+	/**
+	 * URL de la page d'estimation (liens « Estimer mon bien » du thème).
+	 *
+	 * @param string $url URL trouvée ('' si aucune).
+	 */
+	$url = (string) apply_filters( 'wpis_estimation_url', $url );
+	return $url;
+}
+
+/**
  * Retourne le markup du badge de statut d'un bien.
  *
  * On affiche toujours le statut commercial (Nouveau, Option, Sous compromis,

@@ -66,8 +66,7 @@ defined( 'ABSPATH' ) || exit;
 
 			<div class="flex items-center gap-4">
 				<?php
-				$wpis_estimation = get_page_by_path( 'services/estimation' );
-				$wpis_estimation_link = $wpis_estimation ? get_permalink( $wpis_estimation ) : '';
+				$wpis_estimation_link = wpis_get_estimation_url();
 				if ( $wpis_estimation_link ) :
 					?>
 					<a href="<?php echo esc_url( $wpis_estimation_link ); ?>" class="wpis-btn hidden sm:inline-flex">

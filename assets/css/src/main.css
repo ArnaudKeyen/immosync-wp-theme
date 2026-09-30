@@ -112,6 +112,11 @@
 		@apply inline-flex items-center justify-center gap-2 rounded-[var(--radius-card)] border border-text-strong/25 px-7 py-3.5 font-body text-sm font-medium uppercase tracking-[0.12em] text-text-strong transition-all duration-300 hover:border-text-strong hover:bg-text-strong hover:text-surface;
 	}
 
+	/* Bouton clair, pour les aplats sombres (encarts, bandeaux). */
+	.wpis-btn-light {
+		@apply inline-flex items-center justify-center gap-2 rounded-[var(--radius-card)] bg-surface px-7 py-3.5 font-body text-sm font-medium uppercase tracking-[0.12em] text-text-strong transition-all duration-300 hover:bg-brand hover:text-surface;
+	}
+
 	.wpis-btn-ghost {
 		@apply inline-flex items-center gap-2 font-body text-sm font-medium uppercase tracking-[0.12em] text-text-strong transition-colors hover:text-brand;
 	}

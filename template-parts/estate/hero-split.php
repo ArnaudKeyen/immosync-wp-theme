@@ -100,6 +100,9 @@ $wpis_count_label = sprintf(
 								<span class="font-display text-xl md:text-2xl"><?php echo esc_html( $wpis_price ); ?></span>
 							<?php endif; ?>
 						</div>
+						<div class="pointer-events-auto mt-5">
+							<?php get_template_part( 'template-parts/estate/visit-cta', null, array( 'class' => 'wpis-btn-light' ) ); ?>
+						</div>
 					</div>
 				</div>
 

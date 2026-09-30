@@ -15,6 +15,24 @@ le [versionnage sémantique](https://semver.org/lang/fr/) :
 
 ### Ajouté
 
+- **Bouton « Demander une visite » en haut de fiche** (`template-parts/estate/visit-cta.php`),
+  à côté du prix dans les deux variantes d'en-tête ; il descend jusqu'au formulaire de visite de la
+  colonne contact (ancre `#wpis-contact`). Masqué pour un bien vendu / loué ; libellé filtrable
+  (`wpis_estate_visit_label`).
+- **Encart « Estimation gratuite »** : nouvelle section `estimate_cta` du registre, placée sous la
+  présentation (`template-parts/estate/estimate-cta.php`). Un bouton vers la page Estimation —
+  jamais de second formulaire sur la fiche. Textes éditables dans *Réglages du thème → Fiches de
+  biens* (`estate_estimate_*`). Nouveau bouton clair `.wpis-btn-light` pour les aplats sombres.
+- `wpis_get_estimation_url()` (filtre `wpis_estimation_url`) : résout la page Estimation par son
+  gabarit, puis par les slugs `services/estimation` / `estimation`. Utilisé par l'en-tête.
+- `wpis_array_insert_after()` : insertion ordonnée dans un tableau associatif.
+
+### Modifié
+
+- **Nouvelles sections de fiche à leur place logique** : une section livrée par une mise à jour et
+  absente des réglages enregistrés est insérée après sa voisine de registre (plus à la fin).
+- **Colonne contact de la fiche non sticky** : plus haute que l'écran, elle rendait le bas du
+  formulaire de visite (dont le bouton d'envoi) inatteignable avant la fin de la page.
 - **Recherche à facettes dans le parent** (remontée du thème enfant LMC) : le formulaire
   (`template-parts/global/search-bar.php`) passe en onglets « Opération » + champ « Chambres »
   (seuils filtrables via `wpis_search_bedroom_choices`), classes génériques `.wpis-searchform*`.

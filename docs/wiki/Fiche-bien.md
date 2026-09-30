@@ -55,6 +55,7 @@ Registre canonique (ordre par défaut) :
 |---|---|---|
 | `overview`  | Présentation & caractéristiques | `template-parts/estate/details.php` |
 | `amenities` | Équipements & commodités | `template-parts/estate/amenities.php` |
+| `estimate_cta` | Encart « Estimation gratuite » (bouton vers la page Estimation) | `template-parts/estate/estimate-cta.php` |
 | `areas`     | Surfaces & pièces | `template-parts/estate/areas.php` |
 | `energy`    | Énergie & PEB | `template-parts/estate/energy.php` |
 | `finance`   | Conditions financières | `template-parts/estate/finance.php` |
@@ -96,6 +97,8 @@ add_filter( 'wpis_render_estate_section', function ( $render, $key ) {
 |---|---|
 | `hero-split.php` | En-tête grande photo + vignettes médias superposées. |
 | `hero-stacked.php` | En-tête titre/prix en colonne + galerie (défaut). |
+| `visit-cta.php` | Bouton « Demander une visite » de l'en-tête (ancre `#wpis-contact`). |
+| `estimate-cta.php` | Encart « Estimation gratuite » (textes : page Fiches de biens). |
 | `hero-links.php` | Accès secondaires (vidéo, visite virtuelle, modèle 3D, rendez-vous). |
 | `gallery.php` | Mosaïque photos (1 grande + 4 vignettes si ≥ 5) avec overlay « +N ». |
 | `gallery-modal.php` | Lightbox plein écran (clavier + gestes tactiles). |

@@ -25,11 +25,11 @@ while ( have_posts() ) :
 					<?php wpis_render_estate_sections(); ?>
 				</div>
 
-				<!-- Colonne latérale (sticky) -->
+				<!-- Colonne latérale : prix, contact, formulaire de visite (#wpis-contact).
+					 Volontairement pas sticky : plus haute que l'écran (formulaire compris),
+					 elle rendait le bas du formulaire inatteignable avant la fin de page. -->
 				<div class="lg:py-16">
-					<div class="lg:sticky lg:top-28">
-						<?php get_template_part( 'template-parts/estate/contact-agent' ); ?>
-					</div>
+					<?php get_template_part( 'template-parts/estate/contact-agent' ); ?>
 				</div>
 
 			</div>

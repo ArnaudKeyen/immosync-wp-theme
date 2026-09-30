@@ -121,3 +121,19 @@ function wpis_icon( $name, $classes = 'w-5 h-5' ) {
 		$paths[ $name ]
 	);
 }
+
+/**
+ * Insère des paires clé => valeur dans un tableau associatif, après une clé donnée.
+ *
+ * @param array  $array  Tableau associatif.
+ * @param string $after  Clé après laquelle insérer ('' ou absente = à la fin).
+ * @param array  $insert Paires à insérer.
+ * @return array
+ */
+function wpis_array_insert_after( $array, $after, $insert ) {
+	$position = '' === $after ? false : array_search( $after, array_keys( $array ), true );
+	if ( false === $position ) {
+		return $array + $insert;
+	}
+	return array_slice( $array, 0, $position + 1, true ) + $insert + array_slice( $array, $position + 1, null, true );
+}

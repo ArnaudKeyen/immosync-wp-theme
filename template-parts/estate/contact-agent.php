@@ -73,8 +73,8 @@ $wpis_phone  = $wpis_agent['phone'] ? $wpis_agent['phone'] : $wpis_agency['phone
 		</div>
 	<?php endif; ?>
 
-	<!-- Formulaire de contact (shortcode plugin) -->
-	<div class="rounded-[var(--radius-card)] border border-border bg-surface-alt p-7">
+	<!-- Formulaire de contact (shortcode plugin) — cible du bouton « Demander une visite » du hero -->
+	<div id="wpis-contact" class="scroll-mt-32 rounded-[var(--radius-card)] border border-border bg-surface-alt p-7">
 		<p class="wpis-eyebrow mb-2"><?php esc_html_e( 'Intéressé(e) ?', 'hello-immosync' ); ?></p>
 		<h3 class="font-display text-2xl text-text-strong"><?php esc_html_e( 'Demander une visite', 'hello-immosync' ); ?></h3>
 		<div class="wpis-form-shell mt-5">

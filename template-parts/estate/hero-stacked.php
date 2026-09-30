@@ -1,7 +1,7 @@
 <?php
 /**
- * En-tête « empilé » (variante par défaut) : titre, localisation, prix, puis
- * galerie mosaïque, puis bandeau d'accès médias.
+ * En-tête « empilé » (variante par défaut) : titre, localisation, prix et bouton
+ * « Demander une visite », puis galerie mosaïque, puis bandeau d'accès médias.
  *
  * @package HelloImmoSync
  */
@@ -24,9 +24,12 @@ $wpis_price = wpis_get_price( $wpis_pid );
 					</p>
 				<?php endif; ?>
 			</div>
-			<?php if ( '' !== $wpis_price ) : ?>
-				<span class="font-display text-3xl text-text-strong md:text-4xl"><?php echo esc_html( $wpis_price ); ?></span>
-			<?php endif; ?>
+			<div class="flex flex-col items-start gap-4 md:items-end">
+				<?php if ( '' !== $wpis_price ) : ?>
+					<span class="font-display text-3xl text-text-strong md:text-4xl"><?php echo esc_html( $wpis_price ); ?></span>
+				<?php endif; ?>
+				<?php get_template_part( 'template-parts/estate/visit-cta' ); ?>
+			</div>
 		</div>
 	</div>
 
