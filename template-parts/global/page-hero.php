@@ -12,7 +12,9 @@
  * @package HelloImmoSync
  *
  * @var array $args {
- *     @type string $variant 'home' (plein écran + recherche) ou 'default'. Défaut 'default'.
+ *     @type string $variant  'home' (plein écran + recherche) ou 'default'. Défaut 'default'.
+ *     @type string $eyebrow  Sur-titre par défaut si le champ ACF est vide (ex. catégorie d'un article).
+ *     @type string $subtitle Sous-titre par défaut si le champ ACF est vide (ex. date d'un article).
  * }
  */
 
@@ -22,9 +24,9 @@ $wpis_variant = ! empty( $args['variant'] ) ? $args['variant'] : 'default';
 $wpis_is_home = ( 'home' === $wpis_variant );
 
 // Contenu textuel (champ ACF avec repli natif). Calculé avant toute requête secondaire.
-$wpis_eyebrow  = wpis_page_field( 'page_hero_eyebrow', $wpis_is_home ? get_bloginfo( 'name' ) : '' );
+$wpis_eyebrow  = wpis_page_field( 'page_hero_eyebrow', $wpis_is_home ? get_bloginfo( 'name' ) : ( isset( $args['eyebrow'] ) ? (string) $args['eyebrow'] : '' ) );
 $wpis_title    = wpis_page_field( 'page_hero_titre', get_the_title() );
-$wpis_subtitle = wpis_page_field( 'page_hero_sous_titre', '' );
+$wpis_subtitle = wpis_page_field( 'page_hero_sous_titre', isset( $args['subtitle'] ) ? (string) $args['subtitle'] : '' );
 
 // Image de fond : image mise en avant → (home) dernier bien → repli global → dégradé.
 $wpis_bg = has_post_thumbnail() ? get_the_post_thumbnail_url( get_the_ID(), 'wpis-hero' ) : '';

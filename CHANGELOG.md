@@ -15,6 +15,15 @@ le [versionnage sémantique](https://semver.org/lang/fr/) :
 
 ### Ajouté
 
+- **Gabarits d'articles** (rubrique Actualité) : `single.php` (hero avec catégorie et date,
+  contenu complet `.wpis-prose`, étiquettes, partage si le module `share` est actif, encart
+  « Estimation gratuite », « À lire aussi » dans la même catégorie) et `archive.php` (catégories,
+  étiquettes…). Jusqu'ici un article retombait sur `index.php`, qui n'affichait que l'extrait sans
+  titre H1. Carte d'article commune `template-parts/post/card.php` (catégorie, date, extrait,
+  « Lire l'article ») et grille `template-parts/post/grid.php`, utilisées par `home.php`,
+  `index.php` et `archive.php`.
+- `page-hero` accepte des sur-titre / sous-titre par défaut (`eyebrow`, `subtitle`), utilisés quand
+  les champs ACF sont vides.
 - **Coordonnées de l'agence** dans *Réglages généraux* : adresse, latitude / longitude, horaires
   (répéteur jours / horaires), accès & stationnement. `wpis_get_agency_info()` (filtre
   `wpis_agency_info`) les normalise ; `template-parts/global/agency-info.php` les affiche (lien

@@ -255,6 +255,17 @@
 		@apply border-b border-border py-2 pr-4 align-top;
 	}
 
+	/* -- Articles (template-parts/post/card.php, single.php) --------------- */
+	.wpis-post-meta {
+		@apply flex flex-wrap items-center gap-2 font-body text-[11px] font-medium uppercase tracking-[0.16em] text-text-secondary;
+	}
+
+	/* L'encart estimation clôt l'article : pas de filet de section. */
+	.wpis-post .wpis-section:has(.wpis-estimate-cta),
+	.post .wpis-section:has(.wpis-estimate-cta) {
+		@apply border-b-0 pb-0;
+	}
+
 	/* -- Coordonnées de l'agence (template-parts/global/agency-info.php) ---- */
 	.wpis-agency-info-title {
 		@apply mb-2 flex items-center gap-2 font-body text-[11px] font-medium uppercase tracking-[0.16em] text-text-secondary;
