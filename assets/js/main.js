@@ -191,10 +191,84 @@
 		});
 	};
 
+	/**
+	 * Partage d'un bien (module « share », template-parts/estate/share.php).
+	 * Les liens WhatsApp / Facebook fonctionnent seuls ; on ajoute la copie du
+	 * lien (presse-papiers, repli execCommand) et la feuille de partage native
+	 * du téléphone quand navigator.share existe.
+	 */
+	WPIS.share = function () {
+		var roots = document.querySelectorAll('[data-wpis-share]');
+		Array.prototype.forEach.call(roots, function (root) {
+			var url = root.getAttribute('data-url');
+			var title = root.getAttribute('data-title');
+			var status = root.querySelector('[data-wpis-share-status]');
+			var timer = null;
+
+			function announce(key) {
+				if (!status) {
+					return;
+				}
+				status.textContent = status.getAttribute('data-' + key) || '';
+				root.classList.add('is-announcing');
+				window.clearTimeout(timer);
+				timer = window.setTimeout(function () {
+					status.textContent = '';
+					root.classList.remove('is-announcing');
+				}, 2500);
+			}
+
+			function fallbackCopy() {
+				var field = document.createElement('textarea');
+				field.value = url;
+				field.setAttribute('readonly', '');
+				field.style.position = 'fixed';
+				field.style.opacity = '0';
+				document.body.appendChild(field);
+				field.select();
+				var ok = false;
+				try {
+					ok = document.execCommand('copy');
+				} catch (e) {
+					ok = false;
+				}
+				document.body.removeChild(field);
+				return ok;
+			}
+
+			var copy = root.querySelector('[data-wpis-share-copy]');
+			if (copy) {
+				copy.addEventListener('click', function () {
+					if (navigator.clipboard && window.isSecureContext) {
+						navigator.clipboard.writeText(url).then(
+							function () {
+								announce('copied');
+							},
+							function () {
+								announce(fallbackCopy() ? 'copied' : 'failed');
+							}
+						);
+					} else {
+						announce(fallbackCopy() ? 'copied' : 'failed');
+					}
+				});
+			}
+
+			var native = root.querySelector('[data-wpis-share-native]');
+			if (native && navigator.share && window.matchMedia('(pointer: coarse)').matches) {
+				native.hidden = false;
+				native.addEventListener('click', function () {
+					navigator.share({ title: title, url: url }).catch(function () {});
+				});
+			}
+		});
+	};
+
 	document.addEventListener('DOMContentLoaded', function () {
 		WPIS.mobileMenu();
 		WPIS.gallery();
 		WPIS.embed();
 		WPIS.formSections();
+		WPIS.share();
 	});
 })();

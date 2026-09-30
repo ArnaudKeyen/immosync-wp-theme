@@ -15,6 +15,13 @@ le [versionnage sémantique](https://semver.org/lang/fr/) :
 
 ### Ajouté
 
+- **Partage des annonces** (module `share`, `template-parts/estate/share.php`) : boutons
+  WhatsApp, Facebook et « Copier le lien » dans l'en-tête de fiche (les deux variantes ; ton
+  `inverse` sur image), plus la feuille de partage native sur mobile (`navigator.share`). Simples
+  liens de partage — aucun script tiers ni cookie. Réseaux filtrables (`wpis_share_networks`) ;
+  retour « Lien copié » annoncé aux lecteurs d'écran (`WPIS.share`). Icônes `whatsapp`,
+  `facebook`, `link`, `share` ajoutées à `wpis_icon()`. Les vignettes de partage s'appuient sur
+  les balises Open Graph du plugin SEO (Rank Math).
 - **Bouton « Demander une visite » en haut de fiche** (`template-parts/estate/visit-cta.php`),
   à côté du prix dans les deux variantes d'en-tête ; il descend jusqu'au formulaire de visite de la
   colonne contact (ancre `#wpis-contact`). Masqué pour un bien vendu / loué ; libellé filtrable

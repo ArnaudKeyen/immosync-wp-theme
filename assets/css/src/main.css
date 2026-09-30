@@ -255,6 +255,45 @@
 		@apply border-b border-border py-2 pr-4 align-top;
 	}
 
+	/* -- Partage d'un bien (template-parts/estate/share.php, module share) -- */
+	.wpis-share {
+		@apply relative flex flex-wrap items-center gap-2;
+	}
+
+	.wpis-share-label {
+		@apply mr-1 font-body text-[11px] font-medium uppercase tracking-[0.16em] text-text-secondary;
+	}
+
+	.wpis-share-btn {
+		@apply inline-flex h-10 w-10 items-center justify-center rounded-full border border-text-strong/20 text-text-strong transition-colors duration-200 hover:border-text-strong hover:bg-text-strong hover:text-surface focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand;
+	}
+
+	.wpis-share-btn[hidden] {
+		display: none;
+	}
+
+	/* Retour « Lien copié » : bulle sous le bloc, le temps de l'annonce. */
+	.wpis-share-status {
+		@apply pointer-events-none absolute right-0 top-full mt-2 whitespace-nowrap rounded-[var(--radius-card)] bg-text-strong px-3 py-1.5 font-body text-xs text-surface opacity-0 transition-opacity duration-200;
+	}
+
+	.wpis-share.is-announcing .wpis-share-status {
+		@apply opacity-100;
+	}
+
+	/* Variante sur image / fond sombre (en-tête plein cadre). */
+	.wpis-share--inverse .wpis-share-label {
+		@apply text-surface/85;
+	}
+
+	.wpis-share--inverse .wpis-share-btn {
+		@apply border-surface/40 text-surface hover:border-surface hover:bg-surface hover:text-text-strong;
+	}
+
+	.wpis-share--inverse .wpis-share-status {
+		@apply left-0 right-auto bg-surface text-text-strong;
+	}
+
 	/* -- Formulaire de recherche (template-parts/global/search-bar.php) -----
 	 * Onglets « Opération » (radios masqués) au-dessus d'une rangée de champs
 	 * séparés par des filets. Tout passe par les tokens : un thème enfant

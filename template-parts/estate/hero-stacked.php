@@ -28,7 +28,10 @@ $wpis_price = wpis_get_price( $wpis_pid );
 				<?php if ( '' !== $wpis_price ) : ?>
 					<span class="font-display text-3xl text-text-strong md:text-4xl"><?php echo esc_html( $wpis_price ); ?></span>
 				<?php endif; ?>
-				<?php get_template_part( 'template-parts/estate/visit-cta' ); ?>
+				<div class="flex flex-wrap items-center gap-x-6 gap-y-3 md:justify-end">
+					<?php get_template_part( 'template-parts/estate/share' ); ?>
+					<?php get_template_part( 'template-parts/estate/visit-cta' ); ?>
+				</div>
 			</div>
 		</div>
 	</div>

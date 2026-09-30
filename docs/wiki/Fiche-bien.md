@@ -97,6 +97,7 @@ add_filter( 'wpis_render_estate_section', function ( $render, $key ) {
 |---|---|
 | `hero-split.php` | En-tête grande photo + vignettes médias superposées. |
 | `hero-stacked.php` | En-tête titre/prix en colonne + galerie (défaut). |
+| `share.php` | Partage WhatsApp / Facebook / copie du lien (module `share`, voir [[Modules]]). |
 | `visit-cta.php` | Bouton « Demander une visite » de l'en-tête (ancre `#wpis-contact`). |
 | `estimate-cta.php` | Encart « Estimation gratuite » (textes : page Fiches de biens). |
 | `hero-links.php` | Accès secondaires (vidéo, visite virtuelle, modèle 3D, rendez-vous). |
