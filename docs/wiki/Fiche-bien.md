@@ -101,7 +101,7 @@ add_filter( 'wpis_render_estate_section', function ( $render, $key ) {
 | `gallery-modal.php` | Lightbox plein écran (clavier + gestes tactiles). |
 | `details.php` | Description longue, caractéristiques clés, infos techniques. |
 | `amenities.php` | Liste équipements / commodités (generic + custom fusionnés). |
-| `areas.php` | Détail de toutes les surfaces. |
+| `areas.php` | Détail de toutes les surfaces (`total` = habitable, `ground` = terrain, `living` = séjour). |
 | `energy.php` | PEB/EPC : badge officiel ou échelle CSS de repli, classe + valeur, chauffage. |
 | `finance.php` | Prix, disponibilité, charges, rentes, cadastre, précompte, parkings. |
 | `local-lifestyle.php` | Proximités (transports, écoles, commerces… avec distances). |

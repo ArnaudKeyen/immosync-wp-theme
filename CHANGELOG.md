@@ -29,6 +29,15 @@ le [versionnage sémantique](https://semver.org/lang/fr/) :
   défaut sont inchangées (« Sélection » / « Biens d'exception » / « Voir tous les biens ») et la
   liste de biens reste automatique.
 
+### Corrigé
+
+- **Surface habitable = `wpis_areas_total`** : `areas.living` est la surface du **séjour** dans
+  Whise (« Living area »), pas la surface habitable. La grille de la fiche et les cartes
+  (`wpis_get_estate_features()`) ainsi que `floorSize` du JSON-LD lisent désormais
+  `wpis_areas_total` ; dans le détail des surfaces (`wpis_get_area_breakdown()`), `living` est
+  libellé « Séjour » et `ground` « Terrain (superficie totale) ». Une villa affichait 33 m²
+  « habitables » (son séjour) ; une carte sans séjour encodé n'affichait plus aucune surface.
+
 ## [0.5.0] — 2026-07-31
 
 ### Ajouté

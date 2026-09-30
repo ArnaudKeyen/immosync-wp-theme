@@ -292,8 +292,10 @@ function wpis_get_estate_features( $post_id = null, $compact = false ) {
 	$defs = array(
 		array( 'wpis_configuration_bedrooms', __( 'Chambres', 'hello-immosync' ), 'bed', 'number' ),
 		array( 'wpis_configuration_bathrooms', __( 'Salles de bain', 'hello-immosync' ), 'bath', 'number' ),
-		array( 'wpis_areas_living', __( 'Surface habitable', 'hello-immosync' ), 'area', 'area' ),
-		array( 'wpis_areas_total', __( 'Surface totale', 'hello-immosync' ), 'area', 'area' ),
+		// Surface habitable = areas.total. areas.living est la surface du séjour
+		// (living-room) dans Whise, pas la surface habitable : elle reste dans le
+		// détail des surfaces (wpis_get_area_breakdown), libellée « Séjour ».
+		array( 'wpis_areas_total', __( 'Surface habitable', 'hello-immosync' ), 'area', 'area' ),
 		array( 'wpis_areas_ground', __( 'Terrain', 'hello-immosync' ), 'land', 'area' ),
 		array( 'wpis_configuration_garages', __( 'Garages', 'hello-immosync' ), 'car', 'number' ),
 		array( 'wpis_configuration_terraces', __( 'Terrasses', 'hello-immosync' ), 'compass', 'number' ),
@@ -302,7 +304,7 @@ function wpis_get_estate_features( $post_id = null, $compact = false ) {
 	if ( $compact ) {
 		$defs = array(
 			array( 'wpis_configuration_bedrooms', __( 'Chambres', 'hello-immosync' ), 'bed', 'number' ),
-			array( 'wpis_areas_living', __( 'Surface', 'hello-immosync' ), 'area', 'area' ),
+			array( 'wpis_areas_total', __( 'Surface', 'hello-immosync' ), 'area', 'area' ),
 			array( 'wpis_areas_ground', __( 'Terrain', 'hello-immosync' ), 'land', 'area' ),
 		);
 	}
@@ -603,9 +605,9 @@ function wpis_get_area_breakdown( $post_id = null ) {
 	$post_id = $post_id ? (int) $post_id : get_the_ID();
 
 	$defs = array(
-		'wpis_areas_total'         => __( 'Surface totale', 'hello-immosync' ),
-		'wpis_areas_living'        => __( 'Surface habitable', 'hello-immosync' ),
-		'wpis_areas_ground'        => __( 'Terrain', 'hello-immosync' ),
+		'wpis_areas_total'         => __( 'Surface habitable', 'hello-immosync' ),
+		'wpis_areas_ground'        => __( 'Terrain (superficie totale)', 'hello-immosync' ),
+		'wpis_areas_living'        => __( 'Séjour', 'hello-immosync' ),
 		'wpis_areas_garden'        => __( 'Jardin', 'hello-immosync' ),
 		'wpis_areas_terrace'       => __( 'Terrasse', 'hello-immosync' ),
 		'wpis_areas_kitchen'       => __( 'Cuisine', 'hello-immosync' ),

@@ -75,12 +75,12 @@ function wpis_output_estate_jsonld() {
 		);
 	}
 
-	// Surface habitable.
-	$living = wpis_get_field( 'wpis_areas_living', $post_id, '' );
-	if ( is_numeric( $living ) && (float) $living > 0 ) {
+	// Surface habitable (areas.total — areas.living n'est que le séjour).
+	$floor = wpis_get_field( 'wpis_areas_total', $post_id, '' );
+	if ( is_numeric( $floor ) && (float) $floor > 0 ) {
 		$data['floorSize'] = array(
 			'@type'    => 'QuantitativeValue',
-			'value'    => (float) $living,
+			'value'    => (float) $floor,
 			'unitCode' => 'MTK',
 		);
 	}
