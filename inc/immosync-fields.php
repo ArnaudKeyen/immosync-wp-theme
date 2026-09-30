@@ -354,14 +354,135 @@ function wpis_get_gallery( $post_id = null ) {
 	return array_values( array_unique( array_filter( $ids ) ) );
 }
 
+/* -------------------------------------------------------------------------
+ * Médias immersifs (visite 360° / vidéo) — résolution tolérante au nommage
+ * ---------------------------------------------------------------------- */
+
 /**
- * Le bien a-t-il une visite virtuelle ?
+ * Clés meta candidates pour chaque type de média, par ordre de priorité.
+ *
+ * Les logiciels immo ne rangent pas la visite virtuelle au même endroit : Whise
+ * la renvoie dans le champ « 3D model link » (`links.model` → wpis_links_model),
+ * les autres dans `links.virtualVisit`. On interroge donc plusieurs clés et on
+ * garde la première qui porte une URL exploitable.
+ *
+ * Les variantes courtes (wpis_visit360, wpis_model3d) sont là pour absorber un
+ * éventuel changement de nommage côté plugin sans retoucher le thème.
+ *
+ * @return array<string,string[]> Type de média => clés meta, par priorité.
+ */
+function wpis_get_estate_media_meta_keys() {
+	$keys = array(
+		'tour'  => array(
+			'wpis_links_virtualVisit',
+			'wpis_links_model',
+			'wpis_links_visit360',
+			'wpis_links_model3d',
+			'wpis_visit360',
+			'wpis_model3d',
+		),
+		'video' => array(
+			'wpis_links_video',
+			'wpis_video',
+		),
+	);
+
+	/**
+	 * Permet d'ajouter / réordonner les clés meta scrutées pour les médias.
+	 *
+	 * @param array<string,string[]> $keys Clés par type de média.
+	 */
+	return apply_filters( 'wpis_estate_media_meta_keys', $keys );
+}
+
+/**
+ * Normalise une URL issue d'un flux agence.
+ *
+ * Les flux sont sales : on croise des « - », « n/a », du texte libre, ou des
+ * URLs sans protocole. Renvoie '' si rien d'exploitable.
+ *
+ * @param mixed $value Valeur brute de la meta.
+ * @return string URL utilisable, ou '' .
+ */
+function wpis_normalize_media_url( $value ) {
+	if ( ! is_string( $value ) ) {
+		return '';
+	}
+
+	$value = trim( $value );
+	if ( '' === $value ) {
+		return '';
+	}
+
+	// URL sans protocole (« www.matterport.com/… ») : on suppose HTTPS.
+	if ( 0 === stripos( $value, 'www.' ) ) {
+		$value = 'https://' . $value;
+	}
+
+	if ( ! filter_var( $value, FILTER_VALIDATE_URL ) ) {
+		return '';
+	}
+
+	// On n'embarque que du web : pas de mailto:, javascript:, ftp:…
+	$scheme = wp_parse_url( $value, PHP_URL_SCHEME );
+	if ( ! in_array( strtolower( (string) $scheme ), array( 'http', 'https' ), true ) ) {
+		return '';
+	}
+
+	return esc_url_raw( $value );
+}
+
+/**
+ * Médias immersifs du bien, normalisés.
+ *
+ * Point d'entrée unique pour la visite 360° et la vidéo : la fiche, le hero et
+ * les cartes passent tous par ici, donc un seul endroit à faire évoluer quand un
+ * nouveau logiciel immo arrive.
+ *
+ * @param int|null $post_id ID du bien.
+ * @return array<string,array{url:string,meta_key:string}> Types présents uniquement.
+ */
+function wpis_get_estate_media( $post_id = null ) {
+	$post_id = $post_id ? (int) $post_id : get_the_ID();
+	$media   = array();
+
+	foreach ( wpis_get_estate_media_meta_keys() as $type => $meta_keys ) {
+		foreach ( (array) $meta_keys as $meta_key ) {
+			$url = wpis_normalize_media_url( wpis_get_field( $meta_key, $post_id, '' ) );
+			if ( '' === $url ) {
+				continue;
+			}
+			$media[ $type ] = array(
+				'url'      => $url,
+				'meta_key' => $meta_key, // Conservée pour le débogage des flux.
+			);
+			break;
+		}
+	}
+
+	// Même URL rangée dans deux champs par l'agence : on ne l'affiche qu'une fois.
+	if ( isset( $media['tour'], $media['video'] ) && $media['tour']['url'] === $media['video']['url'] ) {
+		unset( $media['video'] );
+	}
+
+	/**
+	 * Médias immersifs résolus pour un bien.
+	 *
+	 * @param array<string,array{url:string,meta_key:string}> $media   Médias.
+	 * @param int                                             $post_id ID du bien.
+	 */
+	return apply_filters( 'wpis_estate_media', $media, $post_id );
+}
+
+/**
+ * Le bien a-t-il une visite virtuelle (360° / 3D) ?
  *
  * @param int|null $post_id ID du bien.
  * @return bool
  */
 function wpis_has_virtual_visit( $post_id = null ) {
-	return '' !== wpis_get_field( 'wpis_links_virtualVisit', $post_id, '' );
+	$media = wpis_get_estate_media( $post_id );
+	return ! empty( $media['tour']['url'] );
 }
 
 /**
@@ -371,7 +492,8 @@ function wpis_has_virtual_visit( $post_id = null ) {
  * @return bool
  */
 function wpis_has_video( $post_id = null ) {
-	return '' !== wpis_get_field( 'wpis_links_video', $post_id, '' );
+	$media = wpis_get_estate_media( $post_id );
+	return ! empty( $media['video']['url'] );
 }
 
 /**

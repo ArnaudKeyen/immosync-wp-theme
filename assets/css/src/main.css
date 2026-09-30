@@ -41,6 +41,18 @@
  * Base
  * ------------------------------------------------------------------------- */
 @layer base {
+	/* Défilement doux pour les ancres internes (boutons Visite 360° / Vidéo du
+	 * bandeau de hero vers la section médias de la fiche). */
+	html {
+		scroll-behavior: smooth;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		html {
+			scroll-behavior: auto;
+		}
+	}
+
 	body {
 		@apply flex min-h-screen flex-col bg-surface text-text font-body antialiased;
 		font-feature-settings: "kern", "liga";
@@ -133,6 +145,18 @@
 
 	.wpis-card-img {
 		@apply h-full w-full object-cover transition-transform duration-[1.2s] ease-out group-hover:scale-[1.05];
+	}
+
+	/* Indicateurs médias de la carte (visite 360° / vidéo), coin haut droit.
+	 * Non interactifs : la carte est déjà un lien, on ne peut pas y imbriquer de
+	 * bouton. Révélés au survol de la carte (.wpis-card porte déjà « group »). */
+	.wpis-media-flags {
+		@apply pointer-events-none absolute right-4 top-4 z-10 flex gap-2;
+		@apply opacity-0 transition-opacity duration-300 ease-out group-hover:opacity-100;
+	}
+
+	.wpis-media-flag {
+		@apply inline-flex h-9 w-9 items-center justify-center rounded-full bg-surface/90 text-text-strong shadow-lg backdrop-blur;
 	}
 
 	/* Champs de formulaire / recherche */
@@ -622,5 +646,33 @@
 	height: 100%;
 	border: 0;
 	border-radius: var(--radius-card);
+}
+
+/* Même embed, mais posé dans le flux de la fiche (section « Visite 360° & vidéo »)
+ * plutôt que dans la lightbox : il doit remplir sa colonne, pas la fenêtre. */
+.wpis-media-embed .wpis-embed-frame {
+	width: 100%;
+	max-height: none;
+}
+
+.wpis-media-embed .wpis-embed-frame iframe {
+	border-radius: 0; /* Le conteneur porte déjà l'arrondi + overflow-hidden. */
+}
+
+/* =========================================================================
+ * INDICATEURS MÉDIAS DES CARTES — comportement tactile / mouvement réduit.
+ * Hors @layer pour primer sur les utilitaires group-hover de la couche
+ * composants : sans survol possible, les pastilles doivent rester visibles.
+ * ===================================================================== */
+@media (hover: none) {
+	.wpis-media-flags {
+		opacity: 1;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.wpis-media-flags {
+		transition: none;
+	}
 }
 

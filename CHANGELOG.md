@@ -15,6 +15,13 @@ le [versionnage sémantique](https://semver.org/lang/fr/) :
 
 ### Ajouté
 
+- **Médias immersifs de la fiche** (`template-parts/estate/media.php`) : nouvelle section
+  `media` (« Visite 360° & vidéo ») au registre des sections, cible des ancres `#wpis-visit360` /
+  `#wpis-video` du bandeau de hero. Les liens passent par `wpis_get_estate_media()`, qui
+  interroge plusieurs clés meta (filtre `wpis_estate_media_meta_keys`) — Whise range la visite
+  360° dans `links.model` — et `wpis_normalize_media_url()` écarte les valeurs inexploitables.
+  Les cartes affichent des pastilles « 360° » / « vidéo » (`.wpis-media-flags`), et une icône
+  `view360` rejoint `wpis_icon()`.
 - **Textes de la section « derniers biens » éditables** : sur-titre, titre et libellé du lien
   passent par `wpis_home_field()` (`home_featured_eyebrow`, `home_featured_titre`,
   `home_featured_bouton`), dans un nouvel onglet « Les derniers biens » du groupe de champs de la

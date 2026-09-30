@@ -9,9 +9,10 @@
 
 defined( 'ABSPATH' ) || exit;
 
-$wpis_pid  = ! empty( $args['post_id'] ) ? (int) $args['post_id'] : get_the_ID();
-$wpis_sold = wpis_is_sold( $wpis_pid );
-$wpis_link = get_permalink( $wpis_pid );
+$wpis_pid   = ! empty( $args['post_id'] ) ? (int) $args['post_id'] : get_the_ID();
+$wpis_sold  = wpis_is_sold( $wpis_pid );
+$wpis_link  = get_permalink( $wpis_pid );
+$wpis_media = wpis_get_estate_media( $wpis_pid );
 ?>
 <article class="wpis-card group">
 	<a href="<?php echo esc_url( $wpis_link ); ?>" class="wpis-card-media block" aria-label="<?php echo esc_attr( wpis_get_title( $wpis_pid ) ); ?>">
@@ -35,6 +36,29 @@ $wpis_link = get_permalink( $wpis_pid );
 		<div class="absolute left-4 top-4 flex flex-wrap gap-2">
 			<?php echo wpis_estate_badges( $wpis_pid ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 		</div>
+
+		<?php if ( $wpis_media ) : ?>
+			<?php
+			// Indicateurs non interactifs : on est déjà dans le <a> de la carte, on
+			// ne peut donc pas imbriquer de bouton. Le clic mène à la fiche, où le
+			// bandeau de hero prend le relais.
+			$wpis_flags = array(
+				'tour'  => array( 'view360', __( 'Visite 360° disponible', 'hello-immosync' ) ),
+				'video' => array( 'play', __( 'Vidéo disponible', 'hello-immosync' ) ),
+			);
+			?>
+			<div class="wpis-media-flags">
+				<?php foreach ( $wpis_flags as $wpis_type => $wpis_flag ) : ?>
+					<?php if ( empty( $wpis_media[ $wpis_type ]['url'] ) ) : ?>
+						<?php continue; ?>
+					<?php endif; ?>
+					<span class="wpis-media-flag">
+						<?php echo wpis_icon( $wpis_flag[0], 'w-4 h-4' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+						<span class="sr-only"><?php echo esc_html( $wpis_flag[1] ); ?></span>
+					</span>
+				<?php endforeach; ?>
+			</div>
+		<?php endif; ?>
 
 		<?php if ( $wpis_sold ) : ?>
 			<div class="absolute inset-0 bg-text-strong/10"></div>

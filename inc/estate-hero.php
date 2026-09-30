@@ -94,7 +94,9 @@ function wpis_render_estate_hero() {
 function wpis_get_hero_media_slots( $post_id = null ) {
 	$post_id = $post_id ? (int) $post_id : get_the_ID();
 	$gallery = wpis_get_gallery( $post_id );
-	$links   = wpis_get_links( $post_id );
+	// Résolveur commun : absorbe les nommages divergents des logiciels immo
+	// (Whise range la visite 360° dans « links.model »).
+	$media = wpis_get_estate_media( $post_id );
 
 	// Poster de repli : la photo demandée, sinon la grande image.
 	$poster = static function ( $index ) use ( $gallery ) {
@@ -107,11 +109,11 @@ function wpis_get_hero_media_slots( $post_id = null ) {
 	$slots = array();
 
 	// Slot 1 → vidéo si dispo, sinon 2e photo (index 1).
-	if ( ! empty( $links['video'] ) ) {
+	if ( ! empty( $media['video']['url'] ) ) {
 		$slots[] = array(
 			'type'     => 'video',
 			'image_id' => $poster( 1 ),
-			'url'      => $links['video'],
+			'url'      => $media['video']['url'],
 		);
 	} elseif ( isset( $gallery[1] ) ) {
 		$slots[] = array(
@@ -123,11 +125,11 @@ function wpis_get_hero_media_slots( $post_id = null ) {
 	}
 
 	// Slot 2 → visite virtuelle si dispo, sinon 3e photo (index 2).
-	if ( ! empty( $links['virtualVisit'] ) ) {
+	if ( ! empty( $media['tour']['url'] ) ) {
 		$slots[] = array(
 			'type'     => 'tour',
 			'image_id' => $poster( 2 ),
-			'url'      => $links['virtualVisit'],
+			'url'      => $media['tour']['url'],
 		);
 	} elseif ( isset( $gallery[2] ) ) {
 		$slots[] = array(

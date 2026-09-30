@@ -57,6 +57,10 @@ function wpis_get_estate_section_registry() {
 			'label' => __( 'Quartier & environs', 'hello-immosync' ),
 			'part'  => 'template-parts/estate/local-lifestyle',
 		),
+		'media'     => array(
+			'label' => __( 'Visite 360° & vidéo', 'hello-immosync' ),
+			'part'  => 'template-parts/estate/media',
+		),
 	);
 
 	return apply_filters( 'wpis_estate_section_registry', $registry );
