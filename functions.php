@@ -22,6 +22,7 @@ $wpis_includes = array(
 	'/inc/setup.php',           // Supports, menus, tailles d'images.
 	'/inc/enqueue.php',         // CSS (Tailwind compilé), polices, JS.
 	'/inc/helpers.php',         // Helpers de formatage génériques.
+	'/inc/modules.php',         // Modules activables (offres optionnelles), page réservée.
 	'/inc/immosync-fields.php', // Accesseurs de champs WPIS.
 	'/inc/epc.php',             // PEB/EPC : visuels officiels par région (Wallonie par défaut).
 	'/inc/template-tags.php',   // Helpers de rendu (cartes, badges, formulaire de recherche).

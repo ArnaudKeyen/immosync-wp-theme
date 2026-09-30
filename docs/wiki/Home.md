@@ -13,6 +13,7 @@ de GitHub. Éditez les fichiers `docs/wiki/*.md` via une Pull Request, puis sync
 - **[[Fiche-bien]]** — en-tête modulable (variantes), sections réordonnables, galerie, PEB/EPC.
 - **[[Gestion-de-contenu]]** — modèle hybride WP natif + ACF, page d'accueil, réglages, SEO, IPI.
 - **[[Sync-post-update]]** — normalisation des biens à la synchro (titre/slug forcés, statut, ordre).
+- **[[Modules]]** — fonctionnalités optionnelles (partage, recherche instantanée) activées par l'intégrateur.
 - **[[Bientot-en-ligne]]** — mode pré-lancement : écran d'attente public, config ACF, filtres.
 - **[[Workflow-Git-PR]]** — règle « 1 modification = 1 PR », branches, commits, releases.
 - **[[Theme-enfant]]** — créer un thème enfant et personnaliser la direction artistique.

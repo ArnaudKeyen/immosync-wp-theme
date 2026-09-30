@@ -15,6 +15,11 @@ le [versionnage sémantique](https://semver.org/lang/fr/) :
 
 ### Ajouté
 
+- **Modules activables** (`inc/modules.php`) : registre filtrable (`wpis_module_registry`) de
+  fonctionnalités optionnelles — `share` (partage des annonces) et `search_ajax` (recherche
+  instantanée) — testées via `wpis_module_enabled()`. Activation sur une page *Réglages du thème →
+  Modules* réservée à la capacité `wpis_manage_modules` (invisible pour l'administrateur de
+  l'agence), ou forcée par la constante `WPIS_MODULES` dans `wp-config.php`.
 - **Médias immersifs de la fiche** (`template-parts/estate/media.php`) : nouvelle section
   `media` (« Visite 360° & vidéo ») au registre des sections, cible des ancres `#wpis-visit360` /
   `#wpis-video` du bandeau de hero. Les liens passent par `wpis_get_estate_media()`, qui
