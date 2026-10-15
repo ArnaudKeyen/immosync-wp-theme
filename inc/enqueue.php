@@ -50,6 +50,46 @@ function wpis_enqueue_assets() {
 	// Polices.
 	wp_enqueue_style( 'hello-immosync-fonts', wpis_fonts_url(), array(), null );
 
+	// Carte interactive optionnelle : aucun asset tiers n'est chargé si le
+	// module n'a pas été souscrit par l'agence.
+	if ( wpis_module_enabled( 'map_voyager' ) ) {
+		wp_enqueue_style(
+			'leaflet',
+			'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css',
+			array(),
+			'1.9.4'
+		);
+		wp_style_add_data( 'leaflet', 'integrity', 'sha256-p4NxAoJBhIINfQ3ynHTnslMZxJuG7SkG7OC4BrM2yC0=' );
+		wp_style_add_data( 'leaflet', 'crossorigin', 'anonymous' );
+
+		wp_enqueue_script(
+			'leaflet',
+			'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js',
+			array(),
+			'1.9.4',
+			true
+		);
+		wp_script_add_data( 'leaflet', 'integrity', 'sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=' );
+		wp_script_add_data( 'leaflet', 'crossorigin', 'anonymous' );
+
+		$map_path = HELLO_IMMOSYNC_DIR . '/assets/js/map.js';
+		wp_enqueue_script(
+			'hello-immosync-map',
+			HELLO_IMMOSYNC_URI . '/assets/js/map.js',
+			array( 'leaflet' ),
+			file_exists( $map_path ) ? (string) filemtime( $map_path ) : HELLO_IMMOSYNC_VERSION,
+			true
+		);
+		wp_localize_script(
+			'hello-immosync-map',
+			'WPISMapData',
+			array(
+				'tileUrl'     => (string) apply_filters( 'wpis_map_tile_url', 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png' ),
+				'attribution' => '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
+			),
+		);
+	}
+
 	// Swiper (galerie mosaïque + modal de la fiche bien) — chargé uniquement là où utile.
 	$wpis_main_deps = array();
 	if ( is_singular( 'wpis_estates' ) ) {

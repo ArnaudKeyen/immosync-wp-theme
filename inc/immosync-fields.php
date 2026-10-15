@@ -445,6 +445,10 @@ function wpis_normalize_media_url( $value ) {
  * @return array<string,array{url:string,meta_key:string}> Types présents uniquement.
  */
 function wpis_get_estate_media( $post_id = null ) {
+	if ( ! function_exists( 'wpis_module_enabled' ) || ! wpis_module_enabled( 'immersive_media' ) ) {
+		return array();
+	}
+
 	$post_id = $post_id ? (int) $post_id : get_the_ID();
 	$media   = array();
 

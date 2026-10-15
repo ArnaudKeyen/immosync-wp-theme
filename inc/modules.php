@@ -32,6 +32,14 @@ defined( 'ABSPATH' ) || exit;
  */
 function wpis_get_module_registry() {
 	$registry = array(
+		'immersive_media' => array(
+			'label'       => __( 'Vidéo et visite 360°', 'hello-immosync' ),
+			'description' => __( 'Affiche les liens, badges et contenus vidéo / visite virtuelle fournis par le logiciel immobilier.', 'hello-immosync' ),
+		),
+		'map_voyager'     => array(
+			'label'       => __( 'Carte interactive (OpenStreetMap)', 'hello-immosync' ),
+			'description' => __( 'Remplace la carte OpenStreetMap statique par une carte interactive au style clair de type Google Maps.', 'hello-immosync' ),
+		),
 		'share'       => array(
 			'label'       => __( 'Partage des annonces', 'hello-immosync' ),
 			'description' => __( 'Boutons WhatsApp, Facebook et « Copier le lien » sur les fiches de biens.', 'hello-immosync' ),

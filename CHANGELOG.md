@@ -15,6 +15,11 @@ le [versionnage sémantique](https://semver.org/lang/fr/) :
 
 ### Ajouté
 
+- **Deux modules facturables supplémentaires** : `immersive_media` conditionne désormais toutes
+  les sorties vidéo / visite 360° ; `map_voyager` transforme la carte OpenStreetMap sans clé en
+  carte Leaflet interactive avec le fond clair CARTO Voyager. Quand ils sont coupés, aucun asset
+  associé n'est chargé et la carte conserve son iframe OSM légère.
+
 - **Gabarits d'articles** (rubrique Actualité) : `single.php` (hero avec catégorie et date,
   contenu complet `.wpis-prose`, étiquettes, partage si le module `share` est actif, encart
   « Estimation gratuite », « À lire aussi » dans la même catégorie) et `archive.php` (catégories,

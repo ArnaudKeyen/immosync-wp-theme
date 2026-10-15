@@ -6,6 +6,8 @@ markup, script ni requête.
 
 | Clé | Module | Effet |
 |---|---|---|
+| `immersive_media` | Vidéo et visite 360° | Affiche les liens, badges et contenus immersifs transmis par le logiciel immobilier. |
+| `map_voyager` | Carte interactive OpenStreetMap | Active une carte Leaflet avec le fond clair CARTO Voyager. Sans le module, l'iframe OSM sans script reste utilisée. |
 | `share` | Partage des annonces | Boutons WhatsApp, Facebook et « Copier le lien » sur les fiches de biens. |
 | `search_ajax` | Recherche instantanée | Sur la page des biens, les résultats se mettent à jour sans rechargement. |
 
@@ -27,7 +29,7 @@ L'activation est **réservée à l'intégrateur** : l'administrateur de l'agence
 - **Constante** (prioritaire sur la page) dans `wp-config.php`, pour figer l'état côté serveur :
 
   ```php
-  define( 'WPIS_MODULES', 'share,search_ajax' ); // ou array( 'share' ) ; '' = tout coupé
+  define( 'WPIS_MODULES', 'immersive_media,share' ); // ou array( 'share' ) ; '' = tout coupé
   ```
 
   Quand la constante est définie, la page l'indique et les cases sont ignorées.
